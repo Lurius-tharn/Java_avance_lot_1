@@ -16,19 +16,19 @@
             <Label layoutX="457.0" layoutY="183.0" text="Théo Merlay" />
             <Label layoutX="75.0" layoutY="183.0" text="Pierre Gogniat" />
             <Label layoutX="257.0" layoutY="183.0" text="Davenese Sajous" />
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="40.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="129.0" fitWidth="166.0" layoutX="37.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
                <image>
-                  <Image url="@../assets/avatar.png" />
+                  <Image url="@../assets/pierre.png" />
                </image>
             </ImageView>
             <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="230.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../assets/avatar.png" />
+                  <Image url="@../assets/davenese.png" />
                </image>
             </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="415.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
+            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="434.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
                <image>
-                  <Image url="@../assets/avatar.png" />
+                  <Image url="@../assets/theo.png" />
                </image>
             </ImageView>
             <Label layoutX="120.0" layoutY="232.0" text="Super bibliothèque cool qui marche">
@@ -42,6 +42,11 @@
                </font>
             </Label>
             <Label layoutX="141.0" layoutY="307.0" style="-fx-font-style: italic;" text="Extended Book Visualiser Library Organizer Metadata Editor" textAlignment="CENTER" />
+            <ImageView fitHeight="51.0" fitWidth="105.0" layoutX="23.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true">
+               <image>
+                  <Image url="@../assets/logo-esiee-it.png" />
+               </image>
+            </ImageView>
          </children>
       </AnchorPane>
    </children>

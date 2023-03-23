@@ -11,6 +11,7 @@
         <parution>2000</parution>
         <colonne>5</colonne>
         <rangee>2</rangee>
+        <image>https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81TYfUt0-qL.jpg</image>
     </livre>
     <livre>
         <titre>HarryPotter</titre>
@@ -22,6 +23,8 @@
         <parution>1996</parution>
         <colonne>5</colonne>
         <rangee>2</rangee>
+        <image>https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81TYfUt0-qL.jpg</image>
+
     </livre>
     <livre>
         <titre>Eragon</titre>
@@ -33,6 +36,8 @@
         <parution>2001</parution>
         <colonne>5</colonne>
         <rangee>2</rangee>
+        <image>https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81TYfUt0-qL.jpg</image>
+
     </livre>
     <livre>
         <titre>Les Chevaliers d'Emeraude</titre>
@@ -53,6 +58,8 @@
         <parution>2001</parution>
         <colonne>5</colonne>
         <rangee>2</rangee>
+        <image>https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81TYfUt0-qL.jpg</image>
+
     </livre>
     <livre>
         <titre>L'apprenti Assasin</titre>
@@ -67,5 +74,7 @@
         <parution>2001</parution>
         <colonne>5</colonne>
         <rangee>2</rangee>
+        <image>https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81TYfUt0-qL.jpg</image>
+
     </livre>
 </bibliotheque>
