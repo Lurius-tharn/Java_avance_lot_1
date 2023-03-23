@@ -44,7 +44,7 @@
                 <Menu mnemonicParsing="false" text="Fichier">
                     <items>
                         <MenuItem fx:id="menuOpen" mnemonicParsing="false" text="Ouvrir"/>
-                        <MenuItem fx:id="MenuClose" mnemonicParsing="false" text="Quitter"/>
+                        <MenuItem fx:id="menuClose" mnemonicParsing="false" text="Quitter"/>
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edition">
@@ -55,7 +55,7 @@
                 </Menu>
                 <Menu mnemonicParsing="false" text="A propos">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="Infos"/>
+                        <MenuItem fx:id="menuInfos" mnemonicParsing="false" text="Infos"/>
                     </items>
                 </Menu>
             </menus>
