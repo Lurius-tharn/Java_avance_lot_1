@@ -44,7 +44,7 @@ public class HomeController implements Initializable {
     @FXML
     private TableColumn<Bibliotheque.Livre, String> title;
     @FXML
-    private TableColumn<Bibliotheque.Livre, String> author;
+    private TableColumn<Bibliotheque.Livre.Auteur, String> author;
     @FXML
     private TableColumn<Bibliotheque.Livre, String> presentation;
     @FXML
@@ -88,8 +88,10 @@ public class HomeController implements Initializable {
 
     @FXML
     private MenuItem saveAs;
-    private File selectedFile;
+    public static File selectedFile;
 
+    @FXML
+    private Label currentFileName;
     private Bibliotheque bibliotheque;
 
     /**
@@ -114,6 +116,8 @@ public class HomeController implements Initializable {
                     bibliotheque = XSDUnmarshaller.lireBibliotheque(selectedFile);
                     bibliothequeList = FXCollections.observableList(bibliotheque.getLivre());
                     tableXml.setItems(bibliothequeList);
+                    currentFileName.setText(selectedFile.getName());
+                    saveDefault.setVisible(true);
                 } catch (JAXBException e) {
                     e.printStackTrace();
                 }
@@ -122,12 +126,12 @@ public class HomeController implements Initializable {
         add.setOnAction(actionEvent -> {
             disableForm(false);
             Bibliotheque.Livre livre = new Bibliotheque.Livre();
-            livre.setTitre("...");
+            livre.setTitre(null);
             livre.setRangee((short) 0);
             livre.setParution(0);
-            livre.setPresentation("...");
-            livre.setImage("...");
-            livre.setAuteur(new Bibliotheque.Livre.Auteur("...", "..."));
+            livre.setPresentation(null);
+            livre.setImage(null);
+            livre.setAuteur(new Bibliotheque.Livre.Auteur());
             tableXml.getItems().add(livre);
             tableXml.getSelectionModel().select(livre);
             LivreFormMapper(livre);
@@ -197,9 +201,7 @@ public class HomeController implements Initializable {
             bibliotheque.setLivre(tableXml.getItems());
             try {
                 XSDUnmarshaller.enregistrerBibliotheque(bibliotheque, selectedFile);
-            } catch (JAXBException e) {
-                throw new RuntimeException(e);
-            } catch (FileNotFoundException e) {
+            } catch (JAXBException | FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
         });
@@ -266,14 +268,16 @@ public class HomeController implements Initializable {
      */
     private void LivreFormMapper(Bibliotheque.Livre livre) {
         titleInput.setText(livre.getTitre());
-        authorInput.setText(livre.getAuteur().getNomPrenom());
+        authorInput.setText(livre.getAuteur().toString());
         presentationInput.setText(livre.getPresentation());
         parutionInput.setText(String.valueOf(livre.getParution()));
         columnInput.setText(String.valueOf(livre.getColonne()));
         rangeInput.setText(String.valueOf(livre.getRangee()));
-        imageInput.setText(livre.getImage().length() > 0 ? livre.getImage() : null);
+        imageInput.setText(livre.getImage());
         if (!Objects.isNull(imageInput.getText())) {
             imageView.setImage(new Image(livre.getImage()));
+        } else {
+            imageView.setImage(null);
         }
     }
 
@@ -283,9 +287,9 @@ public class HomeController implements Initializable {
      * Colonne du TableView
      */
     private void LivreTableMapper() {
-        title.setCellValueFactory(new PropertyValueFactory<>("titre"));
-        author.setCellValueFactory(new PropertyValueFactory<>("auteur"));
-        presentation.setCellValueFactory(new PropertyValueFactory<>("presentation"));
+        title.setCellValueFactory(new PropertyValueFactory<>("Titre"));
+        author.setCellValueFactory(new PropertyValueFactory<>("Auteur"));
+        presentation.setCellValueFactory(new PropertyValueFactory<>("Presentation"));
         parution.setCellValueFactory(new PropertyValueFactory<>("parution"));
         column.setCellValueFactory(new PropertyValueFactory<>("colonne"));
         range.setCellValueFactory(new PropertyValueFactory<>("rangee"));

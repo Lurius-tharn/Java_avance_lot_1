@@ -1,5 +1,4 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<!-- fichier livre.xml -->
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <bibliotheque>
     <livre>
         <titre>XSD pour les nuls</titre>
@@ -24,7 +23,6 @@
         <colonne>5</colonne>
         <rangee>2</rangee>
         <image>https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81TYfUt0-qL.jpg</image>
-
     </livre>
     <livre>
         <titre>Eragon</titre>
@@ -37,7 +35,6 @@
         <colonne>5</colonne>
         <rangee>2</rangee>
         <image>https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81TYfUt0-qL.jpg</image>
-
     </livre>
     <livre>
         <titre>Les Chevaliers d'Emeraude</titre>
@@ -59,7 +56,6 @@
         <colonne>5</colonne>
         <rangee>2</rangee>
         <image>https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81TYfUt0-qL.jpg</image>
-
     </livre>
     <livre>
         <titre>L'apprenti Assasin</titre>
@@ -75,6 +71,16 @@
         <colonne>5</colonne>
         <rangee>2</rangee>
         <image>https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81TYfUt0-qL.jpg</image>
-
+    </livre>
+    <livre>
+        <titre>AAA</titre>
+        <auteur>
+            <nom>BBB</nom>
+            <prenom>CCC</prenom>
+        </auteur>
+        <presentation>DDD</presentation>
+        <parution>0</parution>
+        <colonne>0</colonne>
+        <rangee>0</rangee>
     </livre>
 </bibliotheque>

@@ -12,6 +12,7 @@ import jakarta.xml.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 /**
@@ -386,6 +387,13 @@ public class Bibliotheque {
              */
             public String getNomPrenom() {
                 return prenom + " " + nom;
+            }
+
+            @Override
+            public String toString() {
+                if(!Objects.isNull(nom) && !Objects.isNull(prenom))
+                    return getNomPrenom();
+                return "";
             }
         }
 
