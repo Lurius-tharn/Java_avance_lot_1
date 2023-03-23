@@ -2,20 +2,26 @@ package com.esiee.java_avance_lot_1.controller;
 
 import com.esiee.java_avance_lot_1.jaxbe.Bibliotheque;
 import com.esiee.java_avance_lot_1.jaxbe.XSDUnmarshaller;
+import com.esiee.java_avance_lot_1.vue.InfosApplication;
 import jakarta.xml.bind.JAXBException;
+import javafx.application.Platform;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.fxml.FXMLLoader;
 import javafx.fxml.Initializable;
+import javafx.scene.Scene;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
 import java.io.File;
+import java.io.IOException;
 import java.net.URL;
 import java.util.ResourceBundle;
 
@@ -23,6 +29,10 @@ public class HomeController implements Initializable {
 
     @FXML
     private MenuItem menuOpen;
+    @FXML
+    private MenuItem menuClose;
+    @FXML
+    private MenuItem menuInfos;
     @FXML
     private TableView<Bibliotheque.Livre> tableXml;
     @FXML
@@ -71,6 +81,29 @@ public class HomeController implements Initializable {
                 }
             }
         });
+        menuClose.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent actionEvent) {
+                Platform.exit();
+            }
+        });
+
+        menuInfos.setOnAction(new EventHandler<ActionEvent>() {
+            @Override
+            public void handle(ActionEvent event) {
+                Stage stage = new Stage();
+                FXMLLoader fxmlLoader = new FXMLLoader(InfosApplication.class.getResource("infos.fxml"));
+                Scene scene;
+                try {
+                    scene = new Scene(fxmlLoader.load());
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+                stage.setTitle("Infos");
+                stage.setScene(scene);
+                stage.show();
+            }
+        });
 
         tableXml.setOnMouseClicked(event -> {
             // Récupération de la ligne sélectionnée
@@ -79,7 +112,6 @@ public class HomeController implements Initializable {
 
         });
     }
-
 
     /**
      * Permet de définir quelle attribut de l'objet Livre correspond à quelle
