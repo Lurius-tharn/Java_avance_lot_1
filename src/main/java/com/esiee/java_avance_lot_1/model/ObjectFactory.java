@@ -1,19 +1,21 @@
 //
-// Ce fichier a ?t? g?n?r? par l'impl?mentation de r?f?rence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802
+// Ce fichier a �t� g�n�r� par l'impl�mentation de r�f�rence JavaTM Architecture for XML Binding (JAXB), v2.2.8-b130911.1802
 // Voir <a href="http://java.sun.com/xml/jaxb">http://java.sun.com/xml/jaxb</a>
-// Toute modification apport?e ? ce fichier sera perdue lors de la recompilation du sch?ma source.
-// G?n?r? le : 2023.03.19 ? 11:58:01 AM CET
+// Toute modification apport�e � ce fichier sera perdue lors de la recompilation du sch�ma source.
+// G�n�r� le : 2023.03.23 � 10:22:50 AM CET
 //
 
 
-package com.esiee.java_avance_lot_1.jaxbe;
+package com.esiee.java_avance_lot_1.model;
 
 import jakarta.xml.bind.annotation.XmlRegistry;
+
+
 
 /**
  * This object contains factory methods for each
  * Java content interface and Java element interface
- * generated in the com.esiee.javaproj.jaxb package.
+ * generated in the com.esiee.java_avance_lot_1 package.
  * <p>An ObjectFactory allows you to programatically
  * construct new instances of the Java representation
  * for XML content. The Java representation of XML
@@ -29,7 +31,7 @@ public class ObjectFactory {
 
 
     /**
-     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.esiee.javaproj.jaxb
+     * Create a new ObjectFactory that can be used to create new instances of schema derived classes for package: com.esiee.java_avance_lot_1
      *
      */
     public ObjectFactory() {
