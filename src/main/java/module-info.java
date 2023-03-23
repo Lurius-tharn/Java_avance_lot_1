@@ -9,6 +9,8 @@ module com.esiee.java_avance_lot_1 {
 
 
     opens com.esiee.java_avance_lot_1.vue to javafx.fxml;
+    opens com.esiee.java_avance_lot_1.jaxbe to jakarta.xml.bind;
+
     exports com.esiee.java_avance_lot_1.vue;
     exports com.esiee.java_avance_lot_1.controller;
     opens com.esiee.java_avance_lot_1.controller to javafx.fxml;
