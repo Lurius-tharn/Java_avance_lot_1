@@ -32,89 +32,96 @@
   OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 -->
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.control.Menu?>
-<?import javafx.scene.control.MenuBar?>
-<?import javafx.scene.control.MenuItem?>
-<?import javafx.scene.control.ScrollPane?>
-<?import javafx.scene.control.TableColumn?>
-<?import javafx.scene.control.TableView?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
+<?import javafx.scene.control.*?>
 <?import javafx.scene.image.ImageView?>
-<?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
-
-<VBox prefHeight="780.0" prefWidth="1177.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esiee.java_avance_lot_1.controller.FormController">
-  <children>
-    <MenuBar prefWidth="970.0" VBox.vgrow="NEVER">
-      <menus>
-        <Menu mnemonicParsing="false" text="Fichier">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Ouvrir" />
-            <MenuItem mnemonicParsing="false" text="Quitter" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="Edition">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Sauvegarder" />
-            <MenuItem mnemonicParsing="false" text="Sauvegarder Sous" />
-          </items>
-        </Menu>
-        <Menu mnemonicParsing="false" text="A propos">
-          <items>
-            <MenuItem mnemonicParsing="false" text="Infos" />
-          </items>
-        </Menu>
-      </menus>
-    </MenuBar>
-    <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
-      <children>
-        <Label alignment="CENTER" contentDisplay="CENTER" layoutX="322.0" layoutY="25.0" prefHeight="27.0" prefWidth="533.0" style="-fx-font-size: 30; -fx-font-weight: 300;" text="Votre bibliothèque" textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
-          <font>
-            <Font size="18.0" />
-          </font>
-        </Label>
-        <TableView layoutX="14.0" layoutY="88.0" prefHeight="392.0" prefWidth="699.0">
-          <columns>
-            <TableColumn prefWidth="98.0" text="Titre" />
-            <TableColumn prefWidth="52.0" text="Auteur" />
-            <TableColumn prefWidth="230.0" text="Présentation" />
-            <TableColumn prefWidth="58.0" text="Parution" />
-            <TableColumn prefWidth="59.0" text="Colonne" />
-            <TableColumn prefWidth="47.0" text="Rangée" />
-            <TableColumn prefWidth="154.0" text="Image" />
-          </columns>
-        </TableView>
-        <Button layoutX="653.0" layoutY="532.0" mnemonicParsing="false" text="+" />
-        <Button layoutX="692.0" layoutY="532.0" mnemonicParsing="false" text="-" />
-        <ScrollPane layoutX="724.0" layoutY="70.0" prefHeight="564.0" prefWidth="444.0">
-          <content>
-            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="561.0" prefWidth="441.0">
-              <children>
-                <Label layoutX="14.0" layoutY="30.0" prefHeight="30.0" prefWidth="84.0" style="-fx-font-size: 20;" text="Titre : " />
-                <TextField id="title" layoutX="142.0" layoutY="32.0" prefHeight="25.0" prefWidth="279.0" promptText="Les chevaliers " />
-                <Label layoutX="14.0" layoutY="71.0" prefHeight="30.0" prefWidth="84.0" style="-fx-font-size: 20;" text="Auteur : " />
-                <TextField id="author" layoutX="144.0" layoutY="73.0" prefHeight="25.0" prefWidth="279.0" promptText="Anne Robillard" />
-                <Label layoutX="14.0" layoutY="145.0" prefHeight="30.0" prefWidth="84.0" style="-fx-font-size: 20;" text="Presentation : " />
-                <TextArea id="presentation" layoutX="144.0" layoutY="145.0" prefHeight="83.0" prefWidth="275.0" />
-                <Button layoutX="371.0" layoutY="398.0" mnemonicParsing="false" text="Valider" />
-                <Label layoutX="17.0" layoutY="242.0" prefHeight="30.0" prefWidth="84.0" style="-fx-font-size: 20;" text="Parution" />
-                <TextField id="parution" layoutX="145.0" layoutY="244.0" prefHeight="25.0" prefWidth="279.0" promptText="J'ai lu" />
-                <Label layoutX="17.0" layoutY="287.0" prefHeight="30.0" prefWidth="84.0" style="-fx-font-size: 20;" text="Colonne" />
-                <TextField id="column" layoutX="145.0" layoutY="289.0" prefHeight="25.0" prefWidth="279.0" promptText="5" />
-                <Label layoutX="17.0" layoutY="325.0" prefHeight="30.0" prefWidth="84.0" style="-fx-font-size: 20;" text="Rangée" />
-                <TextField id="range" layoutX="145.0" layoutY="327.0" prefHeight="25.0" prefWidth="279.0" promptText="1" />
-                <Label layoutX="17.0" layoutY="365.0" prefHeight="30.0" prefWidth="84.0" style="-fx-font-size: 20;" text="Image" />
-                <TextField id="image" layoutX="145.0" layoutY="367.0" prefHeight="25.0" prefWidth="279.0" promptText="http://" />
-                <ImageView fitHeight="130.0" fitWidth="183.0" layoutX="145.0" layoutY="395.0" pickOnBounds="true" preserveRatio="true" />
-              </children>
-            </AnchorPane>
-          </content>
-        </ScrollPane>
-      </children>
-    </AnchorPane>
-  </children>
+<VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="780.0" prefWidth="1177.0" xmlns="http://javafx.com/javafx/19"
+      fx:controller="com.esiee.java_avance_lot_1.controller.HoeController">
+    <children>
+        <MenuBar prefWidth="970.0" VBox.vgrow="NEVER">
+            <menus>
+                <Menu mnemonicParsing="false" text="Fichier">
+                    <items>
+                        <MenuItem fx:id="menuOpen" mnemonicParsing="false" text="Ouvrir"/>
+                        <MenuItem fx:id="MenuClose" mnemonicParsing="false" text="Quitter"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="Edition">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Sauvegarder"/>
+                        <MenuItem mnemonicParsing="false" text="Sauvegarder Sous"/>
+                    </items>
+                </Menu>
+                <Menu mnemonicParsing="false" text="A propos">
+                    <items>
+                        <MenuItem mnemonicParsing="false" text="Infos"/>
+                    </items>
+                </Menu>
+            </menus>
+        </MenuBar>
+        <AnchorPane maxHeight="-1.0" maxWidth="-1.0" prefHeight="-1.0" prefWidth="-1.0" VBox.vgrow="ALWAYS">
+            <children>
+                <Label alignment="CENTER" contentDisplay="CENTER" layoutX="322.0" layoutY="25.0" prefHeight="27.0"
+                       prefWidth="533.0" style="-fx-font-size: 30; -fx-font-weight: 300;" text="Votre bibliothèque"
+                       textAlignment="CENTER" textFill="#9f9f9f" wrapText="false">
+                    <font>
+                        <Font size="18.0"/>
+                    </font>
+                </Label>
+                <TableView fx:id="tableXml" layoutX="14.0" layoutY="88.0" prefHeight="392.0" prefWidth="699.0">
+                    <columns>
+                        <TableColumn fx:id="title" prefWidth="98.0" text="Titre"/>
+                        <TableColumn fx:id="author" prefWidth="52.0" text="Auteur"/>
+                        <TableColumn fx:id="presentation" prefWidth="230.0" text="Présentation"/>
+                        <TableColumn fx:id="parution" prefWidth="58.0" text="Parution"/>
+                        <TableColumn fx:id="column" prefWidth="59.0" text="Colonne"/>
+                        <TableColumn fx:id="range" prefWidth="47.0" text="Rangée"/>
+                        <TableColumn fx:id="image" prefWidth="154.0" text="Image"/>
+                    </columns>
+                </TableView>
+                <Button layoutX="653.0" layoutY="532.0" mnemonicParsing="false" text="+"/>
+                <Button layoutX="692.0" layoutY="532.0" mnemonicParsing="false" text="-"/>
+                <ScrollPane layoutX="724.0" layoutY="70.0" prefHeight="564.0" prefWidth="444.0">
+                    <content>
+                        <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="561.0" prefWidth="441.0">
+                            <children>
+                                <Label layoutX="14.0" layoutY="30.0" prefHeight="30.0" prefWidth="84.0"
+                                       style="-fx-font-size: 20;" text="Titre : "/>
+                                <TextField fx:id="titleInput" layoutX="142.0" layoutY="32.0" prefHeight="25.0"
+                                           prefWidth="279.0" promptText="Les chevaliers "/>
+                                <Label layoutX="14.0" layoutY="71.0" prefHeight="30.0" prefWidth="84.0"
+                                       style="-fx-font-size: 20;" text="Auteur : "/>
+                                <TextField fx:id="authorInput" layoutX="144.0" layoutY="73.0" prefHeight="25.0"
+                                           prefWidth="279.0" promptText="Anne Robillard"/>
+                                <Label layoutX="14.0" layoutY="145.0" prefHeight="30.0" prefWidth="84.0"
+                                       style="-fx-font-size: 20;" text="Presentation : "/>
+                                <TextArea fx:id="presentationInput" layoutX="144.0" layoutY="145.0" prefHeight="83.0"
+                                          prefWidth="275.0"/>
+                                <Button layoutX="371.0" layoutY="398.0" mnemonicParsing="false" text="Valider"/>
+                                <Label layoutX="17.0" layoutY="242.0" prefHeight="30.0" prefWidth="84.0"
+                                       style="-fx-font-size: 20;" text="Parution"/>
+                                <TextField fx:id="parutionInput" layoutX="145.0" layoutY="244.0" prefHeight="25.0"
+                                           prefWidth="279.0" promptText="J'ai lu"/>
+                                <Label layoutX="17.0" layoutY="287.0" prefHeight="30.0" prefWidth="84.0"
+                                       style="-fx-font-size: 20;" text="Colonne"/>
+                                <TextField fx:id="columnInput" layoutX="145.0" layoutY="289.0" prefHeight="25.0"
+                                           prefWidth="279.0" promptText="5"/>
+                                <Label layoutX="17.0" layoutY="325.0" prefHeight="30.0" prefWidth="84.0"
+                                       style="-fx-font-size: 20;" text="Rangée"/>
+                                <TextField fx:id="rangeInput" layoutX="145.0" layoutY="327.0" prefHeight="25.0"
+                                           prefWidth="279.0" promptText="1"/>
+                                <Label layoutX="17.0" layoutY="365.0" prefHeight="30.0" prefWidth="84.0"
+                                       style="-fx-font-size: 20;" text="Image"/>
+                                <TextField fx:id="imageInput" layoutX="145.0" layoutY="367.0" prefHeight="25.0"
+                                           prefWidth="279.0" promptText="http://"/>
+                                <ImageView fitHeight="130.0" fitWidth="183.0" layoutX="145.0" layoutY="395.0"
+                                           pickOnBounds="true" preserveRatio="true"/>
+                            </children>
+                        </AnchorPane>
+                    </content>
+                </ScrollPane>
+            </children>
+        </AnchorPane>
+    </children>
 </VBox>
