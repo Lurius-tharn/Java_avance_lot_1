@@ -55,17 +55,7 @@ public class XSDUnmarshaller {
             Schema schema = schemaFactory.newSchema(xsdFile);
             unmarshaller.setSchema(schema);
             Bibliotheque biblio = (Bibliotheque) unmarshaller.unmarshal(selectedFile);
-
-            List livres = biblio.getLivre();
-
-            for (Object objLivre : livres) {
-                Bibliotheque.Livre livre = (Bibliotheque.Livre) objLivre;
-                System.out.println("Livre ");
-                System.out.println("Titre   : " + livre.getTitre());
-                System.out.println("Auteur  : " + livre.getAuteur().getNomPrenom());
-                System.out.println("Parution : " + livre.getParution());
-                System.out.println();
-            }
+            
             return biblio;
         } catch (SAXException e) {
             e.printStackTrace();

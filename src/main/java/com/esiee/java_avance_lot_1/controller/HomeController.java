@@ -19,7 +19,7 @@ import java.io.File;
 import java.net.URL;
 import java.util.ResourceBundle;
 
-public class HoeController implements Initializable {
+public class HomeController implements Initializable {
 
     @FXML
     private MenuItem menuOpen;
@@ -82,7 +82,7 @@ public class HoeController implements Initializable {
 
 
     /**
-     * Permet de définir quelle attribut de l'objet Person correspond à quelle
+     * Permet de définir quelle attribut de l'objet Livre correspond à quelle
      * Colonne du TableView
      */
     private void LivreTableMapper() {

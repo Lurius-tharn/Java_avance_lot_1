@@ -37,7 +37,7 @@
 <?import javafx.scene.layout.*?>
 <?import javafx.scene.text.Font?>
 <VBox xmlns:fx="http://javafx.com/fxml/1" prefHeight="780.0" prefWidth="1177.0" xmlns="http://javafx.com/javafx/19"
-      fx:controller="com.esiee.java_avance_lot_1.controller.HoeController">
+      fx:controller="com.esiee.java_avance_lot_1.controller.HomeController">
     <children>
         <MenuBar prefWidth="970.0" VBox.vgrow="NEVER">
             <menus>
