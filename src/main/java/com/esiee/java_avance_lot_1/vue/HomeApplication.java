@@ -1,4 +1,4 @@
-package com.esiee.java_avance_lot_1;
+package com.esiee.java_avance_lot_1.vue;
 
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
@@ -7,13 +7,16 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class HelloApplication extends Application {
+public class HomeApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(), 320, 240);
-        stage.setTitle("Hello!");
+
+        FXMLLoader fxmlLoader = new FXMLLoader(HomeApplication.class.getResource("home.fxml"));
+        Scene scene = new Scene(fxmlLoader.load());
+        stage.setTitle("Bibliothèque municipale de Sartrouville");
+
         stage.setScene(scene);
+
         stage.show();
     }
 
