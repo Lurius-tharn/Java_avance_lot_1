@@ -31,6 +31,7 @@ import java.util.stream.Collectors;
 
 public class HomeController implements Initializable {
 
+    public static File selectedFile;
     @FXML
     ImageView imageView;
     @FXML
@@ -71,25 +72,17 @@ public class HomeController implements Initializable {
     private TextField imageInput;
     @FXML
     private AnchorPane FormPane;
-
     private ObservableList<Bibliotheque.Livre> bibliothequeList;
-
     @FXML
     private Button add;
-
     @FXML
     private Button delete;
-
     @FXML
     private Button validerButton;
-
     @FXML
     private MenuItem saveDefault;
-
     @FXML
     private MenuItem saveAs;
-    public static File selectedFile;
-
     @FXML
     private Label currentFileName;
     private Bibliotheque bibliotheque;
@@ -215,23 +208,25 @@ public class HomeController implements Initializable {
 
             //Show save file dialog
             selectedFile = fileChooser.showSaveDialog(null);
+            if (!Objects.isNull(selectedFile)) {
+                if (Objects.isNull(bibliotheque)) {
+                    bibliotheque = new Bibliotheque();
+                    if (Objects.isNull(bibliotheque.getLivre()))
+                        bibliotheque.setLivre(new ArrayList<>());
+                }
 
-            if (Objects.isNull(bibliotheque)) {
-                bibliotheque = new Bibliotheque();
-                if (Objects.isNull(bibliotheque.getLivre()))
-                    bibliotheque.setLivre(new ArrayList<>());
+                bibliotheque.setLivre(tableXml.getItems());
+
+
+                try {
+                    XSDUnmarshaller.enregistrerBibliotheque(bibliotheque, selectedFile);
+                } catch (JAXBException e) {
+                    throw new RuntimeException(e);
+                } catch (FileNotFoundException e) {
+                    throw new RuntimeException(e);
+                }
             }
 
-            bibliotheque.setLivre(tableXml.getItems());
-
-
-            try {
-                XSDUnmarshaller.enregistrerBibliotheque(bibliotheque, selectedFile);
-            } catch (JAXBException e) {
-                throw new RuntimeException(e);
-            } catch (FileNotFoundException e) {
-                throw new RuntimeException(e);
-            }
         });
     }
 
