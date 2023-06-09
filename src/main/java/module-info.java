@@ -6,6 +6,8 @@ module com.esiee.java_avance_lot_1 {
     requires com.dlsc.formsfx;
     requires org.kordamp.bootstrapfx.core;
     requires jakarta.xml.bind;
+    requires mysql.connector.java;
+    requires java.sql;
 
 
     opens com.esiee.java_avance_lot_1.vue to javafx.fxml;

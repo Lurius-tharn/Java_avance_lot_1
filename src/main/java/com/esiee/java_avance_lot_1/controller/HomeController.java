@@ -100,63 +100,19 @@ public class HomeController implements Initializable {
         this.LivreTableMapper();
         disableForm(true);
         menuOpen.setOnAction(actionEvent -> {
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Sélectionner le fichier XML");
-            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
-            selectedFile = fileChooser.showOpenDialog(null);
-            if (selectedFile != null) {
-                try {
-                    bibliotheque = XSDUnmarshaller.lireBibliotheque(selectedFile);
-                    bibliothequeList = FXCollections.observableList(bibliotheque.getLivre());
-                    tableXml.setItems(bibliothequeList);
-                    currentFileName.setText(selectedFile.getName());
-                    saveDefault.setVisible(true);
-                } catch (JAXBException e) {
-                    e.printStackTrace();
-                }
-            }
+            openMenu();
         });
         add.setOnAction(actionEvent -> {
-            disableForm(false);
-            Bibliotheque.Livre livre = new Bibliotheque.Livre();
-            livre.setTitre(null);
-            livre.setRangee((short) 0);
-            livre.setParution(0);
-            livre.setPresentation(null);
-            livre.setImage(null);
-            livre.setAuteur(new Bibliotheque.Livre.Auteur());
-            tableXml.getItems().add(livre);
-            tableXml.getSelectionModel().select(livre);
-            LivreFormMapper(livre);
+            addBook();
         });
 
         delete.setOnAction(actionEvent -> {
-
             if (!Objects.isNull(tableXml.getSelectionModel().getSelectedItem()))
                 tableXml.getItems().remove(tableXml.getSelectionModel().getSelectedIndex());
         });
 
         validerButton.setOnAction(actionEvent -> {
-
-            List<TextField> textFields = FormPane.getChildren().stream()
-                    .filter(node -> node instanceof TextField)
-                    .map(node -> (TextField) node)
-                    .collect(Collectors.toList());
-
-            List<String> bookFieldValues = textFields.stream()
-                    .map(TextField::getText)
-                    .collect(Collectors.toList());
-
-            Bibliotheque.Livre currentBook = tableXml.getSelectionModel().getSelectedItem();
-            Bibliotheque.Livre newBook = newBookMapper(bookFieldValues);
-
-            if (!Objects.isNull(currentBook)) {
-                tableXml.getItems().set(tableXml.getSelectionModel().getSelectedIndex(), newBook);
-            } else {
-                tableXml.getItems().add(newBook);
-
-            }
-            tableXml.getSelectionModel().select(newBook);
+            ValidateForm();
 
 
         });
@@ -190,7 +146,6 @@ public class HomeController implements Initializable {
         });
 
         saveDefault.setOnAction(actionEvent -> {
-
             bibliotheque.setLivre(tableXml.getItems());
             try {
                 XSDUnmarshaller.enregistrerBibliotheque(bibliotheque, selectedFile);
@@ -200,34 +155,92 @@ public class HomeController implements Initializable {
         });
 
         saveAs.setOnAction(actionEvent -> {
-            FileChooser fileChooser = new FileChooser();
-
-            //Set extension filter for text files
-            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML", "*.xml");
-            fileChooser.getExtensionFilters().add(extFilter);
-
-            //Show save file dialog
-            selectedFile = fileChooser.showSaveDialog(null);
-            if (!Objects.isNull(selectedFile)) {
-                if (Objects.isNull(bibliotheque)) {
-                    bibliotheque = new Bibliotheque();
-                    if (Objects.isNull(bibliotheque.getLivre()))
-                        bibliotheque.setLivre(new ArrayList<>());
-                }
-
-                bibliotheque.setLivre(tableXml.getItems());
-
-
-                try {
-                    XSDUnmarshaller.enregistrerBibliotheque(bibliotheque, selectedFile);
-                } catch (JAXBException e) {
-                    throw new RuntimeException(e);
-                } catch (FileNotFoundException e) {
-                    throw new RuntimeException(e);
-                }
-            }
+            saveAsXml();
 
         });
+    }
+
+    private void saveAsXml() {
+        FileChooser fileChooser = new FileChooser();
+
+        //Set extension filter for text files
+        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("XML", "*.xml");
+        fileChooser.getExtensionFilters().add(extFilter);
+
+        //Show save file dialog
+        selectedFile = fileChooser.showSaveDialog(null);
+        if (!Objects.isNull(selectedFile)) {
+            if (Objects.isNull(bibliotheque)) {
+                bibliotheque = new Bibliotheque();
+                if (Objects.isNull(bibliotheque.getLivre()))
+                    bibliotheque.setLivre(new ArrayList<>());
+            }
+
+            bibliotheque.setLivre(tableXml.getItems());
+
+
+            try {
+                XSDUnmarshaller.enregistrerBibliotheque(bibliotheque, selectedFile);
+            } catch (JAXBException e) {
+                throw new RuntimeException(e);
+            } catch (FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
+    }
+
+    private void ValidateForm() {
+        List<TextField> textFields = FormPane.getChildren().stream()
+                .filter(node -> node instanceof TextField)
+                .map(node -> (TextField) node)
+                .collect(Collectors.toList());
+
+        List<String> bookFieldValues = textFields.stream()
+                .map(TextField::getText)
+                .collect(Collectors.toList());
+
+        Bibliotheque.Livre currentBook = tableXml.getSelectionModel().getSelectedItem();
+        Bibliotheque.Livre newBook = newBookMapper(bookFieldValues);
+
+        if (!Objects.isNull(currentBook)) {
+            tableXml.getItems().set(tableXml.getSelectionModel().getSelectedIndex(), newBook);
+        } else {
+            tableXml.getItems().add(newBook);
+
+        }
+        tableXml.getSelectionModel().select(newBook);
+    }
+
+    private void addBook() {
+        disableForm(false);
+        Bibliotheque.Livre livre = new Bibliotheque.Livre();
+        livre.setTitre(null);
+        livre.setRangee((short) 0);
+        livre.setParution(0);
+        livre.setPresentation(null);
+        livre.setImage(null);
+        livre.setAuteur(new Bibliotheque.Livre.Auteur());
+        tableXml.getItems().add(livre);
+        tableXml.getSelectionModel().select(livre);
+        LivreFormMapper(livre);
+    }
+
+    private void openMenu() {
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Sélectionner le fichier XML");
+        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
+        selectedFile = fileChooser.showOpenDialog(null);
+        if (selectedFile != null) {
+            try {
+                bibliotheque = XSDUnmarshaller.lireBibliotheque(selectedFile);
+                bibliothequeList = FXCollections.observableList(bibliotheque.getLivre());
+                tableXml.setItems(bibliothequeList);
+                currentFileName.setText(selectedFile.getName());
+                saveDefault.setVisible(true);
+            } catch (JAXBException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private Bibliotheque.Livre newBookMapper(List<String> bookFieldValues) {
