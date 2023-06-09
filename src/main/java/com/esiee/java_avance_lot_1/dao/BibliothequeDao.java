@@ -2,17 +2,17 @@ package com.esiee.java_avance_lot_1.dao;
 
 import com.esiee.java_avance_lot_1.model.Bibliotheque;
 
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
+import java.sql.*;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.time.ZoneId;
 import java.util.List;
 
 public class BibliothequeDao {
 
     private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/ja_library";
-    private static final String DATABASE_USERNAME = "ROOT";
-    private static final String DATABASE_PASSWORD = "DADA2323";
+    private static final String DATABASE_USERNAME = "ja_Library_admin";
+    private static final String DATABASE_PASSWORD = "ja_library";
 
     private static final String INSERT_QUERY = "INSERT INTO ja_library.livre (idLivre, titre, auteur, presentation, parution, colonne, rangee, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
@@ -45,7 +45,11 @@ public class BibliothequeDao {
                 preparedStatement.setString(2, livre.getTitre());
                 preparedStatement.setString(3, livre.getAuteur().getNomPrenom());
                 preparedStatement.setString(4, livre.getPresentation());
-                preparedStatement.setInt(5, livre.getParution());
+                try{
+                    preparedStatement.setDate(5, (Date) new SimpleDateFormat("YYYY-MM-DD").parse(livre.getParution().toString()));
+                } catch (ParseException e) {
+                    System.out.println(e);
+                }
                 preparedStatement.setInt(6, livre.getColonne());
                 preparedStatement.setInt(7, livre.getRangee());
                 preparedStatement.setString(8, livre.getImage());

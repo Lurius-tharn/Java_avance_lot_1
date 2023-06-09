@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<bibliotheque>
+    <livre>
+        <titre>XSD pour les nuls</titre>
+        <auteur>
+            <nom>Jean</nom>
+            <prenom>Dupond</prenom>
+        </auteur>
+        <presentation>Ce livre est une introduction au schema XSD</presentation>
+        <parution>2000</parution>
+        <colonne>5</colonne>
+        <rangee>2</rangee>
+        <image>https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81TYfUt0-qL.jpg</image>
+    </livre>
+    <livre>
+        <titre>HarryPotter</titre>
+        <auteur>
+            <nom>JK</nom>
+            <prenom>Rowling</prenom>
+        </auteur>
+        <presentation>Ce livre est une introduction au schema XSD</presentation>
+        <parution>1996</parution>
+        <colonne>5</colonne>
+        <rangee>2</rangee>
+        <image>https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81TYfUt0-qL.jpg</image>
+    </livre>
+    <livre>
+        <titre>Eragon</titre>
+        <auteur>
+            <nom>Paolini</nom>
+            <prenom>Christopher</prenom>
+        </auteur>
+        <presentation>Ce livre est une introduction au schema XSD</presentation>
+        <parution>2001</parution>
+        <colonne>5</colonne>
+        <rangee>2</rangee>
+        <image>https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81TYfUt0-qL.jpg</image>
+    </livre>
+    <livre>
+        <titre>Les Chevaliers d'Emeraude</titre>
+        <auteur>
+            <nom>Robillard</nom>
+            <prenom>Anne</prenom>
+        </auteur>
+        <presentation>Maintenant âgée de neuf ans, Kira désire plus que tout au monde devenir Écuyer. Mais pour la
+            protéger de l'Empereur Noir, Wellan et le magicien Élund doivent refuser sa candidature. Décidant alors de
+            prendre son destin en main, la fillette conjure un Chevalier mort depuis des centaines d'années afin qu'il
+            lui apprenne le maniement des armes. Pendant ce temps, les dragons d'Amecareth font des percées surprenantes
+            sur le territoire d'Enkidiev. Les Chevaliers d'Émeraude et leurs nouveaux Écuyers partent donc à la chasse
+            aux monstres. Au même moment, Asbeth, le sorcier à la solde de l'empereur, se prépare à s'attaquer aux
+            guerriers magiciens, semant la destruction sur son passage. Désirant accroître sa puissance magique avant
+            d'affronter l'homme-oiseau en duel, Wellan se rendra au Royaume des Ombres, où il recevra l'enseignement des
+            maîtres magiciens. Il y découvrira aussi un grand secret ...
+        </presentation>
+        <parution>2001</parution>
+        <colonne>5</colonne>
+        <rangee>2</rangee>
+        <image>https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81TYfUt0-qL.jpg</image>
+    </livre>
+    <livre>
+        <titre>L'apprenti Assasin</titre>
+        <auteur>
+            <nom>Hobb</nom>
+            <prenom>Robin</prenom>
+        </auteur>
+        <presentation>Ce premier livre raconte les débuts de Fitz (son vrai nom étant FitzChevalerie, hérité de son
+            père, Chevalerie) comme bâtard, au château de Castelcerf où il commence son entraînement d'assassin, et se
+            termine par sa première mission qu'il finira au péril de sa vie.
+        </presentation>
+        <parution>2001</parution>
+        <colonne>5</colonne>
+        <rangee>2</rangee>
+        <image>https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81TYfUt0-qL.jpg</image>
+    </livre>
+</bibliotheque>

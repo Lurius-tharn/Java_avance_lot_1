@@ -1,5 +1,6 @@
 package com.esiee.java_avance_lot_1.controller;
 
+import com.dlsc.formsfx.model.structure.DateField;
 import com.esiee.java_avance_lot_1.dao.BibliothequeDao;
 import com.esiee.java_avance_lot_1.dao.XSDUnmarshaller;
 import com.esiee.java_avance_lot_1.model.Bibliotheque;
@@ -20,15 +21,20 @@ import javafx.scene.layout.AnchorPane;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 
+import javax.xml.datatype.DatatypeConfigurationException;
+import javax.xml.datatype.DatatypeFactory;
+import javax.xml.datatype.XMLGregorianCalendar;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
 import java.sql.SQLException;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
-import java.util.ResourceBundle;
+import java.text.DateFormat;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.ZoneId;
+import java.util.*;
 import java.util.stream.Collectors;
 
 public class HomeController implements Initializable {
@@ -51,7 +57,7 @@ public class HomeController implements Initializable {
     @FXML
     private TableColumn<Bibliotheque.Livre, String> presentation;
     @FXML
-    private TableColumn<Bibliotheque.Livre, Integer> parution;
+    private TableColumn<Bibliotheque.Livre, XMLGregorianCalendar> parution;
     @FXML
     private TableColumn<Bibliotheque.Livre, Integer> column;
     @FXML
@@ -65,7 +71,7 @@ public class HomeController implements Initializable {
     @FXML
     private TextArea presentationInput;
     @FXML
-    private TextField parutionInput;
+    private DatePicker parutionInput;
     @FXML
     private TextField columnInput;
     @FXML
@@ -222,7 +228,7 @@ public class HomeController implements Initializable {
         Bibliotheque.Livre livre = new Bibliotheque.Livre();
         livre.setTitre(null);
         livre.setRangee((short) 0);
-        livre.setParution(0);
+        livre.setParution(null);
         livre.setPresentation(null);
         livre.setImage(null);
         livre.setAuteur(new Bibliotheque.Livre.Auteur());
@@ -257,7 +263,11 @@ public class HomeController implements Initializable {
         livre.setTitre(bookFieldValues.get(0));
         livre.setAuteur(auteur);
         livre.setPresentation(presentationInput.getText());
-        livre.setParution(Integer.parseInt(bookFieldValues.get(2)));
+        try {
+            livre.setParution(DatatypeFactory.newInstance().newXMLGregorianCalendar(parutionInput.getValue().toString()));
+        } catch (DatatypeConfigurationException e) {
+            throw new RuntimeException(e);
+        }
         livre.setColonne(Short.parseShort(bookFieldValues.get(3)));
         livre.setRangee(Short.parseShort(bookFieldValues.get(4)));
         livre.setImage(bookFieldValues.get(5));
@@ -284,7 +294,8 @@ public class HomeController implements Initializable {
         titleInput.setText(livre.getTitre());
         authorInput.setText(livre.getAuteur().toString());
         presentationInput.setText(livre.getPresentation());
-        parutionInput.setText(String.valueOf(livre.getParution()));
+        LocalDate parutionLocalDate = LocalDate.of(livre.getParution().getYear(), livre.getParution().getMonth(), livre.getParution().getDay());
+        parutionInput.setValue(parutionLocalDate);
         columnInput.setText(String.valueOf(livre.getColonne()));
         rangeInput.setText(String.valueOf(livre.getRangee()));
         imageInput.setText(livre.getImage());
