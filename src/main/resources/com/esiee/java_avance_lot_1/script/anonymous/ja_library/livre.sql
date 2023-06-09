@@ -2,9 +2,9 @@ create table livre
 (
     idLivre      int auto_increment
         primary key,
-    titre        varchar(45) null,
-    auteur       varchar(45) null,
-    presentation varchar(45) null,
+    titre        MEDIUMTEXT null,
+    auteur       MEDIUMTEXT null,
+    presentation MEDIUMTEXT null,
     parution     int         null,
     colonne      varchar(45) null,
     rangee       varchar(45) null,
