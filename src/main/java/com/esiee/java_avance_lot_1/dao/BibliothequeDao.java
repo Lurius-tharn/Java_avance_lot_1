@@ -11,8 +11,8 @@ import java.util.List;
 public class BibliothequeDao {
 
     private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/ja_library";
-    private static final String DATABASE_USERNAME = "root";
-    private static final String DATABASE_PASSWORD = "dada2323";
+    private static final String DATABASE_USERNAME = "ROOT";
+    private static final String DATABASE_PASSWORD = "DADA2323";
 
     private static final String INSERT_QUERY = "INSERT INTO ja_library.livre (idLivre, titre, auteur, presentation, parution, colonne, rangee, image) VALUES (?, ?, ?, ?, ?, ?, ?, ?)";
 
