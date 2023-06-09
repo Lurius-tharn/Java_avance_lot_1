@@ -8,6 +8,6 @@ create table livre
     parution     int         null,
     colonne      varchar(45) null,
     rangee       varchar(45) null,
-    image        varchar(45) null
+    image        MEDIUMTEXT null
 );
 
