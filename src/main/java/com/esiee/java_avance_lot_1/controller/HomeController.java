@@ -1,5 +1,6 @@
 package com.esiee.java_avance_lot_1.controller;
 
+import com.esiee.java_avance_lot_1.dao.BibliothequeDao;
 import com.esiee.java_avance_lot_1.dao.XSDUnmarshaller;
 import com.esiee.java_avance_lot_1.model.Bibliotheque;
 import com.esiee.java_avance_lot_1.vue.InfosApplication;
@@ -23,6 +24,7 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.net.URL;
+import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -113,8 +115,6 @@ public class HomeController implements Initializable {
 
         validerButton.setOnAction(actionEvent -> {
             ValidateForm();
-
-
         });
         menuClose.setOnAction(actionEvent -> Platform.exit());
 
@@ -147,6 +147,12 @@ public class HomeController implements Initializable {
 
         saveDefault.setOnAction(actionEvent -> {
             bibliotheque.setLivre(tableXml.getItems());
+            BibliothequeDao bibliothequeDao = new BibliothequeDao();
+            try {
+                bibliothequeDao.insertBook(tableXml.getItems());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
             try {
                 XSDUnmarshaller.enregistrerBibliotheque(bibliotheque, selectedFile);
             } catch (JAXBException | FileNotFoundException e) {
