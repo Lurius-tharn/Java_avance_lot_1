@@ -9,6 +9,7 @@
 package com.esiee.java_avance_lot_1.model;
 
 import jakarta.xml.bind.annotation.*;
+import lombok.Builder;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -155,6 +156,7 @@ public class Bibliotheque {
         "image",
         "etat"
     })
+    @Builder(toBuilder = true)
     public static class Livre {
 
         @XmlElement(required = true)
@@ -446,7 +448,7 @@ public class Bibliotheque {
 
             @Override
             public String toString() {
-                if(!Objects.isNull(nom) && !Objects.isNull(prenom))
+                if (!Objects.isNull(nom) && !Objects.isNull(prenom))
                     return getNomPrenom();
                 return "";
             }

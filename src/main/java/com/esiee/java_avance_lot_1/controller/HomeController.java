@@ -1,6 +1,7 @@
 package com.esiee.java_avance_lot_1.controller;
 
 import com.esiee.java_avance_lot_1.dao.BibliothequeDao;
+import com.esiee.java_avance_lot_1.dao.WordExport;
 import com.esiee.java_avance_lot_1.dao.XSDUnmarshaller;
 import com.esiee.java_avance_lot_1.model.Bibliotheque;
 import com.esiee.java_avance_lot_1.vue.InfosApplication;
@@ -34,6 +35,10 @@ import java.util.stream.Collectors;
 public class HomeController implements Initializable {
 
     public static File selectedFile;
+    @FXML
+    public MenuItem exportAsPdfButton;
+    @FXML
+    public MenuItem exportAsWordButton;
     @FXML
     ImageView imageView;
     @FXML
@@ -179,6 +184,22 @@ public class HomeController implements Initializable {
                 disableForm(true);
             }
         });
+        exportAsWordButton.setOnAction(actionEvent -> {
+            WordExport wordExport = new WordExport();
+            try {
+                wordExport.createWord(tableXml.getItems());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        exportAsPdfButton.setOnAction(actionEvent -> {
+            WordExport wordExport = new WordExport();
+            try {
+                wordExport.createPdf(tableXml.getItems());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void saveDef() {
@@ -278,6 +299,9 @@ public class HomeController implements Initializable {
                 tableXml.setItems(bibliothequeList);
                 currentFileName.setText(selectedFile.getName());
                 saveDefault.setVisible(true);
+                exportAsPdfButton.setVisible(true);
+                exportAsWordButton.setVisible(true);
+
             } catch (JAXBException e) {
                 e.printStackTrace();
             }
@@ -288,7 +312,7 @@ public class HomeController implements Initializable {
 
         Bibliotheque.Livre livre = new Bibliotheque.Livre();
 
-        Bibliotheque.Livre.Auteur auteur = new Bibliotheque.Livre.Auteur(bookFieldValues.get(1).split(" ")[0], bookFieldValues.get(1).split(" ")[1]);
+        Bibliotheque.Livre.Auteur auteur = new Bibliotheque.Livre.Auteur(bookFieldValues.get(1).split(" ")[1], bookFieldValues.get(1).split(" ")[0]);
         livre.setTitre(bookFieldValues.get(0));
         livre.setAuteur(auteur);
         livre.setPresentation(presentationInput.getText());

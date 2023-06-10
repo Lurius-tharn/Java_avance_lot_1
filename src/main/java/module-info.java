@@ -8,8 +8,12 @@ module com.esiee.java_avance_lot_1 {
     requires jakarta.xml.bind;
     requires mysql.connector.java;
     requires java.sql;
+    requires poi.ooxml;
+    requires poi.ooxml.schemas;
+    requires java.desktop;
 
-
+    requires org.apache.pdfbox;
+    requires lombok;
     opens com.esiee.java_avance_lot_1.vue to javafx.fxml;
     exports com.esiee.java_avance_lot_1.vue;
     exports com.esiee.java_avance_lot_1.controller;
