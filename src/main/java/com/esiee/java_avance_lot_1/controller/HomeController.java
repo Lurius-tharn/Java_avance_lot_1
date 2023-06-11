@@ -1,6 +1,7 @@
 package com.esiee.java_avance_lot_1.controller;
 
 import com.esiee.java_avance_lot_1.dao.BibliothequeDao;
+import com.esiee.java_avance_lot_1.dao.WordExport;
 import com.esiee.java_avance_lot_1.dao.XSDUnmarshaller;
 import com.esiee.java_avance_lot_1.model.Bibliotheque;
 import com.esiee.java_avance_lot_1.vue.InfosApplication;
@@ -35,6 +36,12 @@ public class HomeController implements Initializable {
 
     public static File selectedFile;
     @FXML
+    public MenuItem exportAsPdfButton;
+    @FXML
+    public MenuItem exportAsWordButton;
+    @FXML
+    public CheckBox menuConnecte;
+    @FXML
     ImageView imageView;
     @FXML
     private MenuItem menuOpen;
@@ -42,8 +49,6 @@ public class HomeController implements Initializable {
     private MenuItem menuClose;
     @FXML
     private MenuItem menuInfos;
-    @FXML
-    public CheckBox menuConnecte;
     @FXML
     private TableView<Bibliotheque.Livre> tableXml;
     @FXML
@@ -165,7 +170,9 @@ public class HomeController implements Initializable {
         menuConnecte.setOnAction(actionEvent -> {
             currentFileName.setText("Base de donnée");
             saveDefault.setVisible(true);
-            if(menuConnecte.isSelected()){
+            exportAsPdfButton.setVisible(true);
+            exportAsWordButton.setVisible(true);
+            if (menuConnecte.isSelected()) {
                 disableForm(false);
                 BibliothequeDao bibliothequeDao = new BibliothequeDao();
                 try {
@@ -179,13 +186,29 @@ public class HomeController implements Initializable {
                 disableForm(true);
             }
         });
+        exportAsWordButton.setOnAction(actionEvent -> {
+            WordExport wordExport = new WordExport();
+            try {
+                wordExport.createWord(tableXml.getItems());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
+        exportAsPdfButton.setOnAction(actionEvent -> {
+            WordExport wordExport = new WordExport();
+            try {
+                wordExport.createPdf(tableXml.getItems());
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        });
     }
 
     public void saveDef() {
         bibliotheque.setLivre(tableXml.getItems());
         BibliothequeDao bibliothequeDao = new BibliothequeDao();
 
-        if(menuConnecte.isSelected()){
+        if (menuConnecte.isSelected()) {
             try {
                 bibliothequeDao.insertBook(tableXml.getItems());
             } catch (SQLException e) {
@@ -278,6 +301,9 @@ public class HomeController implements Initializable {
                 tableXml.setItems(bibliothequeList);
                 currentFileName.setText(selectedFile.getName());
                 saveDefault.setVisible(true);
+                exportAsPdfButton.setVisible(true);
+                exportAsWordButton.setVisible(true);
+
             } catch (JAXBException e) {
                 e.printStackTrace();
             }
@@ -288,7 +314,7 @@ public class HomeController implements Initializable {
 
         Bibliotheque.Livre livre = new Bibliotheque.Livre();
 
-        Bibliotheque.Livre.Auteur auteur = new Bibliotheque.Livre.Auteur(bookFieldValues.get(1).split(" ")[0], bookFieldValues.get(1).split(" ")[1]);
+        Bibliotheque.Livre.Auteur auteur = new Bibliotheque.Livre.Auteur(bookFieldValues.get(1).split(" ")[1], bookFieldValues.get(1).split(" ")[0]);
         livre.setTitre(bookFieldValues.get(0));
         livre.setAuteur(auteur);
         livre.setPresentation(presentationInput.getText());
