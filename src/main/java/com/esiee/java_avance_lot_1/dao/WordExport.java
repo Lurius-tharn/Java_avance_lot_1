@@ -195,7 +195,7 @@ public class WordExport {
         headerRow.getCell(3).setText("Présentation");
 
         // Remplissage des données des livres dans le tableau
-        livres.stream().filter(livre -> !livre.isEtat()).forEach((livre) -> {
+        livres.stream().filter(livre -> livre.isEtat()).forEach((livre) -> {
             int index = livres.indexOf(livre);
 
             XWPFTableRow row = table.getRow(index + 1);

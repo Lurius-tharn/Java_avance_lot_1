@@ -40,6 +40,8 @@ public class HomeController implements Initializable {
     @FXML
     public MenuItem exportAsWordButton;
     @FXML
+    public CheckBox menuConnecte;
+    @FXML
     ImageView imageView;
     @FXML
     private MenuItem menuOpen;
@@ -47,8 +49,6 @@ public class HomeController implements Initializable {
     private MenuItem menuClose;
     @FXML
     private MenuItem menuInfos;
-    @FXML
-    public CheckBox menuConnecte;
     @FXML
     private TableView<Bibliotheque.Livre> tableXml;
     @FXML
@@ -170,7 +170,9 @@ public class HomeController implements Initializable {
         menuConnecte.setOnAction(actionEvent -> {
             currentFileName.setText("Base de donnée");
             saveDefault.setVisible(true);
-            if(menuConnecte.isSelected()){
+            exportAsPdfButton.setVisible(true);
+            exportAsWordButton.setVisible(true);
+            if (menuConnecte.isSelected()) {
                 disableForm(false);
                 BibliothequeDao bibliothequeDao = new BibliothequeDao();
                 try {
@@ -206,7 +208,7 @@ public class HomeController implements Initializable {
         bibliotheque.setLivre(tableXml.getItems());
         BibliothequeDao bibliothequeDao = new BibliothequeDao();
 
-        if(menuConnecte.isSelected()){
+        if (menuConnecte.isSelected()) {
             try {
                 bibliothequeDao.insertBook(tableXml.getItems());
             } catch (SQLException e) {
