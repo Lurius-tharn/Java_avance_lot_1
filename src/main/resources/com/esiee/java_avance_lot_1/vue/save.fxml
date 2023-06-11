@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+<?import javafx.scene.text.Text?>
+
+
+<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="259.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esiee.java_avance_lot_1.controller.SaveController">
+   <children>
+      <AnchorPane prefHeight="309.0" prefWidth="600.0">
+         <children>
+            <Text layoutX="64.0" layoutY="104.0" strokeType="OUTSIDE" strokeWidth="0.0" text="Souhaitez-vous enregistrer votre bibliothèque avant de passer en mode connecté ? " textAlignment="CENTER" wrappingWidth="472.18359375">
+               <font>
+                  <Font size="18.0" />
+               </font>
+            </Text>
+            <Button fx:id="saveYesButton" layoutX="249.0" layoutY="143.0" mnemonicParsing="false" text="Oui" />
+            <Button fx:id="saveNoButton" layoutX="323.0" layoutY="143.0" mnemonicParsing="false" text="Non" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>
