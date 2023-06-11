@@ -43,6 +43,8 @@ public class HomeController implements Initializable {
     @FXML
     private MenuItem menuInfos;
     @FXML
+    public CheckBox menuConnecte;
+    @FXML
     private TableView<Bibliotheque.Livre> tableXml;
     @FXML
     private TableColumn<Bibliotheque.Livre, String> title;
@@ -59,6 +61,11 @@ public class HomeController implements Initializable {
     @FXML
     private TableColumn<Bibliotheque.Livre, String> image;
     @FXML
+    private TableColumn<Bibliotheque.Livre, Boolean> etat;
+
+    @FXML
+    private TextField idInput;
+    @FXML
     private TextField titleInput;
     @FXML
     private TextField authorInput;
@@ -72,6 +79,8 @@ public class HomeController implements Initializable {
     private TextField rangeInput;
     @FXML
     private TextField imageInput;
+    @FXML
+    private CheckBox etatInput;
     @FXML
     private AnchorPane FormPane;
     private ObservableList<Bibliotheque.Livre> bibliothequeList;
@@ -139,31 +148,56 @@ public class HomeController implements Initializable {
                 LivreFormMapper(livre);
             } else {
                 disableForm(true);
-
             }
 
 
         });
 
         saveDefault.setOnAction(actionEvent -> {
-            bibliotheque.setLivre(tableXml.getItems());
-            BibliothequeDao bibliothequeDao = new BibliothequeDao();
-            try {
-                bibliothequeDao.insertBook(tableXml.getItems());
-            } catch (SQLException e) {
-                throw new RuntimeException(e);
-            }
-            try {
-                XSDUnmarshaller.enregistrerBibliotheque(bibliotheque, selectedFile);
-            } catch (JAXBException | FileNotFoundException e) {
-                throw new RuntimeException(e);
-            }
+            saveDef();
         });
 
         saveAs.setOnAction(actionEvent -> {
             saveAsXml();
 
         });
+
+        menuConnecte.setOnAction(actionEvent -> {
+            currentFileName.setText("Base de donnée");
+            saveDefault.setVisible(true);
+            if(menuConnecte.isSelected()){
+                disableForm(false);
+                BibliothequeDao bibliothequeDao = new BibliothequeDao();
+                try {
+                    List<Bibliotheque.Livre> allLivres = bibliothequeDao.selectBook();
+                    tableXml.setItems(FXCollections.observableList(allLivres));
+                } catch (SQLException e) {
+                    throw new RuntimeException(e);
+                }
+            } else {
+                tableXml.setItems(null);
+                disableForm(true);
+            }
+        });
+    }
+
+    public void saveDef() {
+        bibliotheque.setLivre(tableXml.getItems());
+        BibliothequeDao bibliothequeDao = new BibliothequeDao();
+
+        if(menuConnecte.isSelected()){
+            try {
+                bibliothequeDao.insertBook(tableXml.getItems());
+            } catch (SQLException e) {
+                throw new RuntimeException(e);
+            }
+        } else {
+            try {
+                XSDUnmarshaller.enregistrerBibliotheque(bibliotheque, selectedFile);
+            } catch (JAXBException | FileNotFoundException e) {
+                throw new RuntimeException(e);
+            }
+        }
     }
 
     private void saveAsXml() {
@@ -183,7 +217,6 @@ public class HomeController implements Initializable {
             }
 
             bibliotheque.setLivre(tableXml.getItems());
-
 
             try {
                 XSDUnmarshaller.enregistrerBibliotheque(bibliotheque, selectedFile);
@@ -226,12 +259,14 @@ public class HomeController implements Initializable {
         livre.setPresentation(null);
         livre.setImage(null);
         livre.setAuteur(new Bibliotheque.Livre.Auteur());
+        livre.setEtat(false);
         tableXml.getItems().add(livre);
         tableXml.getSelectionModel().select(livre);
         LivreFormMapper(livre);
     }
 
     private void openMenu() {
+        menuConnecte.setSelected(false);
         FileChooser fileChooser = new FileChooser();
         fileChooser.setTitle("Sélectionner le fichier XML");
         fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
@@ -261,6 +296,8 @@ public class HomeController implements Initializable {
         livre.setColonne(Short.parseShort(bookFieldValues.get(3)));
         livre.setRangee(Short.parseShort(bookFieldValues.get(4)));
         livre.setImage(bookFieldValues.get(5));
+        livre.setEtat(etatInput.isSelected());
+        livre.setId(livre.getId());
 
         return livre;
     }
@@ -282,7 +319,7 @@ public class HomeController implements Initializable {
      */
     private void LivreFormMapper(Bibliotheque.Livre livre) {
         titleInput.setText(livre.getTitre());
-        authorInput.setText(livre.getAuteur().toString());
+        authorInput.setText(livre.getAuteur().getNomPrenom());
         presentationInput.setText(livre.getPresentation());
         parutionInput.setText(String.valueOf(livre.getParution()));
         columnInput.setText(String.valueOf(livre.getColonne()));
@@ -293,6 +330,7 @@ public class HomeController implements Initializable {
         } else {
             imageView.setImage(null);
         }
+        etatInput.setSelected(livre.isEtat());
     }
 
 
@@ -308,6 +346,5 @@ public class HomeController implements Initializable {
         column.setCellValueFactory(new PropertyValueFactory<>("colonne"));
         range.setCellValueFactory(new PropertyValueFactory<>("rangee"));
         image.setCellValueFactory(new PropertyValueFactory<>("image"));
-
     }
 }
