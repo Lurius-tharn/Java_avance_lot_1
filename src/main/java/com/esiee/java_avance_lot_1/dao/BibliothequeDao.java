@@ -68,6 +68,8 @@ public class BibliothequeDao {
                 allLivres.add(rowLivre);
             }
 
+            preparedStatement.close();
+            rs.close();
 
         } catch (SQLException e) {
             printSQLException(e);
@@ -99,6 +101,7 @@ public class BibliothequeDao {
 
                     System.out.println(preparedStatement);
                     preparedStatement.executeUpdate();
+                    preparedStatement.close();
                 } else {
                     PreparedStatement preparedStatement = connection.prepareStatement(INSERT_QUERY);
 
@@ -114,7 +117,10 @@ public class BibliothequeDao {
 
                     System.out.println(preparedStatement);
                     preparedStatement.executeUpdate();
+                    preparedStatement.close();
                 }
+
+
             } catch (SQLException e) {
                 printSQLException(e);
             }
@@ -131,6 +137,8 @@ public class BibliothequeDao {
                 preparedStatement.setInt(2, 0);
 
                 preparedStatement.executeUpdate();
+
+                preparedStatement.close();
             } catch (SQLException e) {
                 printSQLException(e);
             }
@@ -147,6 +155,8 @@ public class BibliothequeDao {
 
             nomBiblioBase = rs.getString(1);
 
+            preparedStatement.close();
+            rs.close();
         } catch (SQLException e) {
             printSQLException(e);
         }
@@ -173,6 +183,8 @@ public class BibliothequeDao {
                 idLivreBase = null;
             }
 
+            preparedStatement.close();
+            rs.close();
         } catch (SQLException e) {
             printSQLException(e);
         }

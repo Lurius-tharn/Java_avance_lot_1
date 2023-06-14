@@ -205,6 +205,7 @@ public class HomeController implements Initializable {
     }
 
     public void saveDef() {
+        Bibliotheque bibliotheque = new Bibliotheque();
         bibliotheque.setLivre(tableXml.getItems());
         BibliothequeDao bibliothequeDao = new BibliothequeDao();
 
@@ -325,10 +326,8 @@ public class HomeController implements Initializable {
         livre.setEtat(etatInput.isSelected());
 //        if (menuConnecte.isSelected())
 //            livre.setId(tableXml.getItems().stream().filter(livre1 -> livre1.equals(livre) && !Objects.isNull(livre1.getId())).findFirst().get().getId());
-
         return livre;
     }
-
 
     /**
      * Permet de disable un ensemple de champs pour le formulaire
@@ -359,7 +358,6 @@ public class HomeController implements Initializable {
         }
         etatInput.setSelected(livre.isEtat());
     }
-
 
     /**
      * Permet de définir quelle attribut de l'objet Livre correspond à quelle

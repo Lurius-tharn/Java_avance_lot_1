@@ -10,6 +10,8 @@ package com.esiee.java_avance_lot_1.model;
 
 import jakarta.xml.bind.annotation.*;
 import lombok.EqualsAndHashCode;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -152,7 +154,10 @@ public class Bibliotheque {
             "etat"
     })
     @EqualsAndHashCode
+    @Getter
+    @Setter
     public static class Livre {
+
 
         @XmlElement(required = true)
         protected String titre;
