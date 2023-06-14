@@ -1,28 +1,27 @@
 name: Java CI with Maven
-  
-  on:
-    push:
-      branches: [ master ]
-    pull_request:
-      branches: [ master ]
-  
-  jobs:
-    build:
-      
-      runs-on: ubuntu-latest
-      
-      steps:
-        - uses: actions/checkout@v2
-        - name: Set up JDK 11
-          uses: actions/setup-java@v2
-          with:
-            java-version: '11'
-            distribution: 'adopt'
-        - name: Build with Maven
-          run: mvn -B package --file pom.xml
-        - name: Test with Maven
-          run: mvn test
-        - name: Generate Javadoc
-          run: mvn javadoc:javadoc
-        - name: Analyze with SonarCloud
-          run: mvn -B verify sonar:sonar -Dsonar.projectKey=tharn_Java_avance_lot_1 -Dsonar.organization=Lurius-tharn -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    
+    runs-on: ubuntu-latest
+    
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up JDK 11
+        uses: actions/setup-java@v2
+        with:
+          java-version: '11'
+          distribution: 'adopt'
+      - name: Build with Maven
+        run: mvn -B package --file pom.xml
+      - name: Test with Maven
+        run: mvn test
+      - name: Generate Javadoc
+        run: mvn javadoc:javadoc
+      - name: Analyze with SonarCloud
+        run: mvn -B verify sonar:sonar -Dsonar.projectKey=tharn_Java_avance_lot_1 -Dsonar.organization=Lurius-tharn -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
