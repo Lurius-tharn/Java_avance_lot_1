@@ -165,6 +165,7 @@ public class HomeController implements Initializable {
         menuConnecte.setOnAction(actionEvent -> {
             currentFileName.setText("Base de donnée");
             saveDefault.setVisible(true);
+            bibliotheque = new Bibliotheque();
             if(menuConnecte.isSelected()){
                 disableForm(false);
                 BibliothequeDao bibliothequeDao = new BibliothequeDao();
