@@ -24,4 +24,4 @@ jobs:
       - name: Generate Javadoc
         run: mvn javadoc:javadoc
       - name: Analyze with SonarCloud
-        run: mvn -B verify sonar:sonar -Dsonar.projectKey=Lurius-tharn_Java_avance_lot_1 -Dsonar.organization=Lurius-tharn -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        run: mvn -B verify sonar:sonar -Dsonar.projectKey=Lurius-tharn_Java_avance_lot_1 -Dsonar.organization=lurius-tharn -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
