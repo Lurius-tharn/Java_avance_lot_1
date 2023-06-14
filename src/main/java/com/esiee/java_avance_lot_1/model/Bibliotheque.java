@@ -9,6 +9,7 @@
 package com.esiee.java_avance_lot_1.model;
 
 import jakarta.xml.bind.annotation.*;
+import lombok.EqualsAndHashCode;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -150,12 +151,14 @@ public class Bibliotheque {
             "image",
             "etat"
     })
+    @EqualsAndHashCode
     public static class Livre {
 
         @XmlElement(required = true)
         protected String titre;
         @XmlElement(required = true)
         protected Bibliotheque.Livre.Auteur auteur;
+        @EqualsAndHashCode.Exclude
         @XmlSchemaType(name = "unsignedInt")
         protected int id;
         @XmlElement(required = true)

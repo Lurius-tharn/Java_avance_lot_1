@@ -12,6 +12,9 @@
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <junit.version>5.8.2</junit.version>
+        <sonar.projectKey>Lurius-tharn_Java_avance_lot_1</sonar.projectKey>
+        <sonar.organization>Lurius-tharn</sonar.organization>
+        <sonar.host.url>https://sonarcloud.io</sonar.host.url>
     </properties>
 
     <dependencies>
@@ -40,6 +43,7 @@
             <artifactId>pdfbox</artifactId>
             <version>2.0.26</version>
         </dependency>
+
         <dependency>
             <groupId>com.dlsc.formsfx</groupId>
             <artifactId>formsfx-core</artifactId>
@@ -120,6 +124,11 @@
                     <source>19</source>
                     <target>19</target>
                 </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.sonarsource.scanner.maven</groupId>
+                <artifactId>sonar-maven-plugin</artifactId>
+                <version>3.8.0.2131</version>
             </plugin>
             <plugin>
                 <groupId>org.openjfx</groupId>

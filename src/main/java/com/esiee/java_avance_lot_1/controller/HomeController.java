@@ -323,7 +323,8 @@ public class HomeController implements Initializable {
         livre.setRangee(Short.parseShort(bookFieldValues.get(4)));
         livre.setImage(bookFieldValues.get(5));
         livre.setEtat(etatInput.isSelected());
-        livre.setId(livre.getId());
+//        if (menuConnecte.isSelected())
+//            livre.setId(tableXml.getItems().stream().filter(livre1 -> livre1.equals(livre) && !Objects.isNull(livre1.getId())).findFirst().get().getId());
 
         return livre;
     }
