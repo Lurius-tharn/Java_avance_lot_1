@@ -11,7 +11,6 @@ module com.esiee.java_avance_lot_1 {
     requires poi.ooxml;
     requires poi.ooxml.schemas;
     requires java.desktop;
-
     requires org.apache.pdfbox;
     requires lombok;
     opens com.esiee.java_avance_lot_1.vue to javafx.fxml;
