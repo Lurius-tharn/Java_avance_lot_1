@@ -5,7 +5,6 @@
 // Généré le : 2023.06.11 à 10:21:38 PM CEST
 //
 
-
 package com.esiee.java_avance_lot_1.model;
 
 import jakarta.xml.bind.annotation.*;
@@ -149,8 +148,7 @@ public class Bibliotheque {
             "colonne",
             "rangee",
             "image",
-            "etat",
-            "test"
+            "etat"
     })
     @EqualsAndHashCode
     @Getter
@@ -179,9 +177,6 @@ public class Bibliotheque {
         protected String image;
         @XmlElement(required = true)
         protected boolean etat;
-        @XmlElement(required = true)
-        protected String test;
-
 
         /**
          * <p>Classe Java pour anonymous complex type.

@@ -1,31 +1,45 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <bibliotheque>
     <livre>
-        <titre>XSD pour les nuls</titre>
+        <titre>aaa</titre>
         <auteur>
-            <nom>Dupond</nom>
-            <prenom>aaaa</prenom>
+            <nom>aa</nom>
+            <prenom>aa</prenom>
         </auteur>
         <id>0</id>
-        <presentation>Ce livre est une introduction au schema XSD</presentation>
-        <parution>2000</parution>
-        <colonne>5</colonne>
-        <rangee>2</rangee>
-        <image>https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81TYfUt0-qL.jpg</image>
+        <presentation>aaajvhfbhchbcbh</presentation>
+        <parution>227</parution>
+        <colonne>0</colonne>
+        <rangee>0</rangee>
+        <image></image>
         <etat>true</etat>
     </livre>
     <livre>
-        <titre>HarryPotter</titre>
+        <titre>AAAb</titre>
         <auteur>
-            <nom>Rowling</nom>
-            <prenom>aaa</prenom>
+            <nom>BBB</nom>
+            <prenom>CCC</prenom>
         </auteur>
-        <id>1</id>
-        <presentation>Ce livre est une introduction au schema XSD</presentation>
-        <parution>1996</parution>
-        <colonne>5</colonne>
-        <rangee>2</rangee>
-        <image>https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81TYfUt0-qL.jpg</image>
+        <id>0</id>
+        <presentation>DDD</presentation>
+        <parution>0</parution>
+        <colonne>0</colonne>
+        <rangee>0</rangee>
+        <image></image>
+        <etat>false</etat>
+    </livre>
+    <livre>
+        <titre>aehfbhaaa</titre>
+        <auteur>
+            <nom>baehfbh</nom>
+            <prenom>aefhba</prenom>
+        </auteur>
+        <id>0</id>
+        <presentation>ahalol</presentation>
+        <parution>0</parution>
+        <colonne>0</colonne>
+        <rangee>0</rangee>
+        <image>https://i.kym-cdn.com/photos/images/original/002/432/404/e14.jpg</image>
         <etat>true</etat>
     </livre>
     <livre>
@@ -34,12 +48,43 @@
             <nom>Paolini</nom>
             <prenom>Christopher</prenom>
         </auteur>
-        <id>2</id>
+        <id>0</id>
         <presentation>Ce livre est une introduction au schema XSD</presentation>
         <parution>2001</parution>
         <colonne>5</colonne>
         <rangee>2</rangee>
-        <image>https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81TYfUt0-qL.jpg</image>
+        <image>https://cdn3.emoji.gg/emojis/3513-huh.png</image>
+        <etat>false</etat>
+    </livre>
+    <livre>
+        <titre>HarryPotter</titre>
+        <auteur>
+            <nom>Rowling</nom>
+            <prenom>aaa</prenom>
+        </auteur>
+        <id>0</id>
+        <presentation>Ce livre est une introduction au schema BLARARAURARAGAG</presentation>
+        <parution>1996</parution>
+        <colonne>5</colonne>
+        <rangee>2</rangee>
+        <image>https://i.kym-cdn.com/photos/images/original/002/432/404/e14.jpg</image>
+        <etat>true</etat>
+    </livre>
+    <livre>
+        <titre>L'apprenti Assasin</titre>
+        <auteur>
+            <nom>Hobb</nom>
+            <prenom>Robin</prenom>
+        </auteur>
+        <id>0</id>
+        <presentation>Ce premier livre raconte les débuts de Fitz (son vrai nom étant FitzChevalerie, hérité de son
+            père, Chevalerie) comme bâtard, au château de Castelcerf où il commence son entraînement d'assassin, et se
+            termine par sa première mission qu'il finira au péril de sa vie.hbhbh
+        </presentation>
+        <parution>2001</parution>
+        <colonne>5</colonne>
+        <rangee>2</rangee>
+        <image>https://i.kym-cdn.com/photos/images/original/002/432/404/e14.jpg</image>
         <etat>false</etat>
     </livre>
     <livre>
@@ -48,8 +93,8 @@
             <nom>Anne</nom>
             <prenom>Robillard</prenom>
         </auteur>
-        <id>3</id>
-        <presentation>aaa Maintenant âgée de neuf ans, Kira désire plus que tout au monde devenir Écuyer. Mais pour la
+        <id>0</id>
+        <presentation>aejnnjfejaenfeafnjeanaaa Maintenant âgée de neuf ans, Kira désire plus que tout au monde devenir Écuyer. Mais pour la
             protéger de l'Empereur Noir, Wellan et le magicien Élund doivent refuser sa candidature. Décidant alors de
             prendre son destin en main, la fillette conjure un Chevalier mort depuis des centaines d'années afin qu'il
             lui apprenne le maniement des armes. Pendant ce temps, les dragons d'Amecareth font des percées surprenantes
@@ -62,63 +107,21 @@
         <parution>2001</parution>
         <colonne>5</colonne>
         <rangee>2</rangee>
-        <image>https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81TYfUt0-qL.jpg</image>
+        <image>https://i.kym-cdn.com/photos/images/original/002/432/404/e14.jpg</image>
         <etat>false</etat>
     </livre>
     <livre>
-        <titre>L'apprenti Assasin</titre>
+        <titre>XSD pour les nuls</titre>
         <auteur>
-            <nom>Hobb</nom>
-            <prenom>Robin</prenom>
+            <nom>Dupond</nom>
+            <prenom>aaaa</prenom>
         </auteur>
-        <id>4</id>
-        <presentation>Ce premier livre raconte les débuts de Fitz (son vrai nom étant FitzChevalerie, hérité de son
-            père, Chevalerie) comme bâtard, au château de Castelcerf où il commence son entraînement d'assassin, et se
-            termine par sa première mission qu'il finira au péril de sa vie.
-        </presentation>
-        <parution>2001</parution>
+        <id>0</id>
+        <presentation>Ce livre est une introduction au schema XSD</presentation>
+        <parution>2000</parution>
         <colonne>5</colonne>
         <rangee>2</rangee>
-        <image>https://m.media-amazon.com/images/W/IMAGERENDERING_521856-T1/images/I/81TYfUt0-qL.jpg</image>
-        <etat>false</etat>
-    </livre>
-    <livre>
-        <titre>AAA</titre>
-        <auteur>
-            <nom>BBB</nom>
-            <prenom>CCC</prenom>
-        </auteur>
-        <id>5</id>
-        <presentation>DDD</presentation>
-        <parution>0</parution>
-        <colonne>0</colonne>
-        <rangee>0</rangee>
-        <etat>false</etat>
-    </livre>
-    <livre>
-        <titre>aaa</titre>
-        <auteur>
-            <nom>aa</nom>
-            <prenom>aa</prenom>
-        </auteur>
-        <id>6</id>
-        <presentation>aaa</presentation>
-        <parution>227</parution>
-        <colonne>0</colonne>
-        <rangee>0</rangee>
-        <etat>true</etat>
-    </livre>
-    <livre>
-        <titre>aehfbh</titre>
-        <auteur>
-            <nom>baehfbh</nom>
-            <prenom>aefhba</prenom>
-        </auteur>
-        <id>7</id>
-        <presentation>aehfbh</presentation>
-        <parution>0</parution>
-        <colonne>0</colonne>
-        <rangee>0</rangee>
+        <image>https://i.kym-cdn.com/photos/images/original/002/432/404/e14.jpg</image>
         <etat>true</etat>
     </livre>
 </bibliotheque>

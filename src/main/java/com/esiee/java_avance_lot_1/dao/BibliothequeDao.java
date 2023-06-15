@@ -5,9 +5,9 @@ import com.esiee.java_avance_lot_1.model.Bibliotheque;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Properties;
 
 public class BibliothequeDao {
-
     private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/ja_library";
     private static final String DATABASE_USERNAME = "ja_Library_admin";
     private static final String DATABASE_PASSWORD = "ja_library";
@@ -85,17 +85,22 @@ public class BibliothequeDao {
         } catch (SQLException e) {
             printSQLException(e);
         } finally {
-            preparedStatement.close();
-            rs.close();
+            if(preparedStatement != null && rs != null){
+                try {
+                    preparedStatement.close();
+                    rs.close();
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         return allLivres;
-
     }
 
     public void insertBook(List<Bibliotheque.Livre> livres) throws SQLException {
 
-        livres.stream().forEach(livre -> {
+        livres.forEach(livre -> {
 
             try (Connection connection = DriverManager
                     .getConnection(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD)) {
@@ -154,7 +159,13 @@ public class BibliothequeDao {
         } catch (SQLException e) {
             printSQLException(e);
         } finally {
-            preparedStatement.close();
+            if(preparedStatement != null){
+                try {
+                    preparedStatement.close();
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
     public boolean checkBiblio(String nomBiblio) throws SQLException {
@@ -176,8 +187,14 @@ public class BibliothequeDao {
         } catch (SQLException e) {
             printSQLException(e);
         } finally {
-            preparedStatement.close();
-            rs.close();
+            if(preparedStatement != null && rs != null){
+                try {
+                    preparedStatement.close();
+                    rs.close();
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         return nomBiblioBase != null;
@@ -203,8 +220,14 @@ public class BibliothequeDao {
         } catch (SQLException e) {
             printSQLException(e);
         } finally {
-            preparedStatement.close();
-            rs.close();
+            if(preparedStatement != null && rs != null){
+                try {
+                    preparedStatement.close();
+                    rs.close();
+                } catch (NullPointerException e) {
+                    e.printStackTrace();
+                }
+            }
         }
 
         return idLivreBase != null;

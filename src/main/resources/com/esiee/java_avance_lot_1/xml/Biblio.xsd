@@ -24,8 +24,6 @@
                             <xs:element name="rangee" type="xs:unsignedByte"/>
                             <xs:element name="image" type="xs:string" nillable="true" minOccurs="0"/>
                             <xs:element name="etat" type="xs:boolean"/>
-                            <xs:element name="test" type="xs:string"/>
-
                         </xs:sequence>
                     </xs:complexType>
                 </xs:element>

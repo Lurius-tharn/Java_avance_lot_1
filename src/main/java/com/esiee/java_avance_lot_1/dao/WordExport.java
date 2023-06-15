@@ -282,13 +282,13 @@ public class WordExport {
         XWPFRun imageRun = imageParagraph.createRun();
 
         try {
-            int format = XWPFDocument.PICTURE_TYPE_JPEG;
+            int format = XWPFDocument.PICTURE_TYPE_PNG;
             int imageWidth = 300;
             int imageHeight = 400;
             String imageName = "Cover";
             String imageURL = livre.getImage();
             if(!imageURL.isEmpty()){
-                URL url = new URL(livre.getImage());
+                URL url = new URL(imageURL);
                 BufferedImage bufferedImage = ImageIO.read(url);
                 File tempFile = File.createTempFile("temp", ".png");
                 ImageIO.write(bufferedImage, "png", tempFile);
