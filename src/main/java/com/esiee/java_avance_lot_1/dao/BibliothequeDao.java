@@ -65,7 +65,20 @@ public class BibliothequeDao {
                 String image = rs.getString("image");
                 boolean etat = Boolean.parseBoolean(rs.getString("etat"));
 
-                Bibliotheque.Livre rowLivre = new Bibliotheque.Livre(id, titre, auteur, presentation, parution, colonne, rangee, image, etat);
+                Bibliotheque.Livre rowLivre = Bibliotheque
+                        .Livre
+                        .builder()
+                        .titre(titre)
+                        .etat(etat)
+                        .auteur(auteur)
+                        .colonne(colonne)
+                        .id(id)
+                        .image(image)
+                        .parution(parution)
+                        .presentation(presentation)
+                        .rangee(rangee)
+                        .build();
+
 
                 allLivres.add(rowLivre);
             }

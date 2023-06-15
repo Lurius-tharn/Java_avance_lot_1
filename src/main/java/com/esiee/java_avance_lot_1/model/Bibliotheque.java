@@ -9,9 +9,7 @@
 package com.esiee.java_avance_lot_1.model;
 
 import jakarta.xml.bind.annotation.*;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -151,13 +149,16 @@ public class Bibliotheque {
             "colonne",
             "rangee",
             "image",
-            "etat"
+            "etat",
+            "test"
     })
     @EqualsAndHashCode
     @Getter
     @Setter
+    @Builder
+    @AllArgsConstructor
+    @NoArgsConstructor
     public static class Livre {
-
 
         @XmlElement(required = true)
         protected String titre;
@@ -178,160 +179,8 @@ public class Bibliotheque {
         protected String image;
         @XmlElement(required = true)
         protected boolean etat;
-
-        public Livre() {
-            // Constructeur vide
-        }
-
-        public Livre(int id, String titre, com.esiee.java_avance_lot_1.model.Bibliotheque.Livre.Auteur auteur, String presentation, int parution, short colonne, short rangee, String image, boolean etat) {
-            this.id = id;
-            this.titre = titre;
-            this.auteur = auteur;
-            this.presentation = presentation;
-            this.parution = parution;
-            this.colonne = colonne;
-            this.rangee = rangee;
-            this.image = image;
-            this.etat = etat;
-        }
-
-        /**
-         * Obtient la valeur de la propriété titre.
-         *
-         * @return possible object is
-         * {@link String }
-         */
-        public String getTitre() {
-            return titre;
-        }
-
-        /**
-         * Définit la valeur de la propriété titre.
-         *
-         * @param value allowed object is
-         *              {@link String }
-         */
-        public void setTitre(String value) {
-            this.titre = value;
-        }
-
-        /**
-         * Obtient la valeur de la propriété auteur.
-         *
-         * @return possible object is
-         * {@link Bibliotheque.Livre.Auteur }
-         */
-        public Bibliotheque.Livre.Auteur getAuteur() {
-            return auteur;
-        }
-
-        /**
-         * Définit la valeur de la propriété auteur.
-         *
-         * @param value allowed object is
-         *              {@link Bibliotheque.Livre.Auteur }
-         */
-        public void setAuteur(Bibliotheque.Livre.Auteur value) {
-            this.auteur = value;
-        }
-
-        /**
-         * Obtient la valeur de la propriété id.
-         */
-        public int getId() {
-            return id;
-        }
-
-        /**
-         * Définit la valeur de la propriété id.
-         */
-        public void setId(int value) {
-            this.id = value;
-        }
-
-        /**
-         * Obtient la valeur de la propriété presentation.
-         *
-         * @return possible object is
-         * {@link String }
-         */
-        public String getPresentation() {
-            return presentation;
-        }
-
-        /**
-         * Définit la valeur de la propriété presentation.
-         *
-         * @param value allowed object is
-         *              {@link String }
-         */
-        public void setPresentation(String value) {
-            this.presentation = value;
-        }
-
-        /**
-         * Obtient la valeur de la propriété parution.
-         */
-        public int getParution() {
-            return parution;
-        }
-
-        /**
-         * Définit la valeur de la propriété parution.
-         */
-        public void setParution(int value) {
-            this.parution = value;
-        }
-
-        /**
-         * Obtient la valeur de la propriété colonne.
-         */
-        public short getColonne() {
-            return colonne;
-        }
-
-        /**
-         * Définit la valeur de la propriété colonne.
-         */
-        public void setColonne(short value) {
-            this.colonne = value;
-        }
-
-        /**
-         * Obtient la valeur de la propriété rangee.
-         */
-        public short getRangee() {
-            return rangee;
-        }
-
-        /**
-         * Définit la valeur de la propriété rangee.
-         */
-        public void setRangee(short value) {
-            this.rangee = value;
-        }
-
-        public String getImage() {
-            return image;
-        }
-
-        public void setImage(String value) {
-            this.image = value;
-        }
-
-        /**
-         * Obtient la valeur de la propriété etat.
-         */
-        public boolean isEtat() {
-            return etat;
-        }
-
-        /**
-         * Définit la valeur de la propriété etat.
-         */
-        public void setEtat(boolean value) {
-            this.etat = value;
-        }
+        @XmlElement(required = true)
+        protected String test;
 
 
         /**
@@ -357,6 +206,7 @@ public class Bibliotheque {
                 "nom",
                 "prenom"
         })
+        @Builder
         public static class Auteur {
 
             @XmlElement(required = true)

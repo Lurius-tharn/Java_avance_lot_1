@@ -18,12 +18,12 @@ jobs:
           java-version: '19'
           distribution: 'adopt'
       - name: Build with Maven
-        run: mvn -B package --file pom.xml
+        run: xvfb-run  mvn -B package --file pom.xml
       - name: Test with Maven
-        run: mvn test
+        run: xvfb-run  mvn test
       - name: Generate Javadoc
-        run: mvn javadoc:javadoc
+        run: xvfb-run  mvn javadoc:javadoc
       - name: Analyze with SonarCloud
-        run: mvn -B verify sonar:sonar -Dsonar.projectKey=Lurius-tharn_Java_avance_lot_1 -Dsonar.organization=lurius-tharn -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
+        run: xvfb-run  mvn -B verify sonar:sonar -Dsonar.projectKey=Lurius-tharn_Java_avance_lot_1 -Dsonar.organization=lurius-tharn -Dsonar.host.url=https://sonarcloud.io -Dsonar.login=${{ secrets.SONAR_TOKEN }}
       - name: Génération SBOM
-        run: mvn verify 
+        run: xvfb-run mvn verify
