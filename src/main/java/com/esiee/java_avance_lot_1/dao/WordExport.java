@@ -61,61 +61,60 @@ public class WordExport {
     // TODO : solution temporaire, a revoir avec PdfConverter
 
     public void createPdf(List<Bibliotheque.Livre> livres) throws IOException {
-        PDDocument pdfDocument = new PDDocument();
-        PDPageTree pages = pdfDocument.getPages();
-        XWPFDocument document = createWordContent(livres);
-        FileChooser fileChooser = new FileChooser();
+            PDDocument pdfDocument = new PDDocument();
+            PDPageTree pages = pdfDocument.getPages();
+            XWPFDocument document = createWordContent(livres);
+            FileChooser fileChooser = new FileChooser();
 
-        //Set extension filter for text files
-        FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Fichier pdf", "*.pdf");
-        fileChooser.getExtensionFilters().add(extFilter);
+            //Set extension filter for text files
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Fichier pdf", "*.pdf");
+            fileChooser.getExtensionFilters().add(extFilter);
 
 
-        File file = fileChooser.showSaveDialog(null);
-        for (XWPFParagraph paragraph : document.getParagraphs()) {
-            PDPage page = new PDPage();
-            pages.add(page);
+            File file = fileChooser.showSaveDialog(null);
+            for (XWPFParagraph paragraph : document.getParagraphs()) {
+                PDPage page = new PDPage();
+                pages.add(page);
 
-            PDPageContentStream contentStream = new PDPageContentStream(pdfDocument, page);
-            contentStream.setFont(PDType1Font.HELVETICA, 12);
+                PDPageContentStream contentStream = new PDPageContentStream(pdfDocument, page);
+                contentStream.setFont(PDType1Font.HELVETICA, 12);
 
-            float margin = 50;
-            float yStart = page.getMediaBox().getHeight() - margin;
-            float yPosition = yStart;
-            float lineHeight = 14;
-            List<String> lines = List.of(paragraph.getText().split("\n"));
+                float margin = 50;
+                float yStart = page.getMediaBox().getHeight() - margin;
+                float yPosition = yStart;
+                float lineHeight = 14;
+                List<String> lines = List.of(paragraph.getText().split("\n"));
 
-            for (String line : lines) {
-                if (yPosition < margin) {
+                for (String line : lines) {
+                    if (yPosition < margin) {
+                        contentStream.endText();
+                        contentStream.close();
+                        contentStream = new PDPageContentStream(pdfDocument, page);
+                        contentStream.setFont(PDType1Font.HELVETICA, 12);
+                        yPosition = yStart;
+                    }
+
+                    contentStream.beginText();
+                    contentStream.newLineAtOffset(margin, yPosition);
+                    contentStream.showText(line);
                     contentStream.endText();
-                    contentStream.close();
-                    contentStream = new PDPageContentStream(pdfDocument, page);
-                    contentStream.setFont(PDType1Font.HELVETICA, 12);
-                    yPosition = yStart;
+
+                    yPosition -= lineHeight;
                 }
 
-                contentStream.beginText();
-                contentStream.newLineAtOffset(margin, yPosition);
-                contentStream.showText(line);
-                contentStream.endText();
-
-                yPosition -= lineHeight;
+                contentStream.close();
             }
 
-            contentStream.close();
-        }
 
+            if (file != null) {
+                FileOutputStream fos = new FileOutputStream(file);
+                document.write(fos);
+                pdfDocument.save(fos);
+                document.close();
+                pdfDocument.close();
+                fos.close();
 
-        if (file != null) {
-            FileOutputStream fos = new FileOutputStream(file);
-            document.write(fos);
-            pdfDocument.save(fos);
-            document.close();
-            pdfDocument.close();
-            fos.close();
-
-        }
-
+            }
     }
 
     public void createWord(List<Bibliotheque.Livre> livres) throws IOException {
@@ -140,14 +139,15 @@ public class WordExport {
 
     private XWPFDocument createWordContent(List<Bibliotheque.Livre> livres) {
         XWPFDocument doc = new XWPFDocument();
+        String recapEmp = "Récapitulatifs emprunts";
+        String pageGarde = "Page de garde";
+        String presLivres = "Présentation des livres";
 
         doc.createTOC();
-        addCustomHeadingStyle(doc, "Page de garde", 1);
-        addCustomHeadingStyle(doc, "Présentation des livres", 1);
-        livres.stream().forEach(livre -> {
-            addCustomHeadingStyle(doc, livre.getTitre(), 2);
-        });
-        addCustomHeadingStyle(doc, "Récapitulatifs emprunts", 1);
+        addCustomHeadingStyle(doc, pageGarde, 1);
+        addCustomHeadingStyle(doc, presLivres, 1);
+        livres.forEach(livre -> addCustomHeadingStyle(doc, livre.getTitre(), 2));
+        addCustomHeadingStyle(doc, recapEmp, 1);
 
 
         AtomicReference<XWPFParagraph> paragraph = new AtomicReference<>(doc.createParagraph());
@@ -162,26 +162,23 @@ public class WordExport {
         AtomicReference<XWPFRun> pageGardeRun = new AtomicReference<>(paragraph.get().createRun());
         paragraph.set(doc.createParagraph());
         pageGardeRun.set(paragraph.get().createRun());
-        pageGardeRun.get().setText("Page de garde");
-        paragraph.get().setStyle("Page de garde");
+        pageGardeRun.get().setText(pageGarde);
+        paragraph.get().setStyle(pageGarde);
 
 
         AtomicReference<XWPFRun> run = new AtomicReference<>(paragraph.get().createRun());
         paragraph.set(doc.createParagraph());
         run.set(paragraph.get().createRun());
-        run.get().setText("Présentation des livres");
-        paragraph.get().setStyle("Présentation des livres");
+        run.get().setText(presLivres);
+        paragraph.get().setStyle(presLivres);
 
-        livres.forEach(livre -> {
-
-            createBookContent(doc, livre);
-        });
+        livres.forEach(livre -> createBookContent(doc, livre));
 
         AtomicReference<XWPFRun> recapRun = new AtomicReference<>(paragraph.get().createRun());
         paragraph.set(doc.createParagraph());
         recapRun.set(paragraph.get().createRun());
-        recapRun.get().setText("Récapitulatifs emprunts");
-        paragraph.get().setStyle("Récapitulatifs emprunts");
+        recapRun.get().setText(recapEmp);
+        paragraph.get().setStyle(recapEmp);
 
         // Création du tableau
         XWPFTable table = doc.createTable(livres.size() + 1, 4);
@@ -289,18 +286,19 @@ public class WordExport {
             int imageWidth = 300;
             int imageHeight = 400;
             String imageName = "Cover";
-            URL url = new URL(livre.getImage());
-            BufferedImage bufferedImage = ImageIO.read(url);
-            File tempFile = File.createTempFile("temp", ".png");
-            ImageIO.write(bufferedImage, "png", tempFile);
-            FileInputStream fis = new FileInputStream(tempFile);
+            String imageURL = livre.getImage();
+            if(!imageURL.isEmpty()){
+                URL url = new URL(livre.getImage());
+                BufferedImage bufferedImage = ImageIO.read(url);
+                File tempFile = File.createTempFile("temp", ".png");
+                ImageIO.write(bufferedImage, "png", tempFile);
+                FileInputStream fis = new FileInputStream(tempFile);
 
-            imageRun.addPicture(fis, format, imageName, imageWidth, imageHeight);
-            fis.close();
+                imageRun.addPicture(fis, format, imageName, imageWidth, imageHeight);
+                fis.close();
+            }
 
-        } catch (IOException e) {
-            e.printStackTrace();
-        } catch (InvalidFormatException e) {
+        } catch (IOException | InvalidFormatException e) {
             e.printStackTrace();
         }
     }

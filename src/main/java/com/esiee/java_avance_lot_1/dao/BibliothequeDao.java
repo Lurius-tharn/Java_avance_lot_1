@@ -4,7 +4,6 @@ import com.esiee.java_avance_lot_1.model.Bibliotheque;
 
 import java.sql.*;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 
 public class BibliothequeDao {
@@ -42,22 +41,25 @@ public class BibliothequeDao {
 
     public List<Bibliotheque.Livre> selectBook() throws SQLException {
 
-        List<Bibliotheque.Livre> allLivres = new ArrayList<Bibliotheque.Livre>();
+        List<Bibliotheque.Livre> allLivres = new ArrayList<>();
+
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
 
         try (Connection connection = DriverManager
                 .getConnection(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD)) {
 
-            PreparedStatement preparedStatement = connection.prepareStatement(SELECT_QUERY);
+            preparedStatement = connection.prepareStatement(SELECT_QUERY);
             System.out.println(preparedStatement);
-            ResultSet rs = preparedStatement.executeQuery();
+            rs = preparedStatement.executeQuery();
 
             while(rs.next()){
-                Integer id = rs.getInt("idLivre");
+                int id = rs.getInt("idLivre");
                 String titre = rs.getString("titre");
                 String rsAuteur = rs.getString("auteur");
                 Bibliotheque.Livre.Auteur auteur = new Bibliotheque.Livre.Auteur(rsAuteur.split(" ")[0], rsAuteur.split(" ")[1]);
                 String presentation = rs.getString("presentation");
-                Integer parution = rs.getInt("parution");
+                int parution = rs.getInt("parution");
                 short colonne = rs.getShort("colonne");
                 short rangee = rs.getShort("rangee");
                 String image = rs.getString("image");
@@ -67,12 +69,11 @@ public class BibliothequeDao {
 
                 allLivres.add(rowLivre);
             }
-
-            preparedStatement.close();
-            rs.close();
-
         } catch (SQLException e) {
             printSQLException(e);
+        } finally {
+            preparedStatement.close();
+            rs.close();
         }
 
         return allLivres;
@@ -120,78 +121,79 @@ public class BibliothequeDao {
                     preparedStatement.close();
                 }
 
-
             } catch (SQLException e) {
                 printSQLException(e);
             }
         });
     }
     public void insertBiblio(String nomBiblio) throws SQLException {
+        PreparedStatement preparedStatement = null;
 
-            try (Connection connection = DriverManager
-                    .getConnection(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD)) {
-
-                PreparedStatement preparedStatement = connection.prepareStatement(BIBLIO_CREATE_QUERY);
-
-                preparedStatement.setString(1, nomBiblio);
-                preparedStatement.setInt(2, 0);
-
-                preparedStatement.executeUpdate();
-
-                preparedStatement.close();
-            } catch (SQLException e) {
-                printSQLException(e);
-            }
-    }
-    public boolean checkBiblio(String nomBiblio) throws SQLException {
-        String nomBiblioBase = "";
         try (Connection connection = DriverManager
                 .getConnection(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD)) {
 
-            PreparedStatement preparedStatement = connection.prepareStatement(BIBLIO_CHECK_QUERY);
+            preparedStatement = connection.prepareStatement(BIBLIO_CREATE_QUERY);
 
             preparedStatement.setString(1, nomBiblio);
-            ResultSet rs = preparedStatement.executeQuery();
+            preparedStatement.setInt(2, 0);
+            preparedStatement.executeUpdate();
+
+        } catch (SQLException e) {
+            printSQLException(e);
+        } finally {
+            preparedStatement.close();
+        }
+    }
+    public boolean checkBiblio(String nomBiblio) throws SQLException {
+        String nomBiblioBase = "";
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
+        try (Connection connection = DriverManager
+                .getConnection(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD)) {
+
+            preparedStatement = connection.prepareStatement(BIBLIO_CHECK_QUERY);
+
+            preparedStatement.setString(1, nomBiblio);
+            rs = preparedStatement.executeQuery();
 
             nomBiblioBase = rs.getString(1);
 
-            preparedStatement.close();
-            rs.close();
+
         } catch (SQLException e) {
             printSQLException(e);
+        } finally {
+            preparedStatement.close();
+            rs.close();
         }
 
-        if (nomBiblioBase == null) {
-            return false;
-        }
-        return true;
+        return nomBiblioBase != null;
     }
 
     public boolean checkIfLivreExists(Bibliotheque.Livre livre) throws SQLException {
         Integer idLivreBase = null;
+        PreparedStatement preparedStatement = null;
+        ResultSet rs = null;
+
         try (Connection connection = DriverManager
                 .getConnection(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD)) {
 
-            PreparedStatement preparedStatement = connection.prepareStatement(LIVRE_CHECK_QUERY);
+            preparedStatement = connection.prepareStatement(LIVRE_CHECK_QUERY);
 
             preparedStatement.setInt(1, livre.getId());
-            ResultSet rs = preparedStatement.executeQuery();
+            rs = preparedStatement.executeQuery();
 
             if(rs.next()){
                 idLivreBase = rs.getInt(1);
-            } else {
-                idLivreBase = null;
             }
 
-            preparedStatement.close();
-            rs.close();
         } catch (SQLException e) {
             printSQLException(e);
+        } finally {
+            preparedStatement.close();
+            rs.close();
         }
 
-        if (idLivreBase == null) {
-            return false;
-        }
-        return true;
+        return idLivreBase != null;
     }
 }

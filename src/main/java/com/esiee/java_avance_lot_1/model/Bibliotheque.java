@@ -95,7 +95,7 @@ public class Bibliotheque {
      */
     public List<Bibliotheque.Livre> getLivre() {
         if (livre == null) {
-            livre = new ArrayList<Bibliotheque.Livre>();
+            livre = new ArrayList<>();
         }
         return this.livre;
     }

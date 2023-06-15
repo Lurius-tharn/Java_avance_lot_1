@@ -1,6 +1,5 @@
 package com.esiee.java_avance_lot_1.vue;
 
-import com.esiee.java_avance_lot_1.controller.HomeController;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;

@@ -30,11 +30,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
-import java.util.stream.Collectors;
 
 public class HomeController implements Initializable {
 
-    public static File selectedFile;
+    private static File selectedFile;
     @FXML
     public MenuItem exportAsPdfButton;
     @FXML
@@ -87,8 +86,7 @@ public class HomeController implements Initializable {
     @FXML
     private CheckBox etatInput;
     @FXML
-    private AnchorPane FormPane;
-    private ObservableList<Bibliotheque.Livre> bibliothequeList;
+    private AnchorPane formPane;
     @FXML
     private Button add;
     @FXML
@@ -113,95 +111,100 @@ public class HomeController implements Initializable {
 
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
-        this.LivreTableMapper();
+        this.livreTableMapper();
         disableForm(true);
-        menuOpen.setOnAction(actionEvent -> {
-            openMenu();
-        });
-        add.setOnAction(actionEvent -> {
-            addBook();
-        });
 
-        delete.setOnAction(actionEvent -> {
-            if (!Objects.isNull(tableXml.getSelectionModel().getSelectedItem()))
-                tableXml.getItems().remove(tableXml.getSelectionModel().getSelectedIndex());
-        });
+        menuOpen.setOnAction(actionEvent -> openMenu());
 
-        validerButton.setOnAction(actionEvent -> {
-            ValidateForm();
-        });
+        add.setOnAction(actionEvent -> addBook());
+
+        delete.setOnAction(actionEvent -> deleteBook());
+
+        validerButton.setOnAction(actionEvent -> validateForm());
+
         menuClose.setOnAction(actionEvent -> Platform.exit());
 
-        menuInfos.setOnAction(event -> {
-            Stage stage = new Stage();
-            FXMLLoader fxmlLoader = new FXMLLoader(InfosApplication.class.getResource("infos.fxml"));
-            Scene scene;
+        menuInfos.setOnAction(event -> openInfos());
+
+        tableXml.setOnMouseClicked(event -> mapFormToSelectedBook());
+
+        saveDefault.setOnAction(actionEvent -> saveDef());
+
+        saveAs.setOnAction(actionEvent -> saveAsXml());
+
+        menuConnecte.setOnAction(actionEvent -> handleModeConnecte());
+
+        exportAsWordButton.setOnAction(actionEvent -> exportAsWord());
+
+        exportAsPdfButton.setOnAction(actionEvent -> exportAsPDF());
+    }
+
+    private void exportAsPDF() {
+        WordExport wordExport = new WordExport();
+        try {
+            wordExport.createPdf(tableXml.getItems());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void exportAsWord() {
+        WordExport wordExport = new WordExport();
+        try {
+            wordExport.createWord(tableXml.getItems());
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    private void handleModeConnecte() {
+        currentFileName.setText("Base de donnée");
+        saveDefault.setVisible(true);
+        exportAsPdfButton.setVisible(true);
+        exportAsWordButton.setVisible(true);
+        if (menuConnecte.isSelected()) {
+            disableForm(true);
+            BibliothequeDao bibliothequeDao = new BibliothequeDao();
             try {
-                scene = new Scene(fxmlLoader.load());
-            } catch (IOException e) {
+                List<Bibliotheque.Livre> allLivres = bibliothequeDao.selectBook();
+                tableXml.setItems(FXCollections.observableList(allLivres));
+            } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
-            stage.setTitle("Infos");
-            stage.setScene(scene);
-            stage.show();
-        });
+        } else {
+            tableXml.setItems(null);
+            disableForm(true);
+            currentFileName.setText("");
+        }
+    }
 
-        tableXml.setOnMouseClicked(event -> {
-            Bibliotheque.Livre livre = tableXml.getSelectionModel().getSelectedItem();
-            if (!Objects.isNull(livre)) {
-                disableForm(false);
-                LivreFormMapper(livre);
-            } else {
-                disableForm(true);
-            }
+    private void mapFormToSelectedBook() {
+        Bibliotheque.Livre livre = tableXml.getSelectionModel().getSelectedItem();
+        if (!Objects.isNull(livre)) {
+            disableForm(false);
+            livreFormMapper(livre);
+        } else {
+            disableForm(true);
+        }
+    }
 
+    private static void openInfos() {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(InfosApplication.class.getResource("infos.fxml"));
+        Scene scene;
+        try {
+            scene = new Scene(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setTitle("Infos");
+        stage.setScene(scene);
+        stage.show();
+    }
 
-        });
-
-        saveDefault.setOnAction(actionEvent -> {
-            saveDef();
-        });
-
-        saveAs.setOnAction(actionEvent -> {
-            saveAsXml();
-
-        });
-
-        menuConnecte.setOnAction(actionEvent -> {
-            currentFileName.setText("Base de donnée");
-            saveDefault.setVisible(true);
-            exportAsPdfButton.setVisible(true);
-            exportAsWordButton.setVisible(true);
-            if (menuConnecte.isSelected()) {
-                disableForm(false);
-                BibliothequeDao bibliothequeDao = new BibliothequeDao();
-                try {
-                    List<Bibliotheque.Livre> allLivres = bibliothequeDao.selectBook();
-                    tableXml.setItems(FXCollections.observableList(allLivres));
-                } catch (SQLException e) {
-                    throw new RuntimeException(e);
-                }
-            } else {
-                tableXml.setItems(null);
-                disableForm(true);
-            }
-        });
-        exportAsWordButton.setOnAction(actionEvent -> {
-            WordExport wordExport = new WordExport();
-            try {
-                wordExport.createWord(tableXml.getItems());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
-        exportAsPdfButton.setOnAction(actionEvent -> {
-            WordExport wordExport = new WordExport();
-            try {
-                wordExport.createPdf(tableXml.getItems());
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        });
+    private void deleteBook() {
+        if (!Objects.isNull(tableXml.getSelectionModel().getSelectedItem()))
+            tableXml.getItems().remove(tableXml.getSelectionModel().getSelectedIndex());
     }
 
     public void saveDef() {
@@ -244,23 +247,21 @@ public class HomeController implements Initializable {
 
             try {
                 XSDUnmarshaller.enregistrerBibliotheque(bibliotheque, selectedFile);
-            } catch (JAXBException e) {
-                throw new RuntimeException(e);
-            } catch (FileNotFoundException e) {
+            } catch (JAXBException | FileNotFoundException e) {
                 throw new RuntimeException(e);
             }
         }
     }
 
-    private void ValidateForm() {
-        List<TextField> textFields = FormPane.getChildren().stream()
+    private void validateForm() {
+        List<TextField> textFields = formPane.getChildren().stream()
                 .filter(node -> node instanceof TextField)
                 .map(node -> (TextField) node)
-                .collect(Collectors.toList());
+                .toList();
 
         List<String> bookFieldValues = textFields.stream()
                 .map(TextField::getText)
-                .collect(Collectors.toList());
+                .toList();
 
         Bibliotheque.Livre currentBook = tableXml.getSelectionModel().getSelectedItem();
         Bibliotheque.Livre newBook = newBookMapper(bookFieldValues);
@@ -286,7 +287,7 @@ public class HomeController implements Initializable {
         livre.setEtat(false);
         tableXml.getItems().add(livre);
         tableXml.getSelectionModel().select(livre);
-        LivreFormMapper(livre);
+        livreFormMapper(livre);
     }
 
     private void openMenu() {
@@ -298,7 +299,7 @@ public class HomeController implements Initializable {
         if (selectedFile != null) {
             try {
                 bibliotheque = XSDUnmarshaller.lireBibliotheque(selectedFile);
-                bibliothequeList = FXCollections.observableList(bibliotheque.getLivre());
+                ObservableList<Bibliotheque.Livre> bibliothequeList = FXCollections.observableList(bibliotheque.getLivre());
                 tableXml.setItems(bibliothequeList);
                 currentFileName.setText(selectedFile.getName());
                 saveDefault.setVisible(true);
@@ -324,8 +325,7 @@ public class HomeController implements Initializable {
         livre.setRangee(Short.parseShort(bookFieldValues.get(4)));
         livre.setImage(bookFieldValues.get(5));
         livre.setEtat(etatInput.isSelected());
-//        if (menuConnecte.isSelected())
-//            livre.setId(tableXml.getItems().stream().filter(livre1 -> livre1.equals(livre) && !Objects.isNull(livre1.getId())).findFirst().get().getId());
+
         return livre;
     }
 
@@ -335,7 +335,7 @@ public class HomeController implements Initializable {
      * @param disable
      */
     private void disableForm(boolean disable) {
-        FormPane.getChildren().stream().forEach(node -> node.setDisable(disable));
+        formPane.getChildren().forEach(node -> node.setDisable(disable));
     }
 
     /**
@@ -343,7 +343,7 @@ public class HomeController implements Initializable {
      *
      * @param livre
      */
-    private void LivreFormMapper(Bibliotheque.Livre livre) {
+    private void livreFormMapper(Bibliotheque.Livre livre) {
         titleInput.setText(livre.getTitre());
         authorInput.setText(livre.getAuteur().getNomPrenom());
         presentationInput.setText(livre.getPresentation());
@@ -351,7 +351,7 @@ public class HomeController implements Initializable {
         columnInput.setText(String.valueOf(livre.getColonne()));
         rangeInput.setText(String.valueOf(livre.getRangee()));
         imageInput.setText(livre.getImage());
-        if (!Objects.isNull(imageInput.getText())) {
+        if (!Objects.isNull(imageInput.getText()) && !imageInput.getText().isEmpty()) {
             imageView.setImage(new Image(livre.getImage()));
         } else {
             imageView.setImage(null);
@@ -363,7 +363,7 @@ public class HomeController implements Initializable {
      * Permet de définir quelle attribut de l'objet Livre correspond à quelle
      * Colonne du TableView
      */
-    private void LivreTableMapper() {
+    private void livreTableMapper() {
         title.setCellValueFactory(new PropertyValueFactory<>("Titre"));
         author.setCellValueFactory(new PropertyValueFactory<>("Auteur"));
         presentation.setCellValueFactory(new PropertyValueFactory<>("Presentation"));
