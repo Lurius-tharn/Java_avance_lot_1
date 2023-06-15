@@ -5,10 +5,9 @@ import com.esiee.java_avance_lot_1.model.Bibliotheque;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Properties;
 
 public class BibliothequeDao {
-    private static final String DATABASE_URL = "jdbc:mysql://localhost:3306/ja_library";
+
     private static final String DATABASE_USERNAME = "ja_Library_admin";
     private static final String DATABASE_PASSWORD = "ja_library";
 
@@ -22,6 +21,34 @@ public class BibliothequeDao {
     private static final String BIBLIO_CREATE_QUERY = "INSERT INTO ja_library.bibliothéque(idBibliothéque, nomBibliothéque) VALUES (?, ?)";
 
     private static final String LIVRE_CHECK_QUERY = "SELECT * FROM ja_library.livre WHERE idLivre = ?";
+
+    private static final String LIVRE_CREATE_SCHEMA = "CREATE schema JA_LIBRARY";
+
+
+    private static final String LIVRE_CREATE_TABLE = "create table IF NOT EXISTS LIVRE (idLivre int auto_increment primary key, titre MEDIUMTEXT null, auteur MEDIUMTEXT null, presentation MEDIUMTEXT null, parution int null, colonne varchar(45) null, rangee varchar(45) null, image MEDIUMTEXT null, etat varchar(10) default 'false')";
+    private static String DATABASE_URL = "jdbc:mysql://localhost:3306/ja_library";
+
+    public static void setDatabaseUrl(String url) {
+        DATABASE_URL = url;
+    }
+
+    public static void createDatabaseTable() throws SQLException {
+
+        try (Connection connection = DriverManager
+                .getConnection(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD)) {
+
+            Statement stmt = connection.createStatement();
+            stmt.executeUpdate(LIVRE_CREATE_SCHEMA);
+            stmt.close();
+
+            Statement stmt2 = connection.createStatement();
+
+            stmt2.executeUpdate(LIVRE_CREATE_TABLE);
+            stmt.close();
+
+
+        }
+    }
 
     public static void printSQLException(SQLException ex) {
         for (Throwable e : ex) {
@@ -53,7 +80,7 @@ public class BibliothequeDao {
             System.out.println(preparedStatement);
             rs = preparedStatement.executeQuery();
 
-            while(rs.next()){
+            while (rs.next()) {
                 int id = rs.getInt("idLivre");
                 String titre = rs.getString("titre");
                 String rsAuteur = rs.getString("auteur");
@@ -85,7 +112,7 @@ public class BibliothequeDao {
         } catch (SQLException e) {
             printSQLException(e);
         } finally {
-            if(preparedStatement != null && rs != null){
+            if (preparedStatement != null && rs != null) {
                 try {
                     preparedStatement.close();
                     rs.close();
@@ -105,7 +132,7 @@ public class BibliothequeDao {
             try (Connection connection = DriverManager
                     .getConnection(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD)) {
 
-                if(checkIfLivreExists(livre)){
+                if (checkIfLivreExists(livre)) {
                     PreparedStatement preparedStatement = connection.prepareStatement(UPDATE_QUERY);
 
                     preparedStatement.setString(1, livre.getTitre());
@@ -144,6 +171,7 @@ public class BibliothequeDao {
             }
         });
     }
+
     public void insertBiblio(String nomBiblio) throws SQLException {
         PreparedStatement preparedStatement = null;
 
@@ -159,7 +187,7 @@ public class BibliothequeDao {
         } catch (SQLException e) {
             printSQLException(e);
         } finally {
-            if(preparedStatement != null){
+            if (preparedStatement != null) {
                 try {
                     preparedStatement.close();
                 } catch (NullPointerException e) {
@@ -168,6 +196,7 @@ public class BibliothequeDao {
             }
         }
     }
+
     public boolean checkBiblio(String nomBiblio) throws SQLException {
         String nomBiblioBase = "";
         PreparedStatement preparedStatement = null;
@@ -187,7 +216,7 @@ public class BibliothequeDao {
         } catch (SQLException e) {
             printSQLException(e);
         } finally {
-            if(preparedStatement != null && rs != null){
+            if (preparedStatement != null && rs != null) {
                 try {
                     preparedStatement.close();
                     rs.close();
@@ -213,14 +242,14 @@ public class BibliothequeDao {
             preparedStatement.setInt(1, livre.getId());
             rs = preparedStatement.executeQuery();
 
-            if(rs.next()){
+            if (rs.next()) {
                 idLivreBase = rs.getInt(1);
             }
 
         } catch (SQLException e) {
             printSQLException(e);
         } finally {
-            if(preparedStatement != null && rs != null){
+            if (preparedStatement != null && rs != null) {
                 try {
                     preparedStatement.close();
                     rs.close();
