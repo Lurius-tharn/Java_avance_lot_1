@@ -173,10 +173,6 @@
                 <configuration>
                     <source>19</source>
                     <target>19</target>
-                    <annotationProcessors>
-                        <annotationProcessor>lombok.launch.AnnotationProcessorHider$AnnotationProcessor
-                        </annotationProcessor>
-                    </annotationProcessors>
                 </configuration>
             </plugin>
             <plugin>
