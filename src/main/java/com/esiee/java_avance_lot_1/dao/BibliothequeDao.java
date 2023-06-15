@@ -14,7 +14,7 @@ public class BibliothequeDao {
     private static final String INSERT_QUERY = "INSERT INTO ja_library.livre (idLivre, titre, auteur, presentation, parution, colonne, rangee, image, etat) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
     private static final String UPDATE_QUERY = "UPDATE ja_library.livre SET titre=?, auteur=?, presentation=?, parution=?, colonne=?, rangee=?, image=?, etat=? WHERE idLivre=?";
-    private static final String SELECT_QUERY = "SELECT * FROM livre";
+    private static final String SELECT_QUERY = "SELECT * FROM ja_library.livre";
 
     private static final String BIBLIO_CHECK_QUERY = "SELECT nomBibliotheque from bibliothéque where nomBibliotheque = ?";
 
@@ -22,10 +22,10 @@ public class BibliothequeDao {
 
     private static final String LIVRE_CHECK_QUERY = "SELECT * FROM ja_library.livre WHERE idLivre = ?";
 
-    private static final String LIVRE_CREATE_SCHEMA = "CREATE schema JA_LIBRARY";
+    private static final String LIVRE_CREATE_SCHEMA = "CREATE schema ja_library";
 
 
-    private static final String LIVRE_CREATE_TABLE = "create table IF NOT EXISTS LIVRE (idLivre int auto_increment primary key, titre MEDIUMTEXT null, auteur MEDIUMTEXT null, presentation MEDIUMTEXT null, parution int null, colonne varchar(45) null, rangee varchar(45) null, image MEDIUMTEXT null, etat varchar(10) default 'false')";
+    private static final String LIVRE_CREATE_TABLE = "create table IF NOT EXISTS ja_library.livre (idLivre int auto_increment primary key, titre MEDIUMTEXT null, auteur MEDIUMTEXT null, presentation MEDIUMTEXT null, parution int null, colonne varchar(45) null, rangee varchar(45) null, image MEDIUMTEXT null, etat varchar(10) default 'false')";
     private static String DATABASE_URL = "jdbc:mysql://localhost:3306/ja_library";
 
     public static void setDatabaseUrl(String url) {
@@ -39,11 +39,8 @@ public class BibliothequeDao {
 
             Statement stmt = connection.createStatement();
             stmt.executeUpdate(LIVRE_CREATE_SCHEMA);
-            stmt.close();
 
-            Statement stmt2 = connection.createStatement();
-
-            stmt2.executeUpdate(LIVRE_CREATE_TABLE);
+            stmt.executeUpdate(LIVRE_CREATE_TABLE);
             stmt.close();
 
 
@@ -125,7 +122,7 @@ public class BibliothequeDao {
         return allLivres;
     }
 
-    public void insertBook(List<Bibliotheque.Livre> livres) throws SQLException {
+    public void insertOrUpdateBook(List<Bibliotheque.Livre> livres) throws SQLException {
 
         livres.forEach(livre -> {
 

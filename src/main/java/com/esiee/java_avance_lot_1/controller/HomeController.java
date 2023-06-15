@@ -101,6 +101,20 @@ public class HomeController implements Initializable {
     private Label currentFileName;
     private Bibliotheque bibliotheque;
 
+    private static void openInfos() {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(InfosApplication.class.getResource("infos.fxml"));
+        Scene scene;
+        try {
+            scene = new Scene(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setTitle("Infos");
+        stage.setScene(scene);
+        stage.show();
+    }
+
     /**
      * Permet de définir des actions/Comportements dès l'instanciation
      * de la classe FormController
@@ -188,20 +202,6 @@ public class HomeController implements Initializable {
         }
     }
 
-    private static void openInfos() {
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(InfosApplication.class.getResource("infos.fxml"));
-        Scene scene;
-        try {
-            scene = new Scene(fxmlLoader.load());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        stage.setTitle("Infos");
-        stage.setScene(scene);
-        stage.show();
-    }
-
     private void deleteBook() {
         if (!Objects.isNull(tableXml.getSelectionModel().getSelectedItem()))
             tableXml.getItems().remove(tableXml.getSelectionModel().getSelectedIndex());
@@ -214,7 +214,7 @@ public class HomeController implements Initializable {
 
         if (menuConnecte.isSelected()) {
             try {
-                bibliothequeDao.insertBook(tableXml.getItems());
+                bibliothequeDao.insertOrUpdateBook(tableXml.getItems());
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }

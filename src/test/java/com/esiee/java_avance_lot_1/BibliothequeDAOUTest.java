@@ -3,10 +3,7 @@ package com.esiee.java_avance_lot_1;
 
 import com.esiee.java_avance_lot_1.dao.BibliothequeDao;
 import com.esiee.java_avance_lot_1.model.Bibliotheque;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.mockito.InjectMocks;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -27,11 +24,40 @@ public class BibliothequeDAOUTest {
 //        ClassLoader loader = Thread.currentThread().getContextClassLoader();
 //        InputStream stream = loader.getResourceAsStream("../../../config.properties");
 //        prop.load(stream);
-        BibliothequeDao.setDatabaseUrl("jdbc:h2:mem:ja_library;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE");
+        BibliothequeDao.setDatabaseUrl("jdbc:h2:mem:ja_library;DB_CLOSE_DELAY=-1;DB_CLOSE_ON_EXIT=FALSE;DATABASE_TO_UPPER=false");
         BibliothequeDao.createDatabaseTable();
 
     }
 
+    @Test
+    @DisplayName("devrait mettre a jour des livres")
+    void should_update_book() throws SQLException {
+        List<Bibliotheque.Livre> livres = List.of(Bibliotheque.Livre
+                .builder()
+                .titre("titre")
+                .etat(true)
+                .auteur(Bibliotheque.Livre.Auteur
+                        .builder()
+                        .nom("Robillard")
+                        .prenom("Anne")
+                        .build())
+                .build());
+
+        bibliothequeDaoMock.insertOrUpdateBook(livres);
+
+
+        List<Bibliotheque.Livre> livresDatabase = bibliothequeDaoMock.selectBook();
+        String old = livresDatabase.get(0).getTitre();
+
+        livresDatabase.get(0).setTitre("Nouveau titre");
+        bibliothequeDaoMock.insertOrUpdateBook(livresDatabase);
+
+        List<Bibliotheque.Livre> livresDatabaseUp = bibliothequeDaoMock.selectBook();
+
+        Assertions.assertNotEquals(livresDatabaseUp.get(0).getTitre(), old);
+
+
+    }
 
     @Test
     @DisplayName("devrait inserer une liste de livres")
@@ -48,7 +74,15 @@ public class BibliothequeDAOUTest {
                         .build())
                 .build());
 
-        bibliothequeDaoMock.insertBook(livres);
+        bibliothequeDaoMock.insertOrUpdateBook(livres);
+
+
+        List<Bibliotheque.Livre> livresDatabase = bibliothequeDaoMock.selectBook();
+
+        Assertions.assertEquals(livresDatabase.size(), 1);
+
 
     }
+
+
 }
