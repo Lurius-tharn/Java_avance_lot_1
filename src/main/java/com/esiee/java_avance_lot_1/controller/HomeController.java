@@ -33,6 +33,7 @@ import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
 
+    public static boolean testEnabled = false;
     private static File selectedFile;
     @FXML
     public MenuItem exportAsPdfButton;
@@ -113,6 +114,15 @@ public class HomeController implements Initializable {
         stage.setTitle("Infos");
         stage.setScene(scene);
         stage.show();
+    }
+
+    public static File getSelectedFile() {
+        return selectedFile;
+    }
+
+    // Test method
+    public static void setSelectedFile(File file) {
+        selectedFile = file;
     }
 
     /**
@@ -290,12 +300,17 @@ public class HomeController implements Initializable {
         livreFormMapper(livre);
     }
 
-    private void openMenu() {
+    public void openMenu() {
         menuConnecte.setSelected(false);
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Sélectionner le fichier XML");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
-        selectedFile = fileChooser.showOpenDialog(null);
+
+        if (!testEnabled) {
+            fileChooser.setTitle("Sélectionner le fichier XML");
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
+            selectedFile = fileChooser.showOpenDialog(null);
+        }
+
+
         if (selectedFile != null) {
             try {
                 bibliotheque = XSDUnmarshaller.lireBibliotheque(selectedFile);
@@ -358,6 +373,7 @@ public class HomeController implements Initializable {
         }
         etatInput.setSelected(livre.isEtat());
     }
+
 
     /**
      * Permet de définir quelle attribut de l'objet Livre correspond à quelle
