@@ -49,8 +49,7 @@ public class HomeContrellerITest {
     void should_contain_button_with_text(FxRobot robot) {
         FxAssert.verifyThat("#validerButton", LabeledMatchers.hasText("Valider"));
     }
-
-
+    
     @DisplayName("Devrait ouvrir un fichier xml, et a partir de ses données, chargé le tableau")
     @Test
     void should_open_xml_and_add_book_to_table(FxRobot robot) throws TimeoutException {
@@ -72,8 +71,6 @@ public class HomeContrellerITest {
         assertEquals(fileToSelect, HomeController.getSelectedFile());
         TableView<?> tableView = robot.lookup("#tableXml").queryTableView();
         System.err.println("items" + tableView.getItems().toString());
-
-
     }
 
     @Test
@@ -143,7 +140,6 @@ public class HomeContrellerITest {
         Node node = robot.lookup("#tableXml").nth(0).query();
         robot.clickOn(node);
 
-
         Bibliotheque.Livre livre = unLivre().build();
 
         TextField titleInput = robot.lookup("#titleInput").query();
@@ -169,9 +165,5 @@ public class HomeContrellerITest {
 
 
         Assertions.assertTrue(Objects.equals(titleInput.getText(), "TitreTest"));
-
-
-        // quand clique sur bouton + ajjoute dans lma table view
-
     }
 }
