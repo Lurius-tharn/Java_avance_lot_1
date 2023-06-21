@@ -6,18 +6,16 @@ import org.apache.pdfbox.pdmodel.PDDocument;
 import org.apache.pdfbox.pdmodel.PDPage;
 import org.apache.pdfbox.pdmodel.PDPageContentStream;
 import org.apache.pdfbox.pdmodel.PDPageTree;
-import org.apache.pdfbox.pdmodel.font.PDType1Font;
+import org.apache.pdfbox.pdmodel.font.*;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.*;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
+import org.apache.poi.util.Units;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
+import java.io.*;
 import java.math.BigInteger;
 import java.net.URL;
 import java.time.LocalDate;
@@ -61,60 +59,110 @@ public class WordExport {
     // TODO : solution temporaire, a revoir avec PdfConverter
 
     public void createPdf(List<Bibliotheque.Livre> livres) throws IOException {
-            PDDocument pdfDocument = new PDDocument();
-            PDPageTree pages = pdfDocument.getPages();
-            XWPFDocument document = createWordContent(livres);
+
+        try(PDDocument doc = new PDDocument()) {
+            PDPage page = new PDPage();
+            doc.addPage(page);
+
+            PDFont font = new PDType1Font(PDType1Font.TIMES_ROMAN.getCOSObject());
+
+            PDPageContentStream contents = new PDPageContentStream(doc, page, PDPageContentStream.AppendMode.APPEND, false);
+
+            contents.setFont(font, 12);
+
+            contents.beginText();
+            contents.newLineAtOffset(100, 700);
+            contents.setLeading(14.5f);
+
+            livres.forEach(livre -> {
+
+                try {
+                    contents.showText(livre.getTitre());
+                    contents.newLineAtOffset(0, -15);
+                    contents.showText(livre.getPresentation());
+                    contents.newLineAtOffset(0, -15);
+                    contents.showText(livre.getAuteur().getNomPrenom());
+                    contents.newLineAtOffset(0, -15);
+                    contents.showText(Integer.toString(livre.getParution()));
+                    doc.addPage(new PDPage());
+
+                } catch (IOException e) {
+                    throw new RuntimeException(e);
+                }
+            });
+
+            contents.endText();
+            contents.close();
+
             FileChooser fileChooser = new FileChooser();
 
             //Set extension filter for text files
-            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Fichier pdf", "*.pdf");
+            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Fichier PDF", "*.pdf");
             fileChooser.getExtensionFilters().add(extFilter);
 
-
             File file = fileChooser.showSaveDialog(null);
-            for (XWPFParagraph paragraph : document.getParagraphs()) {
-                PDPage page = new PDPage();
-                pages.add(page);
-
-                PDPageContentStream contentStream = new PDPageContentStream(pdfDocument, page);
-                contentStream.setFont(PDType1Font.HELVETICA, 12);
-
-                float margin = 50;
-                float yStart = page.getMediaBox().getHeight() - margin;
-                float yPosition = yStart;
-                float lineHeight = 14;
-                List<String> lines = List.of(paragraph.getText().split("\n"));
-
-                for (String line : lines) {
-                    if (yPosition < margin) {
-                        contentStream.endText();
-                        contentStream.close();
-                        contentStream = new PDPageContentStream(pdfDocument, page);
-                        contentStream.setFont(PDType1Font.HELVETICA, 12);
-                        yPosition = yStart;
-                    }
-
-                    contentStream.beginText();
-                    contentStream.newLineAtOffset(margin, yPosition);
-                    contentStream.showText(line);
-                    contentStream.endText();
-
-                    yPosition -= lineHeight;
-                }
-
-                contentStream.close();
-            }
-
 
             if (file != null) {
                 FileOutputStream fos = new FileOutputStream(file);
-                document.write(fos);
-                pdfDocument.save(fos);
-                document.close();
-                pdfDocument.close();
+                doc.save(fos);
                 fos.close();
-
             }
+        }
+//
+//            PDDocument pdfDocument = new PDDocument();
+//            PDPageTree pages = pdfDocument.getPages();
+//            XWPFDocument document = createWordContent(livres);
+//            FileChooser fileChooser = new FileChooser();
+//
+//            PDFont font = PDType1Font.TIMES_ROMAN;
+//
+//            //Set extension filter for text files
+//            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Fichier pdf", "*.pdf");
+//            fileChooser.getExtensionFilters().add(extFilter);
+//
+//
+//            File file = fileChooser.showSaveDialog(null);
+//            for (XWPFParagraph paragraph : document.getParagraphs()) {
+//                PDPage page = new PDPage();
+//                pages.add(page);
+//
+//                PDPageContentStream contentStream = new PDPageContentStream(pdfDocument, page);
+//                contentStream.setFont(font, 12);
+//
+//                float margin = 50;
+//                float yStart = page.getMediaBox().getHeight() - margin;
+//                float yPosition = yStart;
+//                float lineHeight = 14;
+//                List<String> lines = List.of(paragraph.getText().split("\n"));
+//
+//                for (String line : lines) {
+//                    if (yPosition < margin) {
+//                        contentStream.endText();
+//                        contentStream.close();
+//                        contentStream = new PDPageContentStream(pdfDocument, page);
+//                        contentStream.setFont(font, 12);
+//                        yPosition = yStart;
+//                    }
+//
+//                    contentStream.beginText();
+//                    contentStream.newLineAtOffset(margin, yPosition);
+//                    contentStream.showText(line);
+//                    contentStream.endText();
+//
+//                    yPosition -= lineHeight;
+//                }
+//
+//                contentStream.close();
+//            }
+//
+//            if (file != null) {
+//                FileOutputStream fos = new FileOutputStream(file);
+//                document.write(fos);
+//                pdfDocument.save(fos);
+//                document.close();
+//                pdfDocument.close();
+//                fos.close();
+//            }
     }
 
     public void createWord(List<Bibliotheque.Livre> livres) throws IOException {
@@ -151,7 +199,6 @@ public class WordExport {
 
 
         AtomicReference<XWPFParagraph> paragraph = new AtomicReference<>(doc.createParagraph());
-
 
         CTP ctP = paragraph.get().getCTP();
         CTSimpleField toc = ctP.addNewFldSimple();
@@ -278,24 +325,23 @@ public class WordExport {
         XWPFRun colonneTextRun = colonneTextParagraph.createRun();
         colonneTextRun.setText(Integer.toString(livre.getColonne()));
 
+        // Image
         XWPFParagraph imageParagraph = doc.createParagraph();
         XWPFRun imageRun = imageParagraph.createRun();
+        imageRun.addBreak();
 
         try {
             int format = XWPFDocument.PICTURE_TYPE_PNG;
-            int imageWidth = 300;
-            int imageHeight = 400;
-            String imageName = "Cover";
+            String imageName = "Couverture";
             String imageURL = livre.getImage();
             if(!imageURL.isEmpty()){
                 URL url = new URL(imageURL);
                 BufferedImage bufferedImage = ImageIO.read(url);
                 File tempFile = File.createTempFile("temp", ".png");
                 ImageIO.write(bufferedImage, "png", tempFile);
-                FileInputStream fis = new FileInputStream(tempFile);
-
-                imageRun.addPicture(fis, format, imageName, imageWidth, imageHeight);
-                fis.close();
+                try (FileInputStream fis = new FileInputStream(tempFile)) {
+                    imageRun.addPicture(fis, format, imageName, Units.toEMU(200), Units.toEMU(300));
+                }
             }
 
         } catch (IOException | InvalidFormatException e) {

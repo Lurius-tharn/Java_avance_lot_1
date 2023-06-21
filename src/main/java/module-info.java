@@ -13,6 +13,7 @@ module com.esiee.java_avance_lot_1 {
     requires java.desktop;
     requires org.apache.pdfbox;
     requires lombok;
+    requires poi;
     opens com.esiee.java_avance_lot_1.vue to javafx.fxml;
     exports com.esiee.java_avance_lot_1.vue;
     exports com.esiee.java_avance_lot_1.controller;
