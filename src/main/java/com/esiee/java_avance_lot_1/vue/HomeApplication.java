@@ -14,6 +14,7 @@ public class HomeApplication extends Application {
         Scene scene = new Scene(fxmlLoader.load());
 
         stage.setTitle("Bibliothèque virtuelle");
+
         stage.setScene(scene);
         stage.show();
     }
