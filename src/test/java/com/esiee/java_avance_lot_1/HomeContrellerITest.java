@@ -73,8 +73,6 @@ public class HomeContrellerITest {
         TableView<?> tableView = robot.lookup("#tableXml").queryTableView();
         System.err.println("items" + tableView.getItems().toString());
 
-        Assertions.assertTrue(tableView.getItems().size() > 0);
-
 
     }
 
@@ -97,6 +95,8 @@ public class HomeContrellerITest {
         // Vérifiez que selectedFile est maintenant égal au fichier sélectionné
         assertEquals(fileToSelect, HomeController.getSelectedFile());
         TableView<?> tableView = robot.lookup("#tableXml").queryTableView();
+
+        Assertions.assertTrue(tableView.getItems().size() > 0);
 
 
         TableView.TableViewSelectionModel<?> selectionModel = tableView.getSelectionModel();
