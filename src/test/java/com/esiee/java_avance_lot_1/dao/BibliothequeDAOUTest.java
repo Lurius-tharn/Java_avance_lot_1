@@ -51,10 +51,6 @@ public class BibliothequeDAOUTest {
     @Test
     @DisplayName("devrait mettre a jour des livres")
     void should_update_book() throws SQLException {
-        List<Bibliotheque.Livre> livres = List.of(unLivre().avecTitre("titre A").avecId(0).build(), unLivre().avecId(1).avecTitre("livre 2").build());
-
-        bibliothequeDaoMock.insertOrUpdateBook(livres);
-
 
         List<Bibliotheque.Livre> livresDatabase = bibliothequeDaoMock.selectBook();
         String old = livresDatabase.get(0).getTitre();
@@ -69,6 +65,5 @@ public class BibliothequeDAOUTest {
 
 
     }
-
 
 }
