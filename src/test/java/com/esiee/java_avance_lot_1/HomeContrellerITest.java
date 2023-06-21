@@ -169,7 +169,7 @@ public class HomeContrellerITest {
         etatInput.setSelected(true);
 
 
-        Assertions.assertTrue(Objects.equals(titleInput.getText(), "hey"));
+        Assertions.assertTrue(Objects.equals(titleInput.getText(), "TitreTest"));
 
 
         // quand clique sur bouton + ajjoute dans lma table view

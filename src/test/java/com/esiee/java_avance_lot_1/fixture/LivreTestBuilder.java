@@ -4,7 +4,7 @@ import com.esiee.java_avance_lot_1.model.Bibliotheque;
 
 public class LivreTestBuilder {
 
-    private String titre = "TitreTEst";
+    private String titre = "TitreTest";
     private Bibliotheque.Livre.Auteur auteur = new Bibliotheque.Livre.Auteur("Robillard", "Anne");
     private int id = 0;
     private String presentation = "Presenbtation fictive pour test";
