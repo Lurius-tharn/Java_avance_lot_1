@@ -53,7 +53,8 @@ jobs:
       - name: Set up JDK
         uses: actions/setup-java@v1
         with:
-          java-version: '11'
+          java-version: '19'
+          distribution: 'adopt'
       #Set up SonarCloud cache
       - name: Cache SonarCloud packages
         #This action allows caching dependencies and build outputs to improve workflow execution time.
@@ -88,6 +89,8 @@ jobs:
         uses: actions/setup-java@v1
         with:
           java-version: '19'
+          distribution: 'adopt'
+      
       #Set up Maven cache
       - name: Cache Maven packages
         #This action allows caching dependencies and build outputs to improve workflow execution time.
