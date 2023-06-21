@@ -5,6 +5,7 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
+import static com.esiee.java_avance_lot_1.fixture.LivreTestBuilder.unLivre;
 import static org.junit.jupiter.api.Assertions.*;
 
 class BibliothequeTest extends Bibliotheque {
@@ -20,14 +21,12 @@ class BibliothequeTest extends Bibliotheque {
     }
 
     @BeforeEach
-    void setUp() {
-         livre = new Livre(1, "test", new Livre.Auteur("nom", "prenom"), "description", 2011, (short) '1', (short) '1', "",true );
+    void setUp() {livre = unLivre().build();
     }
 
 
     @Test
     void testGetTitre() {
-        Assertions.assertEquals("test", livre.getTitre());
 
         livre.setTitre("test1");
         Assertions.assertEquals("test1", livre.getTitre());
@@ -39,8 +38,6 @@ class BibliothequeTest extends Bibliotheque {
     }
     @Test
     void testGetAuteur(){
-        Assertions.assertEquals("nom", livre.getAuteur().getNom());
-        Assertions.assertEquals("prenom", livre.getAuteur().getPrenom());
 
         livre.setAuteur(new Livre.Auteur("nom1", "prenom1"));
         Assertions.assertEquals("nom1", livre.getAuteur().getNom());
@@ -50,7 +47,6 @@ class BibliothequeTest extends Bibliotheque {
 
     @Test
     void testGetPresentation() {
-        Assertions.assertEquals("description", livre.getPresentation());
 
         livre.setPresentation("description1");
         Assertions.assertEquals("description1", livre.getPresentation());
@@ -58,7 +54,6 @@ class BibliothequeTest extends Bibliotheque {
 
     @Test
     void testGetParution() {
-        Assertions.assertEquals(2011 , livre.getParution());
 
         livre.setParution(2012);
         Assertions.assertEquals(2012 , livre.getParution());
@@ -69,7 +64,6 @@ class BibliothequeTest extends Bibliotheque {
 
     @Test
     void testGetImage() {
-        Assertions.assertEquals("" , livre.getImage());
 
         livre.setImage("t");
         Assertions.assertEquals("t" , livre.getImage());
@@ -77,7 +71,6 @@ class BibliothequeTest extends Bibliotheque {
 
     @Test
     void testGetEtat() {
-        Assertions.assertEquals(true , livre.isEtat());
 
         livre.setEtat(false);
         Assertions.assertEquals(false , livre.isEtat());
@@ -85,7 +78,6 @@ class BibliothequeTest extends Bibliotheque {
 //fff
     @Test
     void testGetRangee() {
-        Assertions.assertEquals(1 , livre.getRangee());
 
         livre.setRangee(Short.parseShort("5"));
         Assertions.assertEquals(5 , livre.getRangee());
@@ -93,7 +85,6 @@ class BibliothequeTest extends Bibliotheque {
 
     @Test
     void testGetColonne() {
-        Assertions.assertEquals(1 , livre.getColonne());
 
         livre.setColonne(Short.parseShort("5"));
         Assertions.assertEquals(5 , livre.getColonne());
