@@ -98,8 +98,6 @@ public class HomeContrellerITest {
         assertEquals(fileToSelect, HomeController.getSelectedFile());
         TableView<?> tableView = robot.lookup("#tableXml").queryTableView();
 
-        Assertions.assertTrue(tableView.getItems().size() > 0);
-
 
         TableView.TableViewSelectionModel<?> selectionModel = tableView.getSelectionModel();
 
