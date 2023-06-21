@@ -11,7 +11,7 @@ public class LivreTestBuilder {
     private int parution = 0;
     private short colonne = '0';
     private short rangee = '0';
-    private String image = "url image";
+    private String image = "https://www.babelio.com/couv/CVT_15529_834672.jpg";
     private boolean etat = false;
 
     public static LivreTestBuilder unLivre() {
@@ -26,6 +26,11 @@ public class LivreTestBuilder {
 
     public LivreTestBuilder avecId(int id) {
         this.id = id;
+        return this;
+    }
+
+    public LivreTestBuilder avecEtat(boolean etat) {
+        this.etat = etat;
         return this;
     }
 

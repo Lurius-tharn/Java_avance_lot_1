@@ -22,6 +22,7 @@ import org.testfx.util.NodeQueryUtils;
 import org.testfx.util.WaitForAsyncUtils;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
@@ -31,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(ApplicationExtension.class)
-public class HomeContrellerITest {
+class HomeContrellerITest {
 
 
     Stage stage;
@@ -49,7 +50,7 @@ public class HomeContrellerITest {
     void should_contain_button_with_text(FxRobot robot) {
         FxAssert.verifyThat("#validerButton", LabeledMatchers.hasText("Valider"));
     }
-    
+
     @DisplayName("Devrait ouvrir un fichier xml, et a partir de ses données, chargé le tableau")
     @Test
     void should_open_xml_and_add_book_to_table(FxRobot robot) throws TimeoutException {
@@ -165,5 +166,21 @@ public class HomeContrellerITest {
 
 
         Assertions.assertTrue(Objects.equals(titleInput.getText(), "TitreTest"));
+    }
+
+    @Test
+    void cas_1(FxRobot robot) throws TimeoutException, IOException {
+        robot.clickOn("#menuAbout");
+        // Simulez la sélection d'un fichier dans le FileChooser
+
+        // Appelez la méthode setSelectedFile de votre contrôleur avec le fichier sélectionné
+        WaitForAsyncUtils.waitFor(2, TimeUnit.SECONDS, () -> {
+            return robot.lookup("#menuInfos").match(NodeQueryUtils.isVisible()).tryQuery().isPresent();
+        });
+        // Cliquez sur le menu "Open"
+        robot.clickOn("#menuInfos");
+
+        FxAssert.verifyThat("#pgId", LabeledMatchers.hasText("Pierre Gogniat"));
+
     }
 }

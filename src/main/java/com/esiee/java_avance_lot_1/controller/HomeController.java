@@ -31,6 +31,11 @@ import java.util.List;
 import java.util.Objects;
 import java.util.ResourceBundle;
 
+/**
+ * Contrôleur pour la page d'accueil de l'application.
+ *
+ * @author pGogniat, tMerlay, dSajous
+ */
 public class HomeController implements Initializable {
 
     public static boolean testEnabled = false;
@@ -102,6 +107,9 @@ public class HomeController implements Initializable {
     private Label currentFileName;
     private Bibliotheque bibliotheque;
 
+    /**
+     * Ouvre la fenêtre d'informations.
+     */
     private static void openInfos() {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(InfosApplication.class.getResource("infos.fxml"));
@@ -116,11 +124,20 @@ public class HomeController implements Initializable {
         stage.show();
     }
 
+    /**
+     * Renvoie le fichier sélectionné.
+     *
+     * @return Le fichier sélectionné.
+     */
     public static File getSelectedFile() {
         return selectedFile;
     }
 
-    // Test method
+    /**
+     * Définit le fichier sélectionné.
+     *
+     * @param file Le fichier sélectionné.
+     */
     public static void setSelectedFile(File file) {
         selectedFile = file;
     }
@@ -132,10 +149,10 @@ public class HomeController implements Initializable {
      * @param url
      * @param resourceBundle
      */
-
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.livreTableMapper();
+        // Désactivation du formulaire d'ajout/modification a l'initialisation
         disableForm(true);
 
         menuOpen.setOnAction(actionEvent -> openMenu());
@@ -163,6 +180,11 @@ public class HomeController implements Initializable {
         exportAsPdfButton.setOnAction(actionEvent -> exportAsPDF());
     }
 
+    /**
+     * Exporte les données de la table au format PDF.
+     *
+     * @throws FileNotFoundException Si le fichier de destination n'est pas trouvé.
+     */
     private void exportAsPDF() {
         WordExport wordExport = new WordExport();
         try {
@@ -172,6 +194,11 @@ public class HomeController implements Initializable {
         }
     }
 
+    /**
+     * Exporte les données de la table au format Word.
+     *
+     * @throws FileNotFoundException Si le fichier de destination n'est pas trouvé.
+     */
     private void exportAsWord() {
         WordExport wordExport = new WordExport();
         try {
@@ -181,6 +208,9 @@ public class HomeController implements Initializable {
         }
     }
 
+    /**
+     * Gère l'état du mode connecté.
+     */
     private void handleModeConnecte() {
         currentFileName.setText("Base de donnée");
         saveDefault.setVisible(true);
@@ -202,6 +232,9 @@ public class HomeController implements Initializable {
         }
     }
 
+    /**
+     * Mappe une ligne du tableau selectionné vers un Livre
+     */
     private void mapFormToSelectedBook() {
         Bibliotheque.Livre livre = tableXml.getSelectionModel().getSelectedItem();
         if (!Objects.isNull(livre)) {
@@ -212,11 +245,17 @@ public class HomeController implements Initializable {
         }
     }
 
+    /**
+     * Supprime une ligne du tableau
+     */
     private void deleteBook() {
         if (!Objects.isNull(tableXml.getSelectionModel().getSelectedItem()))
             tableXml.getItems().remove(tableXml.getSelectionModel().getSelectedIndex());
     }
 
+    /**
+     * Sauvegarde une bibiothèque par défaut ( soit dans la base de donnée, soit dans  le fichier xml ouvert)
+     */
     public void saveDef() {
         Bibliotheque bibliotheque = new Bibliotheque();
         bibliotheque.setLivre(tableXml.getItems());
@@ -237,6 +276,9 @@ public class HomeController implements Initializable {
         }
     }
 
+    /**
+     * Sauvegarde une bibiothèque sous ( soit dans la base de donnée, une bibliothèque est crée/ modifié, soit dans un fichier xml choisi par l'utilisateur)
+     */
     private void saveAsXml() {
         FileChooser fileChooser = new FileChooser();
 
@@ -263,6 +305,9 @@ public class HomeController implements Initializable {
         }
     }
 
+    /**
+     * Valide les informations remplies dans le formulaire, et ajoute un nouveau livre dans le tableau
+     */
     private void validateForm() {
         List<TextField> textFields = formPane.getChildren().stream()
                 .filter(node -> node instanceof TextField)
@@ -285,6 +330,9 @@ public class HomeController implements Initializable {
         tableXml.getSelectionModel().select(newBook);
     }
 
+    /**
+     * Ajoute un nouveau livre
+     */
     private void addBook() {
         disableForm(false);
         Bibliotheque.Livre livre = new Bibliotheque.Livre();
@@ -300,6 +348,9 @@ public class HomeController implements Initializable {
         livreFormMapper(livre);
     }
 
+    /**
+     * Ouvre un Menu FileChooser qui permet de selectionner un fichier XML
+     */
     public void openMenu() {
         menuConnecte.setSelected(false);
         FileChooser fileChooser = new FileChooser();
@@ -327,6 +378,11 @@ public class HomeController implements Initializable {
         }
     }
 
+    /**
+     * Mappe un nouveau livre
+     *
+     * @param bookFieldValues les informations du livres remplies par l'utilisateur.
+     */
     private Bibliotheque.Livre newBookMapper(List<String> bookFieldValues) {
 
         Bibliotheque.Livre livre = new Bibliotheque.Livre();
@@ -345,9 +401,9 @@ public class HomeController implements Initializable {
     }
 
     /**
-     * Permet de disable un ensemple de champs pour le formulaire
+     * Désactive ou active un ensemble de champs pour le formulaire
      *
-     * @param disable
+     * @param disable Indique si le formulaire doit être désactivé (true) ou activé (false).
      */
     private void disableForm(boolean disable) {
         formPane.getChildren().forEach(node -> node.setDisable(disable));

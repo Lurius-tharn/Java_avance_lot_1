@@ -236,9 +236,6 @@
                             <formats>
                                 <format>XML</format>
                             </formats>
-                            <argLine>
-                                --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED -Xmx1536m
-                            </argLine>
                         </configuration>
                     </execution>
                 </executions>
