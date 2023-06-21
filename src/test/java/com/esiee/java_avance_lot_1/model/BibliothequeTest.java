@@ -1,27 +1,18 @@
 package com.esiee.java_avance_lot_1.model;
 
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
 import static com.esiee.java_avance_lot_1.fixture.LivreTestBuilder.unLivre;
-import static org.junit.jupiter.api.Assertions.*;
 
 class BibliothequeTest extends Bibliotheque {
 
-    private  Livre livre;
-    @Test
-    void testGetLivre() {
-
-    }
-
-    @Test
-    void testSetLivre() {
-    }
+    private Livre livre;
 
     @BeforeEach
-    void setUp() {livre = unLivre().build();
+    void setUp() {
+        livre = unLivre().build();
     }
 
 
@@ -36,8 +27,9 @@ class BibliothequeTest extends Bibliotheque {
     void testGetAuteur_Nok() {
         Assertions.assertNotEquals(new Livre.Auteur("Bourreau", "Alice"), livre.getAuteur());
     }
+
     @Test
-    void testGetAuteur(){
+    void testGetAuteur() {
 
         livre.setAuteur(new Livre.Auteur("nom1", "prenom1"));
         Assertions.assertEquals("nom1", livre.getAuteur().getNom());
@@ -56,7 +48,7 @@ class BibliothequeTest extends Bibliotheque {
     void testGetParution() {
 
         livre.setParution(2012);
-        Assertions.assertEquals(2012 , livre.getParution());
+        Assertions.assertEquals(2012, livre.getParution());
 
 //        livre.setParution(Integer.parseInt("test"));
 //        Assertions.assertThNumberFormatException);
@@ -66,29 +58,31 @@ class BibliothequeTest extends Bibliotheque {
     void testGetImage() {
 
         livre.setImage("t");
-        Assertions.assertEquals("t" , livre.getImage());
+        Assertions.assertEquals("t", livre.getImage());
     }
 
     @Test
     void testGetEtat() {
 
         livre.setEtat(false);
-        Assertions.assertEquals(false , livre.isEtat());
+        Assertions.assertEquals(false, livre.isEtat());
     }
-//fff
+
+    //fff
     @Test
     void testGetRangee() {
 
         livre.setRangee(Short.parseShort("5"));
-        Assertions.assertEquals(5 , livre.getRangee());
+        Assertions.assertEquals(5, livre.getRangee());
     }
 
     @Test
     void testGetColonne() {
 
         livre.setColonne(Short.parseShort("5"));
-        Assertions.assertEquals(5 , livre.getColonne());
+        Assertions.assertEquals(5, livre.getColonne());
     }
+
     @Test
     void testSetLivre1() {
     }
