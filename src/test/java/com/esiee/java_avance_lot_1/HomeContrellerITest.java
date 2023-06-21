@@ -60,7 +60,6 @@ public class HomeContrellerITest {
         // Simulez la sélection d'un fichier dans le FileChooser
         File fileToSelect = new File("src/main/resources/com/esiee/java_avance_lot_1/xml/test.xml");
 
-        System.err.println("Chemin du fichier" + fileToSelect);
         // Appelez la méthode setSelectedFile de votre contrôleur avec le fichier sélectionné
         HomeController.setSelectedFile(fileToSelect);
         WaitForAsyncUtils.waitFor(2, TimeUnit.SECONDS, () -> {
@@ -72,6 +71,7 @@ public class HomeContrellerITest {
         // Vérifiez que selectedFile est maintenant égal au fichier sélectionné
         assertEquals(fileToSelect, HomeController.getSelectedFile());
         TableView<?> tableView = robot.lookup("#tableXml").queryTableView();
+        System.err.println("items" + tableView.getItems().toString());
 
         Assertions.assertTrue(tableView.getItems().size() > 0);
 
