@@ -60,6 +60,7 @@ public class HomeContrellerITest {
         // Simulez la sélection d'un fichier dans le FileChooser
         File fileToSelect = new File("src/main/resources/com/esiee/java_avance_lot_1/xml/test.xml");
 
+        System.err.println("Chemin du fichier" + fileToSelect);
         // Appelez la méthode setSelectedFile de votre contrôleur avec le fichier sélectionné
         HomeController.setSelectedFile(fileToSelect);
         WaitForAsyncUtils.waitFor(2, TimeUnit.SECONDS, () -> {
