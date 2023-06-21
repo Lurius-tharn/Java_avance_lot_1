@@ -1,9 +1,13 @@
 package com.esiee.java_avance_lot_1;
 
 import com.esiee.java_avance_lot_1.controller.HomeController;
+import com.esiee.java_avance_lot_1.model.Bibliotheque;
 import com.esiee.java_avance_lot_1.vue.HomeApplication;
 import javafx.scene.Node;
+import javafx.scene.control.CheckBox;
 import javafx.scene.control.TableView;
+import javafx.scene.control.TextArea;
+import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -18,9 +22,11 @@ import org.testfx.util.NodeQueryUtils;
 import org.testfx.util.WaitForAsyncUtils;
 
 import java.io.File;
+import java.util.Objects;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.TimeoutException;
 
+import static com.esiee.java_avance_lot_1.fixture.LivreTestBuilder.unLivre;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
@@ -105,67 +111,67 @@ public class HomeContrellerITest {
 
     }
 
-//    @Test
-//    @DisplayName("evve")
-//    void name(FxRobot robot) throws TimeoutException {
-//
-//        // TODO A REFACTO
-//        robot.clickOn("#menuFile");
-//        // Simulez la sélection d'un fichier dans le FileChooser
-//        File fileToSelect = new File("src/main/resources/com/esiee/java_avance_lot_1/xml/test.xml");
-//
-//        // Appelez la méthode setSelectedFile de votre contrôleur avec le fichier sélectionné
-//        HomeController.setSelectedFile(fileToSelect);
-//        WaitForAsyncUtils.waitFor(2, TimeUnit.SECONDS, () -> {
-//            return robot.lookup("#menuOpen").match(NodeQueryUtils.isVisible()).tryQuery().isPresent();
-//        });
-//        // Cliquez sur le menu "Open"
-//        robot.clickOn("#menuOpen");
-//
-//        // Vérifiez que selectedFile est maintenant égal au fichier sélectionné
-//        assertEquals(fileToSelect, HomeController.getSelectedFile());
-//        TableView<?> tableView = robot.lookup("#tableXml").queryTableView();
-//
-//        Assertions.assertTrue(tableView.getItems().size() > 0);
-//
-//
-//        TableView.TableViewSelectionModel<?> selectionModel = tableView.getSelectionModel();
-//
-//        int rowIndex = 0;
-//        selectionModel.select(rowIndex);
-//
-//        Node node = robot.lookup("#tableXml").nth(0).query();
-//        robot.clickOn(node);
-//
-//
-//        Bibliotheque.Livre livre = unLivre().build();
-//
-//        TextField titleInput = robot.lookup("#titleInput").query();
-//        TextField authorInput = robot.lookup("#authorInput").query();
-//        TextArea presentationInput = robot.lookup("#presentationInput").query();
-//        TextField parutionInput = robot.lookup("#parutionInput").query();
-//        TextField columnInput = robot.lookup("#columnInput").query();
-//        TextField rangeInput = robot.lookup("#rangeInput").query();
-//        TextField imageInput = robot.lookup("#imageInput").query();
-//        CheckBox etatInput = robot.lookup("#etatInput").query();
-//
-//
-//        titleInput.setText(livre.getTitre());
-//        authorInput.setText(livre.getAuteur().getNomPrenom());
-//        presentationInput.setText(livre.getPresentation());
-//        parutionInput.setText(Integer.toString(livre.getParution()));
-//        columnInput.setText(Integer.toString(livre.getColonne()));
-//        rangeInput.setText(Integer.toString(livre.getRangee()));
-//        imageInput.setText(livre.getImage());
-//        etatInput.setSelected(livre.isEtat());
-//
-//        etatInput.setSelected(true);
-//
-//
-//        Assertions.assertTrue(Objects.equals(titleInput.getText(), "TitreTest"));
-//
-//
-//        // quand clique sur bouton + ajjoute dans lma table view
-//
-//    }
+    @Test
+    @DisplayName("evve")
+    void name(FxRobot robot) throws TimeoutException {
+
+        // TODO A REFACTO
+        robot.clickOn("#menuFile");
+        // Simulez la sélection d'un fichier dans le FileChooser
+        File fileToSelect = new File("src/main/resources/com/esiee/java_avance_lot_1/xml/test.xml");
+
+        // Appelez la méthode setSelectedFile de votre contrôleur avec le fichier sélectionné
+        HomeController.setSelectedFile(fileToSelect);
+        WaitForAsyncUtils.waitFor(2, TimeUnit.SECONDS, () -> {
+            return robot.lookup("#menuOpen").match(NodeQueryUtils.isVisible()).tryQuery().isPresent();
+        });
+        // Cliquez sur le menu "Open"
+        robot.clickOn("#menuOpen");
+
+        // Vérifiez que selectedFile est maintenant égal au fichier sélectionné
+        assertEquals(fileToSelect, HomeController.getSelectedFile());
+        TableView<?> tableView = robot.lookup("#tableXml").queryTableView();
+
+        Assertions.assertTrue(tableView.getItems().size() > 0);
+
+
+        TableView.TableViewSelectionModel<?> selectionModel = tableView.getSelectionModel();
+
+        int rowIndex = 0;
+        selectionModel.select(rowIndex);
+
+        Node node = robot.lookup("#tableXml").nth(0).query();
+        robot.clickOn(node);
+
+
+        Bibliotheque.Livre livre = unLivre().build();
+
+        TextField titleInput = robot.lookup("#titleInput").query();
+        TextField authorInput = robot.lookup("#authorInput").query();
+        TextArea presentationInput = robot.lookup("#presentationInput").query();
+        TextField parutionInput = robot.lookup("#parutionInput").query();
+        TextField columnInput = robot.lookup("#columnInput").query();
+        TextField rangeInput = robot.lookup("#rangeInput").query();
+        TextField imageInput = robot.lookup("#imageInput").query();
+        CheckBox etatInput = robot.lookup("#etatInput").query();
+
+
+        titleInput.setText(livre.getTitre());
+        authorInput.setText(livre.getAuteur().getNomPrenom());
+        presentationInput.setText(livre.getPresentation());
+        parutionInput.setText(Integer.toString(livre.getParution()));
+        columnInput.setText(Integer.toString(livre.getColonne()));
+        rangeInput.setText(Integer.toString(livre.getRangee()));
+        imageInput.setText(livre.getImage());
+        etatInput.setSelected(livre.isEtat());
+
+        etatInput.setSelected(true);
+
+
+        Assertions.assertTrue(Objects.equals(titleInput.getText(), "TitreTest"));
+
+
+        // quand clique sur bouton + ajjoute dans lma table view
+
+    }
 }
