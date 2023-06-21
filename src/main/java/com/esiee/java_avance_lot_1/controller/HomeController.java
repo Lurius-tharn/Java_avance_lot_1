@@ -33,6 +33,7 @@ import java.util.ResourceBundle;
 
 public class HomeController implements Initializable {
 
+    public static boolean testEnabled = false;
     private static File selectedFile;
     @FXML
     public MenuItem exportAsPdfButton;
@@ -100,6 +101,29 @@ public class HomeController implements Initializable {
     @FXML
     private Label currentFileName;
     private Bibliotheque bibliotheque;
+
+    private static void openInfos() {
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(InfosApplication.class.getResource("infos.fxml"));
+        Scene scene;
+        try {
+            scene = new Scene(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setTitle("Infos");
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    public static File getSelectedFile() {
+        return selectedFile;
+    }
+
+    // Test method
+    public static void setSelectedFile(File file) {
+        selectedFile = file;
+    }
 
     /**
      * Permet de définir des actions/Comportements dès l'instanciation
@@ -188,20 +212,6 @@ public class HomeController implements Initializable {
         }
     }
 
-    private static void openInfos() {
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(InfosApplication.class.getResource("infos.fxml"));
-        Scene scene;
-        try {
-            scene = new Scene(fxmlLoader.load());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        stage.setTitle("Infos");
-        stage.setScene(scene);
-        stage.show();
-    }
-
     private void deleteBook() {
         if (!Objects.isNull(tableXml.getSelectionModel().getSelectedItem()))
             tableXml.getItems().remove(tableXml.getSelectionModel().getSelectedIndex());
@@ -214,7 +224,7 @@ public class HomeController implements Initializable {
 
         if (menuConnecte.isSelected()) {
             try {
-                bibliothequeDao.insertBook(tableXml.getItems());
+                bibliothequeDao.insertOrUpdateBook(tableXml.getItems());
             } catch (SQLException e) {
                 throw new RuntimeException(e);
             }
@@ -290,12 +300,17 @@ public class HomeController implements Initializable {
         livreFormMapper(livre);
     }
 
-    private void openMenu() {
+    public void openMenu() {
         menuConnecte.setSelected(false);
         FileChooser fileChooser = new FileChooser();
-        fileChooser.setTitle("Sélectionner le fichier XML");
-        fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
-        selectedFile = fileChooser.showOpenDialog(null);
+
+        if (!testEnabled) {
+            fileChooser.setTitle("Sélectionner le fichier XML");
+            fileChooser.getExtensionFilters().addAll(new FileChooser.ExtensionFilter("XML Files", "*.xml"));
+            selectedFile = fileChooser.showOpenDialog(null);
+        }
+
+
         if (selectedFile != null) {
             try {
                 bibliotheque = XSDUnmarshaller.lireBibliotheque(selectedFile);
@@ -358,6 +373,7 @@ public class HomeController implements Initializable {
         }
         etatInput.setSelected(livre.isEtat());
     }
+
 
     /**
      * Permet de définir quelle attribut de l'objet Livre correspond à quelle
