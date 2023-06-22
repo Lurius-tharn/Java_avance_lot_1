@@ -1,21 +1,21 @@
 package com.esiee.java_avance_lot_1.dao;
 
 import com.esiee.java_avance_lot_1.model.Bibliotheque;
+import com.spire.doc.Document;
+import com.spire.doc.FileFormat;
 import javafx.stage.FileChooser;
-import org.apache.pdfbox.pdmodel.PDDocument;
-import org.apache.pdfbox.pdmodel.PDPage;
-import org.apache.pdfbox.pdmodel.PDPageContentStream;
-import org.apache.pdfbox.pdmodel.PDPageTree;
-import org.apache.pdfbox.pdmodel.font.*;
 import org.apache.poi.openxml4j.exceptions.InvalidFormatException;
+import org.apache.poi.util.Units;
 import org.apache.poi.xwpf.model.XWPFHeaderFooterPolicy;
 import org.apache.poi.xwpf.usermodel.*;
 import org.openxmlformats.schemas.wordprocessingml.x2006.main.*;
-import org.apache.poi.util.Units;
 
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
-import java.io.*;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
 import java.math.BigInteger;
 import java.net.URL;
 import java.time.LocalDate;
@@ -59,114 +59,35 @@ public class WordExport {
 
     }
 
-    // TODO : solution temporaire, a revoir avec PdfConverter
 
     public void createPdf(List<Bibliotheque.Livre> livres) throws IOException {
+        XWPFDocument docWord = createWordContent(livres);
 
-        try(PDDocument doc = new PDDocument()) {
-            PDPage page = new PDPage();
-            doc.addPage(page);
+        // Créer un fichier temporaire
+        File tempFile = File.createTempFile("temp", ".docx");
 
-            PDFont font = new PDType1Font(PDType1Font.TIMES_ROMAN.getCOSObject());
+        // Enregistrer le document Word dans le fichier temporaire
+        FileOutputStream fos = new FileOutputStream(tempFile);
+        docWord.write(fos);
+        fos.close();
 
-            PDPageContentStream contents = new PDPageContentStream(doc, page, PDPageContentStream.AppendMode.APPEND, false);
+        // Afficher le FileChooser pour sélectionner l'emplacement du fichier PDF
+        FileChooser fileChooser = new FileChooser();
+        fileChooser.setTitle("Enregistrer le fichier PDF");
+        fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers PDF", "*.pdf"));
 
-            contents.setFont(font, 12);
+        File pdfFile = fileChooser.showSaveDialog(null);
+        if (pdfFile != null) {
+            String pdfFilePath = pdfFile.getAbsolutePath();
 
-            contents.beginText();
-            contents.newLineAtOffset(100, 700);
-            contents.setLeading(14.5f);
+            // Utiliser le chemin d'accès du fichier temporaire pour créer le document PDF
+            Document doc = new Document(tempFile.getAbsolutePath());
 
-            livres.forEach(livre -> {
-
-                try {
-                    contents.showText(livre.getTitre());
-                    contents.newLineAtOffset(0, -15);
-                    contents.showText(livre.getPresentation());
-                    contents.newLineAtOffset(0, -15);
-                    contents.showText(livre.getAuteur().getNomPrenom());
-                    contents.newLineAtOffset(0, -15);
-                    contents.showText(Integer.toString(livre.getParution()));
-                    doc.addPage(new PDPage());
-
-                } catch (IOException e) {
-                    throw new RuntimeException(e);
-                }
-            });
-
-            contents.endText();
-            contents.close();
-
-            FileChooser fileChooser = new FileChooser();
-
-            //Set extension filter for text files
-            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Fichier PDF", "*.pdf");
-            fileChooser.getExtensionFilters().add(extFilter);
-
-            File file = fileChooser.showSaveDialog(null);
-
-            if (file != null) {
-                FileOutputStream fos = new FileOutputStream(file);
-                doc.save(fos);
-                fos.close();
-            }
+            // Enregistrer le document au format PDF
+            doc.saveToFile(pdfFilePath, FileFormat.PDF);
         }
-//
-//            PDDocument pdfDocument = new PDDocument();
-//            PDPageTree pages = pdfDocument.getPages();
-//            XWPFDocument document = createWordContent(livres);
-//            FileChooser fileChooser = new FileChooser();
-//
-//            PDFont font = PDType1Font.TIMES_ROMAN;
-//
-//            //Set extension filter for text files
-//            FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Fichier pdf", "*.pdf");
-//            fileChooser.getExtensionFilters().add(extFilter);
-//
-//
-//            File file = fileChooser.showSaveDialog(null);
-//            for (XWPFParagraph paragraph : document.getParagraphs()) {
-//                PDPage page = new PDPage();
-//                pages.add(page);
-//
-//                PDPageContentStream contentStream = new PDPageContentStream(pdfDocument, page);
-//                contentStream.setFont(font, 12);
-//
-//                float margin = 50;
-//                float yStart = page.getMediaBox().getHeight() - margin;
-//                float yPosition = yStart;
-//                float lineHeight = 14;
-//                List<String> lines = List.of(paragraph.getText().split("\n"));
-//
-//                for (String line : lines) {
-//                    if (yPosition < margin) {
-//                        contentStream.endText();
-//                        contentStream.close();
-//                        contentStream = new PDPageContentStream(pdfDocument, page);
-//                        contentStream.setFont(font, 12);
-//                        yPosition = yStart;
-//                    }
-//
-//                    contentStream.beginText();
-//                    contentStream.newLineAtOffset(margin, yPosition);
-//                    contentStream.showText(line);
-//                    contentStream.endText();
-//
-//                    yPosition -= lineHeight;
-//                }
-//
-//                contentStream.close();
-//            }
-//
-//            if (file != null) {
-//                FileOutputStream fos = new FileOutputStream(file);
-//                document.write(fos);
-//                pdfDocument.save(fos);
-//                document.close();
-//                pdfDocument.close();
-//                fos.close();
-//            }
     }
+
 
     public void createWord(List<Bibliotheque.Livre> livres) throws IOException {
         FileChooser fileChooser = new FileChooser();
@@ -197,7 +118,12 @@ public class WordExport {
         addCustomHeadingStyle(doc, presLivres, 1);
         livres.forEach(livre -> addCustomHeadingStyle(doc, livre.getTitre(), 2));
         addCustomHeadingStyle(doc, recapEmp, 1);
-
+//
+//        CTSdtBlock block = doc.getDocument().getBody().addNewSdt();
+//        TOC toc = new TOC(block);
+//
+//        toc.addRow(1, recapEmp, 1, recapEmp);
+//        toc.addRow(1, pageGarde, 2, pageGarde);
 
         AtomicReference<XWPFParagraph> paragraph = new AtomicReference<>(doc.createParagraph());
 
@@ -335,7 +261,7 @@ public class WordExport {
             int format = XWPFDocument.PICTURE_TYPE_PNG;
             String imageName = "Couverture";
             String imageURL = livre.getImage();
-            if(!imageURL.isEmpty()){
+            if (!imageURL.isEmpty()) {
                 URL url = new URL(imageURL);
                 BufferedImage bufferedImage = ImageIO.read(url);
                 File tempFile = File.createTempFile("temp", ".png");
