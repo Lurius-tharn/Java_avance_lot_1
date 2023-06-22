@@ -16,7 +16,7 @@ import static com.esiee.java_avance_lot_1.fixture.LivreTestBuilder.unLivre;
 
 @ExtendWith(MockitoExtension.class)
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
-public class BibliothequeDAOUTest {
+class BibliothequeDAOUTest {
     @InjectMocks
     BibliothequeDao bibliothequeDaoMock = new BibliothequeDao();
 

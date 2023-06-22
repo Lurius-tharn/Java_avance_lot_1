@@ -1,53 +1,57 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<?import javafx.scene.control.Button?>
-<?import javafx.scene.control.Label?>
-<?import javafx.scene.image.Image?>
-<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.image.*?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
-
-<VBox maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.esiee.java_avance_lot_1.controller.InfosController">
-   <children>
-      <AnchorPane prefHeight="400.0" prefWidth="600.0">
-         <children>
-            <Button fx:id="infosClose" layoutX="289.0" layoutY="354.0" mnemonicParsing="false" text="OK" />
-            <Label layoutX="457.0" layoutY="183.0" text="Théo Merlay" />
-            <Label layoutX="75.0" layoutY="183.0" text="Pierre Gogniat" />
-            <Label layoutX="257.0" layoutY="183.0" text="Davenese Sajous" />
-            <ImageView fitHeight="129.0" fitWidth="166.0" layoutX="37.0" layoutY="36.0" pickOnBounds="true" preserveRatio="true" rotate="90.0">
-               <image>
-                  <Image url="@../assets/pierre.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="230.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../assets/davenese.png" />
-               </image>
-            </ImageView>
-            <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="434.0" layoutY="23.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../assets/theo.png" />
-               </image>
-            </ImageView>
-            <Label layoutX="120.0" layoutY="232.0" text="Super bibliothèque cool qui marche">
-               <font>
-                  <Font size="25.0" />
-               </font>
-            </Label>
-            <Label layoutX="179.0" layoutY="268.0" text="EXBVLOME VERSION 1">
-               <font>
-                  <Font size="25.0" />
-               </font>
-            </Label>
-            <Label layoutX="141.0" layoutY="307.0" style="-fx-font-style: italic;" text="Extended Book Visualiser Library Organizer Metadata Editor" textAlignment="CENTER" />
-            <ImageView fitHeight="51.0" fitWidth="105.0" layoutX="23.0" layoutY="350.0" pickOnBounds="true" preserveRatio="true">
-               <image>
-                  <Image url="@../assets/logo-esiee-it.png" />
-               </image>
-            </ImageView>
-         </children>
-      </AnchorPane>
-   </children>
+<VBox xmlns:fx="http://javafx.com/fxml/1" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity"
+      prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/19"
+      fx:controller="com.esiee.java_avance_lot_1.controller.InfosController">
+    <children>
+        <AnchorPane prefHeight="400.0" prefWidth="600.0">
+            <children>
+                <Button fx:id="infosClose" layoutX="289.0" layoutY="354.0" mnemonicParsing="false" text="OK"/>
+                <Label layoutX="457.0" layoutY="183.0" text="Théo Merlay"/>
+                <Label fx:id="pgId" layoutX="75.0" layoutY="183.0" text="Pierre Gogniat"/>
+                <Label layoutX="257.0" layoutY="183.0" text="Davenese Sajous"/>
+                <ImageView fitHeight="129.0" fitWidth="166.0" layoutX="37.0" layoutY="36.0" pickOnBounds="true"
+                           preserveRatio="true" rotate="90.0">
+                    <image>
+                        <Image url="@../assets/pierre.png"/>
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="230.0" layoutY="23.0" pickOnBounds="true"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="@../assets/davenese.png"/>
+                    </image>
+                </ImageView>
+                <ImageView fitHeight="150.0" fitWidth="200.0" layoutX="434.0" layoutY="23.0" pickOnBounds="true"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="@../assets/theo.png"/>
+                    </image>
+                </ImageView>
+                <Label layoutX="120.0" layoutY="232.0" text="Super bibliothèque cool qui marche">
+                    <font>
+                        <Font size="25.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="179.0" layoutY="268.0" text="EXBVLOME VERSION 1">
+                    <font>
+                        <Font size="25.0"/>
+                    </font>
+                </Label>
+                <Label layoutX="141.0" layoutY="307.0" style="-fx-font-style: italic;"
+                       text="Extended Book Visualiser Library Organizer Metadata Editor" textAlignment="CENTER"/>
+                <ImageView fitHeight="51.0" fitWidth="105.0" layoutX="23.0" layoutY="350.0" pickOnBounds="true"
+                           preserveRatio="true">
+                    <image>
+                        <Image url="@../assets/logo-esiee-it.png"/>
+                    </image>
+                </ImageView>
+            </children>
+        </AnchorPane>
+    </children>
 </VBox>

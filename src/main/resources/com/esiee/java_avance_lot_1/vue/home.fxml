@@ -59,7 +59,7 @@
                         <MenuItem fx:id="exportAsPdfButton" mnemonicParsing="false" text="Pdf" visible="false"/>
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="A propos">
+                <Menu mnemonicParsing="false" text="A propos" fx:id="menuAbout">
                     <items>
                         <MenuItem fx:id="menuInfos" mnemonicParsing="false" text="Infos"/>
                     </items>

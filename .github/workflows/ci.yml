@@ -113,4 +113,5 @@ jobs:
           path: target/data-0.0.1-SNAPSHOT.jar
       - name: Génération SBOM
         run: xvfb-run mvn verify
-  
+      - name: Generate Javadoc
+        run: mvn javadoc:javadoc

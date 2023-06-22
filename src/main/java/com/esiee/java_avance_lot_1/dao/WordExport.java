@@ -24,6 +24,9 @@ import java.util.concurrent.atomic.AtomicReference;
 
 public class WordExport {
 
+    private boolean testEnabled = false;
+    private File testFile;
+
     private static void addCustomHeadingStyle(XWPFDocument docxDocument, String strStyleId, int headingLevel) {
 
         CTStyle ctStyle = CTStyle.Factory.newInstance();
@@ -166,9 +169,7 @@ public class WordExport {
     }
 
     public void createWord(List<Bibliotheque.Livre> livres) throws IOException {
-
         FileChooser fileChooser = new FileChooser();
-
         //Set extension filter for text files
         FileChooser.ExtensionFilter extFilter = new FileChooser.ExtensionFilter("Fichier Word", "*.docx");
         fileChooser.getExtensionFilters().add(extFilter);
@@ -176,7 +177,7 @@ public class WordExport {
         XWPFDocument doc = createWordContent(livres);
 
 
-        File file = fileChooser.showSaveDialog(null);
+        File file = testEnabled ? getTestFile() : fileChooser.showSaveDialog(null);
 
         if (file != null) {
             FileOutputStream fos = new FileOutputStream(file);
@@ -185,7 +186,7 @@ public class WordExport {
         }
     }
 
-    private XWPFDocument createWordContent(List<Bibliotheque.Livre> livres) {
+    XWPFDocument createWordContent(List<Bibliotheque.Livre> livres) {
         XWPFDocument doc = new XWPFDocument();
         String recapEmp = "Récapitulatifs emprunts";
         String pageGarde = "Page de garde";
@@ -239,7 +240,7 @@ public class WordExport {
         headerRow.getCell(3).setText("Présentation");
 
         // Remplissage des données des livres dans le tableau
-        livres.stream().filter(livre -> livre.isEtat()).forEach((livre) -> {
+        livres.stream().filter(Bibliotheque.Livre::isEtat).forEach((livre) -> {
             int index = livres.indexOf(livre);
 
             XWPFTableRow row = table.getRow(index + 1);
@@ -350,4 +351,19 @@ public class WordExport {
     }
 
 
+    public boolean isTestEnabled() {
+        return testEnabled;
+    }
+
+    public void setTestEnabled(boolean testEnabled) {
+        this.testEnabled = testEnabled;
+    }
+
+    public File getTestFile() {
+        return testFile;
+    }
+
+    public void setTestFile(File testFile) {
+        this.testFile = testFile;
+    }
 }
