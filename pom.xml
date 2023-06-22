@@ -264,7 +264,6 @@
                         --add-exports javafx.graphics/com.sun.javafx.application=ALL-UNNAMED
                     </argLine>
                 </configuration>
-
             </plugin>
         </plugins>
     </build>
