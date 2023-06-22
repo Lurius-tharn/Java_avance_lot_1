@@ -22,10 +22,6 @@ public class BibliothequeDao {
     private static final String UPDATE_QUERY = "UPDATE ja_library.livre SET titre=?, auteur=?, presentation=?, parution=?, colonne=?, rangee=?, image=?, etat=? WHERE idLivre=?";
     private static final String SELECT_QUERY = "SELECT * FROM ja_library.livre";
 
-    private static final String BIBLIO_CHECK_QUERY = "SELECT nomBibliotheque from bibliothéque where nomBibliotheque = ?";
-
-    private static final String BIBLIO_CREATE_QUERY = "INSERT INTO ja_library.bibliothéque(idBibliothéque, nomBibliothéque) VALUES (?, ?)";
-
     private static final String LIVRE_CHECK_QUERY = "SELECT * FROM ja_library.livre WHERE idLivre = ?";
 
     private static final String LIVRE_CREATE_SCHEMA = "CREATE schema ja_library";
