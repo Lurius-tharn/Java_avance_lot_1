@@ -47,7 +47,7 @@
                         <MenuItem fx:id="menuClose" mnemonicParsing="false" text="Quitter"/>
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Edition">
+                <Menu mnemonicParsing="false" text="Edition" fx:id="menuEdition">
                     <items>
                         <MenuItem fx:id="saveDefault" mnemonicParsing="false" text="Sauvegarder" visible="false"/>
                         <MenuItem fx:id="saveAs" mnemonicParsing="false" text="Sauvegarder Sous"/>

@@ -7,7 +7,6 @@ import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
 
 import java.io.File;
 import java.io.IOException;
@@ -20,8 +19,7 @@ class WordExportTest {
     private WordExport wordExport;
 
     @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.initMocks(this);
+    void setUp() {
         wordExport = new WordExport();
         wordExport.setTestEnabled(true);
 
@@ -29,7 +27,7 @@ class WordExportTest {
 
 
     @Test
-    public void createWord_shouldCreateWordFile() throws IOException {
+    void createWord_shouldCreateWordFile() throws IOException {
         // Given
         List<Bibliotheque.Livre> livres = List.of(unLivre().build(), unLivre().avecTitre("Autre titre").build());
 
@@ -45,7 +43,7 @@ class WordExportTest {
 
     @Test
     @DisplayName(" devrait creer un fichier word avec un sommaire")
-    public void createWordContent_cas_1() {
+    void createWordContent_cas_1() {
         // Given
         List<Bibliotheque.Livre> livres = List.of(unLivre().build(), unLivre().avecTitre("Autre titre").build());
         wordExport.setTestFile(new File("src/main/resources/com/esiee/java_avance_lot_1/xml/bib.docx"));
@@ -70,10 +68,13 @@ class WordExportTest {
         wordExport.setTestFile(new File("src/main/resources/com/esiee/java_avance_lot_1/xml/bib.docx"));
 
         // When
-        XWPFDocument document = wordExport.createWordContent(livres);
+        try (XWPFDocument document = wordExport.createWordContent(livres)) {
 
-        // Then
-        Assertions.assertNotNull(document.getStyles().getStyle("Récapitulatifs emprunts"));
+            // Then
+            Assertions.assertNotNull(document.getStyles().getStyle("Récapitulatifs emprunts"));
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 
 }

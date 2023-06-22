@@ -3,6 +3,7 @@ package com.esiee.java_avance_lot_1.controller;
 import com.esiee.java_avance_lot_1.dao.BibliothequeDao;
 import com.esiee.java_avance_lot_1.dao.WordExport;
 import com.esiee.java_avance_lot_1.dao.XSDUnmarshaller;
+import com.esiee.java_avance_lot_1.exception.CustomRuntimeException;
 import com.esiee.java_avance_lot_1.model.Bibliotheque;
 import com.esiee.java_avance_lot_1.vue.InfosApplication;
 import jakarta.xml.bind.JAXBException;
@@ -38,7 +39,8 @@ import java.util.ResourceBundle;
  */
 public class HomeController implements Initializable {
 
-    public static boolean testEnabled = false;
+
+    private static boolean testEnabled = false;
     private static File selectedFile;
     @FXML
     public MenuItem exportAsPdfButton;
@@ -110,14 +112,15 @@ public class HomeController implements Initializable {
     /**
      * Ouvre la fenêtre d'informations.
      */
-    private static void openInfos() {
+    private static void openInfos() throws CustomRuntimeException {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(InfosApplication.class.getResource("infos.fxml"));
         Scene scene;
         try {
             scene = new Scene(fxmlLoader.load());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
+            throw new CustomRuntimeException("erreur au niveau de l'ouverture de la page d'infos");
         }
         stage.setTitle("Infos");
         stage.setScene(scene);
@@ -140,6 +143,14 @@ public class HomeController implements Initializable {
      */
     public static void setSelectedFile(File file) {
         selectedFile = file;
+    }
+
+    public static boolean isTestEnabled() {
+        return testEnabled;
+    }
+
+    public static void setTestEnabled(boolean testEnabled) {
+        HomeController.testEnabled = testEnabled;
     }
 
     /**
@@ -165,7 +176,13 @@ public class HomeController implements Initializable {
 
         menuClose.setOnAction(actionEvent -> Platform.exit());
 
-        menuInfos.setOnAction(event -> openInfos());
+        menuInfos.setOnAction(event -> {
+            try {
+                openInfos();
+            } catch (CustomRuntimeException e) {
+                throw new RuntimeException(e);
+            }
+        });
 
         tableXml.setOnMouseClicked(event -> mapFormToSelectedBook());
 
@@ -257,8 +274,8 @@ public class HomeController implements Initializable {
      * Sauvegarde une bibiothèque par défaut ( soit dans la base de donnée, soit dans  le fichier xml ouvert)
      */
     public void saveDef() {
-        Bibliotheque bibliotheque = new Bibliotheque();
-        bibliotheque.setLivre(tableXml.getItems());
+        Bibliotheque bibiliothequeASauvegarder = new Bibliotheque();
+        bibiliothequeASauvegarder.setLivre(tableXml.getItems());
         BibliothequeDao bibliothequeDao = new BibliothequeDao();
 
         if (menuConnecte.isSelected()) {
@@ -269,8 +286,8 @@ public class HomeController implements Initializable {
             }
         } else {
             try {
-                XSDUnmarshaller.enregistrerBibliotheque(bibliotheque, selectedFile);
-            } catch (JAXBException | FileNotFoundException e) {
+                XSDUnmarshaller.enregistrerBibliotheque(bibiliothequeASauvegarder, selectedFile);
+            } catch (JAXBException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -299,7 +316,7 @@ public class HomeController implements Initializable {
 
             try {
                 XSDUnmarshaller.enregistrerBibliotheque(bibliotheque, selectedFile);
-            } catch (JAXBException | FileNotFoundException e) {
+            } catch (JAXBException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -310,8 +327,8 @@ public class HomeController implements Initializable {
      */
     private void validateForm() {
         List<TextField> textFields = formPane.getChildren().stream()
-                .filter(node -> node instanceof TextField)
-                .map(node -> (TextField) node)
+                .filter(TextArea.class::isInstance)
+                .map(TextField.class::cast)
                 .toList();
 
         List<String> bookFieldValues = textFields.stream()
@@ -429,7 +446,6 @@ public class HomeController implements Initializable {
         }
         etatInput.setSelected(livre.isEtat());
     }
-
 
     /**
      * Permet de définir quelle attribut de l'objet Livre correspond à quelle

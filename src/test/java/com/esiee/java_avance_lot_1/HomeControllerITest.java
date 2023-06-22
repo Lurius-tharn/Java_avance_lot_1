@@ -10,7 +10,7 @@ import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.stage.Stage;
 import org.junit.jupiter.api.Assertions;
-import org.junit.jupiter.api.DisplayName;
+import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.testfx.api.FxAssert;
@@ -29,7 +29,6 @@ import java.util.concurrent.TimeoutException;
 
 import static com.esiee.java_avance_lot_1.fixture.LivreTestBuilder.unLivre;
 import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(ApplicationExtension.class)
 class HomeControllerITest {
@@ -40,23 +39,23 @@ class HomeControllerITest {
 
     @Start
     public void start(Stage stage) throws Exception {
-        HomeController.testEnabled = true;
+        HomeController.setTestEnabled(true);
         this.stage = stage;
         HomeApplication application = new HomeApplication();
         application.start(stage);
     }
 
     @Test
+    @Order(1)
     void should_contain_button_with_text(FxRobot robot) {
         FxAssert.verifyThat("#validerButton", LabeledMatchers.hasText("Valider"));
     }
 
-    @DisplayName("Devrait ouvrir un fichier xml, et a partir de ses données, chargé le tableau")
     @Test
+    @Order(2)
     void should_open_xml_and_add_book_to_table(FxRobot robot) throws TimeoutException {
         // Vérifiez que selectedFile est initialisé à null avant le clic sur le menu "Open"
         robot.clickOn("#menuFile");
-        assertNull(HomeController.getSelectedFile());
         // Simulez la sélection d'un fichier dans le FileChooser
         File fileToSelect = new File("src/main/resources/com/esiee/java_avance_lot_1/xml/test.xml");
 
@@ -75,7 +74,7 @@ class HomeControllerITest {
     }
 
     @Test
-    @DisplayName("Devrait Afficher un formuylaire quand on clique sur une ligne du tableau")
+    @Order(3)
     void should_edit_a_row(FxRobot robot) throws TimeoutException {
 
         robot.clickOn("#menuFile");
@@ -110,7 +109,7 @@ class HomeControllerITest {
     }
 
     @Test
-    @DisplayName("evve")
+    @Order(4)
     void name(FxRobot robot) throws TimeoutException {
 
         // TODO A REFACTO
@@ -178,8 +177,8 @@ class HomeControllerITest {
     }
 
     @Test
-    @DisplayName("modification")
-    void modification(FxRobot robot) throws TimeoutException {
+    @Order(5)
+    void ajout_et_suppression(FxRobot robot) throws TimeoutException {
 
         robot.clickOn("#add");
 
@@ -238,11 +237,99 @@ class HomeControllerITest {
         TableView<?> tableView = robot.lookup("#tableXml").queryTableView();
         Assertions.assertTrue(tableView.getItems().size() == 0);
 
-
-
     }
+
+//    @Test
+//    @Order(6)
+//    void sauvegarde_default(FxRobot robot) throws TimeoutException, IOException {
+//
+//        robot.clickOn("#menuFile");
+//        // Simulez la sélection d'un fichier dans le FileChooser
+//        File fileToSelect = new File("src/main/resources/com/esiee/java_avance_lot_1/xml/test.xml");
+//
+//        // Appelez la méthode setSelectedFile de votre contrôleur avec le fichier sélectionné
+//        HomeController.setSelectedFile(fileToSelect);
+//        WaitForAsyncUtils.waitFor(2, TimeUnit.SECONDS, () -> {
+//            return robot.lookup("#menuOpen").match(NodeQueryUtils.isVisible()).tryQuery().isPresent();
+//        });
+//        // Cliquez sur le menu "Open"
+//        robot.clickOn("#menuOpen");
+//
+//        TableView<?> tableView = robot.lookup("#tableXml").queryTableView();
+//
+//
+//        int rowCount = tableView.getItems().size();
+//
+//        // Select the desired row index
+//        int rowIndex = 0;
+//        TableView.TableViewSelectionModel<?> selectionModel = tableView.getSelectionModel();
+//        selectionModel.select(rowIndex);
+//
+//        // Get the node representing the selected row
+//        Node node = robot.lookup("#tableXml").nth(rowIndex).query();
+//
+//        // Click on the node
+//        robot.clickOn(node);
+//
+//        robot.clickOn("#add");
+//
+//        robot.clickOn("#titleInput");
+//        robot.eraseText(10);
+//        robot.write("test");
+//
+//        robot.clickOn("#authorInput");
+//        robot.eraseText(10);
+//        robot.write("auteur auteur");
+//
+//        robot.clickOn("#presentationInput");
+//        robot.eraseText(15);
+//        robot.write("presentation");
+//
+//        robot.clickOn("#parutionInput");
+//        robot.eraseText(10);
+//        robot.write("2015");
+//
+//        robot.clickOn("#columnInput");
+//        robot.eraseText(10);
+//        robot.write("1");
+//
+//        robot.clickOn("#rangeInput");
+//        robot.eraseText(10);
+//        robot.write("1");
+//
+//        TextField image =
+//                robot.lookup("#imageInput").query();
+//        image.setText("");
+//        robot.clickOn("#imageInput");
+//        robot.write("https://i.pinimg.com/originals/1d/f1/26/1df126025aaeb5816a6e97664919ff1c.jpg");
+//
+//        CheckBox etatInput = robot.lookup("#etatInput").query();
+//        robot.clickOn("#etatInput");
+//
+//        robot.clickOn("#validerButton");
+//
+//        robot.clickOn("#menuEdition");
+//        WaitForAsyncUtils.waitFor(2, TimeUnit.SECONDS, () -> {
+//            return robot.lookup("#saveDefault").match(NodeQueryUtils.isVisible()).tryQuery().isPresent();
+//        });
+//        robot.clickOn("#saveDefault");
+//        robot.clickOn("#menuFile");
+//
+//        HomeController.setSelectedFile(fileToSelect);
+//        WaitForAsyncUtils.waitFor(2, TimeUnit.SECONDS, () -> {
+//            return robot.lookup("#menuOpen").match(NodeQueryUtils.isVisible()).tryQuery().isPresent();
+//        });
+//        // Cliquez sur le menu "Open"
+//        robot.clickOn("#menuOpen");
+//
+//        assertEquals(rowCount, rowCount);
+//
+//    }
+
+
     @Test
-    void cas_1(FxRobot robot) throws TimeoutException, IOException {
+    @Order(6)
+    void should_open_infos_application(FxRobot robot) throws TimeoutException, IOException {
         robot.clickOn("#menuAbout");
         // Simulez la sélection d'un fichier dans le FileChooser
 

@@ -22,6 +22,8 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static org.apache.poi.xwpf.usermodel.Document.PICTURE_TYPE_PNG;
+
 public class WordExport {
 
     private boolean testEnabled = false;
@@ -118,12 +120,7 @@ public class WordExport {
         addCustomHeadingStyle(doc, presLivres, 1);
         livres.forEach(livre -> addCustomHeadingStyle(doc, livre.getTitre(), 2));
         addCustomHeadingStyle(doc, recapEmp, 1);
-//
-//        CTSdtBlock block = doc.getDocument().getBody().addNewSdt();
-//        TOC toc = new TOC(block);
-//
-//        toc.addRow(1, recapEmp, 1, recapEmp);
-//        toc.addRow(1, pageGarde, 2, pageGarde);
+
 
         AtomicReference<XWPFParagraph> paragraph = new AtomicReference<>(doc.createParagraph());
 
@@ -166,7 +163,7 @@ public class WordExport {
         headerRow.getCell(3).setText("Présentation");
 
         // Remplissage des données des livres dans le tableau
-        livres.stream().filter(Bibliotheque.Livre::isEtat).forEach((livre) -> {
+        livres.stream().filter(Bibliotheque.Livre::isEtat).forEach(livre -> {
             int index = livres.indexOf(livre);
 
             XWPFTableRow row = table.getRow(index + 1);
@@ -258,7 +255,7 @@ public class WordExport {
         imageRun.addBreak();
 
         try {
-            int format = XWPFDocument.PICTURE_TYPE_PNG;
+            int format = PICTURE_TYPE_PNG;
             String imageName = "Couverture";
             String imageURL = livre.getImage();
             if (!imageURL.isEmpty()) {
