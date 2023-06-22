@@ -249,7 +249,7 @@ class HomeControllerITest {
 
     @Test
     @Order(6)
-    void sauvegarde_default(FxRobot robot) throws TimeoutException, IOException {
+    void sauvegarde_default(FxRobot robot) throws TimeoutException {
 
         robot.clickOn("#menuFile");
         // Simulez la sélection d'un fichier dans le FileChooser
@@ -317,9 +317,9 @@ class HomeControllerITest {
         robot.clickOn("#validerButton");
 
         robot.clickOn("#menuEdition");
-        WaitForAsyncUtils.waitFor(2, TimeUnit.SECONDS, () -> {
-            return robot.lookup("#saveDefault").match(NodeQueryUtils.isVisible()).tryQuery().isPresent();
-        });
+
+        WaitForAsyncUtils.waitFor(2, TimeUnit.SECONDS, () -> robot.lookup("#saveDefault").match(NodeQueryUtils.isVisible()).tryQuery().isPresent());
+
         robot.clickOn("#saveDefault");
 
 
