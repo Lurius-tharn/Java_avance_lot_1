@@ -22,10 +22,6 @@ public class BibliothequeDao {
     private static final String UPDATE_QUERY = "UPDATE ja_library.livre SET titre=?, auteur=?, presentation=?, parution=?, colonne=?, rangee=?, image=?, etat=? WHERE idLivre=?";
     private static final String SELECT_QUERY = "SELECT * FROM ja_library.livre";
 
-    private static final String BIBLIO_CHECK_QUERY = "SELECT nomBibliotheque from bibliothéque where nomBibliotheque = ?";
-
-    private static final String BIBLIO_CREATE_QUERY = "INSERT INTO ja_library.bibliothéque(idBibliothéque, nomBibliothéque) VALUES (?, ?)";
-
     private static final String LIVRE_CHECK_QUERY = "SELECT * FROM ja_library.livre WHERE idLivre = ?";
 
     private static final String LIVRE_CREATE_SCHEMA = "CREATE schema ja_library";
@@ -205,75 +201,6 @@ public class BibliothequeDao {
         });
     }
 
-    /**
-     * Insère une nouvelle bibliothèque dans la base de données.
-     *
-     * @param nomBiblio le nom de la bibliothèque à insérer
-     * @throws SQLException si une erreur survient lors de l'exécution de la requête SQL
-     */
-    public void insertBiblio(String nomBiblio) throws SQLException {
-        PreparedStatement preparedStatement = null;
-
-        try (Connection connection = DriverManager
-                .getConnection(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD)) {
-
-            preparedStatement = connection.prepareStatement(BIBLIO_CREATE_QUERY);
-
-            preparedStatement.setString(1, nomBiblio);
-            preparedStatement.setInt(2, 0);
-            preparedStatement.executeUpdate();
-
-        } catch (SQLException e) {
-            printSQLException(e);
-        } finally {
-            if (preparedStatement != null) {
-                try {
-                    preparedStatement.close();
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-    }
-
-    /**
-     * Vérifie si une bibliothèque existe dans la base de données.
-     *
-     * @param nomBiblio le nom de la bibliothèque à vérifier
-     * @return true si la bibliothèque existe, false sinon
-     * @throws SQLException si une erreur survient lors de l'exécution de la requête SQL
-     */
-    public boolean checkBiblio(String nomBiblio) throws SQLException {
-        String nomBiblioBase = "";
-        PreparedStatement preparedStatement = null;
-        ResultSet rs = null;
-
-        try (Connection connection = DriverManager
-                .getConnection(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD)) {
-
-            preparedStatement = connection.prepareStatement(BIBLIO_CHECK_QUERY);
-
-            preparedStatement.setString(1, nomBiblio);
-            rs = preparedStatement.executeQuery();
-
-            nomBiblioBase = rs.getString(1);
-
-
-        } catch (SQLException e) {
-            printSQLException(e);
-        } finally {
-            if (preparedStatement != null && rs != null) {
-                try {
-                    preparedStatement.close();
-                    rs.close();
-                } catch (NullPointerException e) {
-                    e.printStackTrace();
-                }
-            }
-        }
-
-        return nomBiblioBase != null;
-    }
 
     /**
      * Vérifie si un livre existe dans la base de données.

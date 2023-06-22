@@ -38,7 +38,9 @@ import java.util.ResourceBundle;
  */
 public class HomeController implements Initializable {
 
-    public static boolean testEnabled = false;
+
+    public static final WordExport wordExport = new WordExport();
+    private static boolean testEnabled = false;
     private static File selectedFile;
     @FXML
     public MenuItem exportAsPdfButton;
@@ -117,7 +119,8 @@ public class HomeController implements Initializable {
         try {
             scene = new Scene(fxmlLoader.load());
         } catch (IOException e) {
-            throw new RuntimeException(e);
+
+            throw new RuntimeException("erreur au niveau de l'ouverture de la page d'infos");
         }
         stage.setTitle("Infos");
         stage.setScene(scene);
@@ -140,6 +143,14 @@ public class HomeController implements Initializable {
      */
     public static void setSelectedFile(File file) {
         selectedFile = file;
+    }
+
+    public static boolean isTestEnabled() {
+        return testEnabled;
+    }
+
+    public static void setTestEnabled(boolean testEnabled) {
+        HomeController.testEnabled = testEnabled;
     }
 
     /**
@@ -186,7 +197,6 @@ public class HomeController implements Initializable {
      * @throws FileNotFoundException Si le fichier de destination n'est pas trouvé.
      */
     private void exportAsPDF() {
-        WordExport wordExport = new WordExport();
         try {
             wordExport.createPdf(tableXml.getItems());
         } catch (IOException e) {
@@ -200,7 +210,6 @@ public class HomeController implements Initializable {
      * @throws FileNotFoundException Si le fichier de destination n'est pas trouvé.
      */
     private void exportAsWord() {
-        WordExport wordExport = new WordExport();
         try {
             wordExport.createWord(tableXml.getItems());
         } catch (IOException e) {
@@ -257,8 +266,8 @@ public class HomeController implements Initializable {
      * Sauvegarde une bibiothèque par défaut ( soit dans la base de donnée, soit dans  le fichier xml ouvert)
      */
     public void saveDef() {
-        Bibliotheque bibliotheque = new Bibliotheque();
-        bibliotheque.setLivre(tableXml.getItems());
+        Bibliotheque bibiliothequeASauvegarder = new Bibliotheque();
+        bibiliothequeASauvegarder.setLivre(tableXml.getItems());
         BibliothequeDao bibliothequeDao = new BibliothequeDao();
 
         if (menuConnecte.isSelected()) {
@@ -269,8 +278,8 @@ public class HomeController implements Initializable {
             }
         } else {
             try {
-                XSDUnmarshaller.enregistrerBibliotheque(bibliotheque, selectedFile);
-            } catch (JAXBException | FileNotFoundException e) {
+                XSDUnmarshaller.enregistrerBibliotheque(bibiliothequeASauvegarder, selectedFile);
+            } catch (JAXBException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -299,7 +308,7 @@ public class HomeController implements Initializable {
 
             try {
                 XSDUnmarshaller.enregistrerBibliotheque(bibliotheque, selectedFile);
-            } catch (JAXBException | FileNotFoundException e) {
+            } catch (JAXBException e) {
                 throw new RuntimeException(e);
             }
         }
@@ -429,7 +438,6 @@ public class HomeController implements Initializable {
         }
         etatInput.setSelected(livre.isEtat());
     }
-
 
     /**
      * Permet de définir quelle attribut de l'objet Livre correspond à quelle

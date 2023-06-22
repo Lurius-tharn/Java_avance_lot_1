@@ -11,10 +11,20 @@ import javax.xml.XMLConstants;
 import javax.xml.validation.Schema;
 import javax.xml.validation.SchemaFactory;
 import java.io.File;
-import java.io.FileNotFoundException;
-import java.util.List;
 
 public class XSDUnmarshaller {
+
+    private XSDUnmarshaller() {
+
+    }
+
+    /**
+     * lire une bibiotheque
+     *
+     * @param selectedFile
+     * @return
+     * @throws JAXBException
+     */
     public static Bibliotheque lireBibliotheque(File selectedFile) throws JAXBException {
         File xsdFile = new File("src/main/resources/com/esiee/java_avance_lot_1/xml/Biblio.xsd");
 
@@ -35,7 +45,14 @@ public class XSDUnmarshaller {
         return null;
     }
 
-    public static void enregistrerBibliotheque(Bibliotheque bibliotheque, File selectedFile) throws JAXBException, FileNotFoundException {
+    /**
+     * enregistre une bibliothéque
+     *
+     * @param bibliotheque
+     * @param selectedFile
+     * @throws JAXBException
+     */
+    public static void enregistrerBibliotheque(Bibliotheque bibliotheque, File selectedFile) throws JAXBException {
         JAXBContext contextObj = JAXBContext.newInstance(Bibliotheque.class);
 
         Marshaller marshallerObj = contextObj.createMarshaller();

@@ -22,11 +22,20 @@ import java.time.LocalDate;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicReference;
 
+import static org.apache.poi.xwpf.usermodel.Document.PICTURE_TYPE_PNG;
+
 public class WordExport {
 
-    private boolean testEnabled = false;
-    private File testFile;
+    private static boolean testEnabled = false;
+    private static File testFile;
 
+    /**
+     * Genere un sommaire
+     *
+     * @param docxDocument
+     * @param strStyleId
+     * @param headingLevel
+     */
     private static void addCustomHeadingStyle(XWPFDocument docxDocument, String strStyleId, int headingLevel) {
 
         CTStyle ctStyle = CTStyle.Factory.newInstance();
@@ -59,7 +68,41 @@ public class WordExport {
 
     }
 
+    /**
+     * @return testEnabled la variable des tests
+     */
+    public static boolean isTestEnabled() {
+        return testEnabled;
+    }
 
+    /**
+     * @param test
+     */
+    public static void setTestEnabled(boolean test) {
+        testEnabled = test;
+    }
+
+    /**
+     * @return testFile un fichier de test
+     */
+    public static File getTestFile() {
+        return testFile;
+    }
+
+    /**
+     * @param file
+     */
+    public static void setTestFile(File file) {
+        testFile = file;
+    }
+
+
+    /**
+     * Genere un pdf
+     *
+     * @param livres
+     * @throws IOException
+     */
     public void createPdf(List<Bibliotheque.Livre> livres) throws IOException {
         XWPFDocument docWord = createWordContent(livres);
 
@@ -76,7 +119,7 @@ public class WordExport {
         fileChooser.setTitle("Enregistrer le fichier PDF");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers PDF", "*.pdf"));
 
-        File pdfFile = fileChooser.showSaveDialog(null);
+        File pdfFile = testEnabled ? getTestFile() : fileChooser.showSaveDialog(null);
         if (pdfFile != null) {
             String pdfFilePath = pdfFile.getAbsolutePath();
 
@@ -88,7 +131,12 @@ public class WordExport {
         }
     }
 
-
+    /**
+     * crée un word a partir d'une liste de livres
+     *
+     * @param livres
+     * @throws IOException
+     */
     public void createWord(List<Bibliotheque.Livre> livres) throws IOException {
         FileChooser fileChooser = new FileChooser();
         //Set extension filter for text files
@@ -107,6 +155,12 @@ public class WordExport {
         }
     }
 
+    /**
+     * crée le contenu du fichier word
+     *
+     * @param livres
+     * @return
+     */
     XWPFDocument createWordContent(List<Bibliotheque.Livre> livres) {
         XWPFDocument doc = new XWPFDocument();
         String recapEmp = "Récapitulatifs emprunts";
@@ -118,12 +172,7 @@ public class WordExport {
         addCustomHeadingStyle(doc, presLivres, 1);
         livres.forEach(livre -> addCustomHeadingStyle(doc, livre.getTitre(), 2));
         addCustomHeadingStyle(doc, recapEmp, 1);
-//
-//        CTSdtBlock block = doc.getDocument().getBody().addNewSdt();
-//        TOC toc = new TOC(block);
-//
-//        toc.addRow(1, recapEmp, 1, recapEmp);
-//        toc.addRow(1, pageGarde, 2, pageGarde);
+
 
         AtomicReference<XWPFParagraph> paragraph = new AtomicReference<>(doc.createParagraph());
 
@@ -166,7 +215,7 @@ public class WordExport {
         headerRow.getCell(3).setText("Présentation");
 
         // Remplissage des données des livres dans le tableau
-        livres.stream().filter(Bibliotheque.Livre::isEtat).forEach((livre) -> {
+        livres.stream().filter(Bibliotheque.Livre::isEtat).forEach(livre -> {
             int index = livres.indexOf(livre);
 
             XWPFTableRow row = table.getRow(index + 1);
@@ -187,6 +236,12 @@ public class WordExport {
         return doc;
     }
 
+    /**
+     * cée le contenu d'un livre
+     *
+     * @param doc
+     * @param livre
+     */
     private void createBookContent(XWPFDocument doc, Bibliotheque.Livre livre) {
         XWPFParagraph livreParagraph = doc.createParagraph();
         XWPFRun livreRun = livreParagraph.createRun();
@@ -258,7 +313,7 @@ public class WordExport {
         imageRun.addBreak();
 
         try {
-            int format = XWPFDocument.PICTURE_TYPE_PNG;
+            int format = PICTURE_TYPE_PNG;
             String imageName = "Couverture";
             String imageURL = livre.getImage();
             if (!imageURL.isEmpty()) {
@@ -274,22 +329,5 @@ public class WordExport {
         } catch (IOException | InvalidFormatException e) {
             e.printStackTrace();
         }
-    }
-
-
-    public boolean isTestEnabled() {
-        return testEnabled;
-    }
-
-    public void setTestEnabled(boolean testEnabled) {
-        this.testEnabled = testEnabled;
-    }
-
-    public File getTestFile() {
-        return testFile;
-    }
-
-    public void setTestFile(File testFile) {
-        this.testFile = testFile;
     }
 }

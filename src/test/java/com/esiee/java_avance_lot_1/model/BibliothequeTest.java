@@ -50,8 +50,6 @@ class BibliothequeTest extends Bibliotheque {
         livre.setParution(2012);
         Assertions.assertEquals(2012, livre.getParution());
 
-//        livre.setParution(Integer.parseInt("test"));
-//        Assertions.assertThNumberFormatException);
     }
 
     @Test
@@ -65,10 +63,10 @@ class BibliothequeTest extends Bibliotheque {
     void testGetEtat() {
 
         livre.setEtat(false);
-        Assertions.assertEquals(false, livre.isEtat());
+        Assertions.assertFalse(livre.isEtat());
     }
 
-    //fff
+
     @Test
     void testGetRangee() {
 
@@ -83,8 +81,5 @@ class BibliothequeTest extends Bibliotheque {
         Assertions.assertEquals(5, livre.getColonne());
     }
 
-    @Test
-    void testSetLivre1() {
-    }
 
 }
