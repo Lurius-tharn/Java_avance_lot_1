@@ -5,6 +5,7 @@
 // Généré le : 2023.06.11 à 10:21:38 PM CEST
 //
 
+
 package com.esiee.java_avance_lot_1.model;
 
 import jakarta.xml.bind.annotation.*;

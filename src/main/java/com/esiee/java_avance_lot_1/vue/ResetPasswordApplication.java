@@ -7,13 +7,13 @@ import javafx.stage.Stage;
 
 import java.io.IOException;
 
-public class InfosApplication extends Application {
+public class ResetPasswordApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(InfosApplication.class.getResource("infos.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(InfosApplication.class.getResource("reset_password.fxml"));
         Scene scene = new Scene(fxmlLoader.load());
 
-        stage.setTitle("Infos");
+        stage.setTitle("Réinitialisation");
         stage.setScene(scene);
         stage.show();
     }
