@@ -102,32 +102,26 @@ jobs:
       #Build the application using Maven
       - name: Build with Maven
         run: xvfb-run mvn -B package -DskipTests --file pom.xml
-      #Build the application using Maven
+      - name: Génération SBOM
+        run: xvfb-run mvn verify
+      - name: Generate Javadoc
+        run: mvn javadoc:javadoc      #Build the application using Maven
       - name: Upload JAR
         #This uploads artifacts from your workflow allowing you to share data between jobs and store data once a workflow is complete.
         uses: actions/upload-artifact@v2
         with:
           #Set artifact name
-          name: artifact
+          name: JAR
           #From this path
           path: target/Java_avance_lot_1-1.0-SNAPSHOT.jar
       - name: Upload SBOM
-        #This uploads artifacts from your workflow allowing you to share data between jobs and store data once a workflow is complete.
         uses: actions/upload-artifact@v2
         with:
-          #Set artifact name
-          name: artifact
-          #From this path
+          name: SBOM
           path: target/bom.xml
       - name: Upload JAVADOC
-        #This uploads artifacts from your workflow allowing you to share data between jobs and store data once a workflow is complete.
         uses: actions/upload-artifact@v2
         with:
-          #Set artifact name
-          name: artifact
-          #From this path
+          name: JAVADOC
           path: target/site/apidocs/
-      - name: Génération SBOM
-        run: xvfb-run mvn verify
-      - name: Generate Javadoc
-        run: mvn javadoc:javadoc
+
