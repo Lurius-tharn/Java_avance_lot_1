@@ -3,7 +3,6 @@ package com.esiee.java_avance_lot_1.controller;
 import com.esiee.java_avance_lot_1.dao.BibliothequeDao;
 import com.esiee.java_avance_lot_1.dao.WordExport;
 import com.esiee.java_avance_lot_1.dao.XSDUnmarshaller;
-import com.esiee.java_avance_lot_1.exception.CustomRuntimeException;
 import com.esiee.java_avance_lot_1.model.Bibliotheque;
 import com.esiee.java_avance_lot_1.vue.InfosApplication;
 import jakarta.xml.bind.JAXBException;
@@ -112,7 +111,7 @@ public class HomeController implements Initializable {
     /**
      * Ouvre la fenêtre d'informations.
      */
-    private static void openInfos() throws CustomRuntimeException {
+    private static void openInfos() {
         Stage stage = new Stage();
         FXMLLoader fxmlLoader = new FXMLLoader(InfosApplication.class.getResource("infos.fxml"));
         Scene scene;
@@ -120,7 +119,7 @@ public class HomeController implements Initializable {
             scene = new Scene(fxmlLoader.load());
         } catch (IOException e) {
 
-            throw new CustomRuntimeException("erreur au niveau de l'ouverture de la page d'infos");
+            throw new RuntimeException("erreur au niveau de l'ouverture de la page d'infos");
         }
         stage.setTitle("Infos");
         stage.setScene(scene);
@@ -177,11 +176,8 @@ public class HomeController implements Initializable {
         menuClose.setOnAction(actionEvent -> Platform.exit());
 
         menuInfos.setOnAction(event -> {
-            try {
-                openInfos();
-            } catch (CustomRuntimeException e) {
-                throw new RuntimeException(e);
-            }
+            openInfos();
+
         });
 
         tableXml.setOnMouseClicked(event -> mapFormToSelectedBook());
