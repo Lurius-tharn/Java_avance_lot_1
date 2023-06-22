@@ -176,10 +176,7 @@ public class HomeController implements Initializable {
 
         menuClose.setOnAction(actionEvent -> Platform.exit());
 
-        menuInfos.setOnAction(event -> {
-            openInfos();
-
-        });
+        menuInfos.setOnAction(event -> openInfos());
 
         tableXml.setOnMouseClicked(event -> mapFormToSelectedBook());
 
