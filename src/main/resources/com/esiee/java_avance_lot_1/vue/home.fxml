@@ -53,7 +53,7 @@
                         <MenuItem fx:id="saveAs" mnemonicParsing="false" text="Sauvegarder Sous"/>
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Exporter">
+                <Menu mnemonicParsing="false" text="Exporter" fx:id="menuExport">
                     <items>
                         <MenuItem fx:id="exportAsWordButton" mnemonicParsing="false" text="Word" visible="false"/>
                         <MenuItem fx:id="exportAsPdfButton" mnemonicParsing="false" text="Pdf" visible="false"/>
