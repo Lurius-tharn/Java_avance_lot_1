@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(ApplicationExtension.class)
-class HomeContrellerITest {
+class HomeControllerITest {
 
 
     Stage stage;
