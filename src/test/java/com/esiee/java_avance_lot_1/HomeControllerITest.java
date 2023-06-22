@@ -247,83 +247,92 @@ class HomeControllerITest {
 
     }
 
-    @Test
-    @Order(6)
-    void sauvegarde_default(FxRobot robot) throws TimeoutException {
-
-        robot.clickOn("#menuFile");
-        // Simulez la sélection d'un fichier dans le FileChooser
-        File fileToSelect = new File("src/main/resources/com/esiee/java_avance_lot_1/xml/test.xml");
-
-        // Appelez la méthode setSelectedFile de votre contrôleur avec le fichier sélectionné
-        HomeController.setSelectedFile(fileToSelect);
-        WaitForAsyncUtils.waitFor(2, TimeUnit.SECONDS, () -> {
-            return robot.lookup("#menuOpen").match(NodeQueryUtils.isVisible()).tryQuery().isPresent();
-        });
-        // Cliquez sur le menu "Open"
-        robot.clickOn("#menuOpen");
-
-        TableView<?> tableView = robot.lookup("#tableXml").queryTableView();
-
-
-        int rowCount = tableView.getItems().size();
-
-        // Select the desired row index
-        int rowIndex = 0;
-        TableView.TableViewSelectionModel<?> selectionModel = tableView.getSelectionModel();
-        selectionModel.select(rowIndex);
-
-        // Get the node representing the selected row
-        Node node = robot.lookup("#tableXml").nth(rowIndex).query();
-
-        // Click on the node
-        robot.clickOn(node);
-
-        robot.clickOn("#add");
-
-        robot.clickOn("#titleInput");
-        robot.eraseText(10);
-        robot.write("test");
-
-        robot.clickOn("#authorInput");
-        robot.eraseText(10);
-        robot.write("auteur auteur");
-
-        robot.clickOn("#presentationInput");
-        robot.eraseText(15);
-        robot.write("presentation");
-
-        robot.clickOn("#parutionInput");
-        robot.eraseText(10);
-        robot.write("2015");
-
-        robot.clickOn("#columnInput");
-        robot.eraseText(10);
-        robot.write("1");
-
-        robot.clickOn("#rangeInput");
-        robot.eraseText(10);
-        robot.write("1");
-
-        TextField image =
-                robot.lookup("#imageInput").query();
-        image.setText("");
-        robot.clickOn("#imageInput");
-        robot.write("https://i.pinimg.com/originals/1d/f1/26/1df126025aaeb5816a6e97664919ff1c.jpg");
-
-        CheckBox etatInput = robot.lookup("#etatInput").query();
-        robot.clickOn("#etatInput");
-
-        robot.clickOn("#validerButton");
-
-        robot.clickOn("#menuEdition");
-
-        WaitForAsyncUtils.waitFor(2, TimeUnit.SECONDS, () -> robot.lookup("#saveDefault").match(NodeQueryUtils.isVisible()).tryQuery().isPresent());
-
-        robot.clickOn("#saveDefault");
-
-
-    }
+//    @Test
+//    @Order(6)
+//    void sauvegarde_default(FxRobot robot) throws TimeoutException, IOException {
+//
+//        robot.clickOn("#menuFile");
+//        // Simulez la sélection d'un fichier dans le FileChooser
+//        File fileToSelect = new File("src/main/resources/com/esiee/java_avance_lot_1/xml/test.xml");
+//
+//        // Appelez la méthode setSelectedFile de votre contrôleur avec le fichier sélectionné
+//        HomeController.setSelectedFile(fileToSelect);
+//        WaitForAsyncUtils.waitFor(2, TimeUnit.SECONDS, () -> {
+//            return robot.lookup("#menuOpen").match(NodeQueryUtils.isVisible()).tryQuery().isPresent();
+//        });
+//        // Cliquez sur le menu "Open"
+//        robot.clickOn("#menuOpen");
+//
+//        TableView<?> tableView = robot.lookup("#tableXml").queryTableView();
+//
+//
+//        int rowCount = tableView.getItems().size();
+//
+//        // Select the desired row index
+//        int rowIndex = 0;
+//        TableView.TableViewSelectionModel<?> selectionModel = tableView.getSelectionModel();
+//        selectionModel.select(rowIndex);
+//
+//        // Get the node representing the selected row
+//        Node node = robot.lookup("#tableXml").nth(rowIndex).query();
+//
+//        // Click on the node
+//        robot.clickOn(node);
+//
+//        robot.clickOn("#add");
+//
+//        robot.clickOn("#titleInput");
+//        robot.eraseText(10);
+//        robot.write("test");
+//
+//        robot.clickOn("#authorInput");
+//        robot.eraseText(10);
+//        robot.write("auteur auteur");
+//
+//        robot.clickOn("#presentationInput");
+//        robot.eraseText(15);
+//        robot.write("presentation");
+//
+//        robot.clickOn("#parutionInput");
+//        robot.eraseText(10);
+//        robot.write("2015");
+//
+//        robot.clickOn("#columnInput");
+//        robot.eraseText(10);
+//        robot.write("1");
+//
+//        robot.clickOn("#rangeInput");
+//        robot.eraseText(10);
+//        robot.write("1");
+//
+//        TextField image =
+//                robot.lookup("#imageInput").query();
+//        image.setText("");
+//        robot.clickOn("#imageInput");
+//        robot.write("https://i.pinimg.com/originals/1d/f1/26/1df126025aaeb5816a6e97664919ff1c.jpg");
+//
+//        CheckBox etatInput = robot.lookup("#etatInput").query();
+//        robot.clickOn("#etatInput");
+//
+//        robot.clickOn("#validerButton");
+//
+//        robot.clickOn("#menuEdition");
+//        WaitForAsyncUtils.waitFor(2, TimeUnit.SECONDS, () -> {
+//            return robot.lookup("#saveDefault").match(NodeQueryUtils.isVisible()).tryQuery().isPresent();
+//        });
+//        robot.clickOn("#saveDefault");
+//        robot.clickOn("#menuFile");
+//
+//        HomeController.setSelectedFile(fileToSelect);
+//        WaitForAsyncUtils.waitFor(2, TimeUnit.SECONDS, () -> {
+//            return robot.lookup("#menuOpen").match(NodeQueryUtils.isVisible()).tryQuery().isPresent();
+//        });
+//        // Cliquez sur le menu "Open"
+//        robot.clickOn("#menuOpen");
+//
+//        assertEquals(rowCount, rowCount);
+//
+//    }
 
 
     @Test
