@@ -32,7 +32,7 @@ import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertNull;
 
 @ExtendWith(ApplicationExtension.class)
-class HomeContrellerITest {
+class HomeControllerITest {
 
 
     Stage stage;
@@ -151,6 +151,7 @@ class HomeContrellerITest {
         TextField rangeInput = robot.lookup("#rangeInput").query();
         TextField imageInput = robot.lookup("#imageInput").query();
         CheckBox etatInput = robot.lookup("#etatInput").query();
+        int avantajout = tableView.getItems().size();
 
 
         titleInput.setText(livre.getTitre());
@@ -166,8 +167,80 @@ class HomeContrellerITest {
 
 
         Assertions.assertTrue(Objects.equals(titleInput.getText(), "TitreTest"));
+
+        // quand clique sur bouton + ajoute dans lma table view
+
+        robot.clickOn("#add");
+        robot.clickOn("#validerButton");
+
+        Assertions.assertTrue(tableView.getItems().size() != avantajout);
+
     }
 
+    @Test
+    @DisplayName("modification")
+    void modification(FxRobot robot) throws TimeoutException {
+
+        robot.clickOn("#add");
+
+        robot.clickOn("#titleInput");
+        robot.eraseText(10);
+        robot.write("test");
+
+        robot.clickOn("#authorInput");
+        robot.eraseText(10);
+        robot.write("auteur auteur");
+
+        robot.clickOn("#presentationInput");
+        robot.eraseText(5);
+        robot.write("presentation");
+
+        robot.clickOn("#parutionInput");
+        robot.eraseText(1);
+        robot.write("2015");
+
+        robot.clickOn("#columnInput");
+        robot.eraseText(1);
+        robot.write("1");
+
+        robot.clickOn("#rangeInput");
+        robot.eraseText(1);
+        robot.write("1");
+
+        robot.clickOn("#imageInput");
+        robot.eraseText(1);
+        robot.write("url");
+
+        CheckBox etatInput = robot.lookup("#etatInput").query();
+        robot.clickOn("#etatInput");
+
+        robot.clickOn("#validerButton");
+
+        TextField titleInput = robot.lookup("#titleInput").query();
+        TextField authorInput = robot.lookup("#authorInput").query();
+        TextArea presentationInput = robot.lookup("#presentationInput").query();
+        TextField parutionInput = robot.lookup("#parutionInput").query();
+        TextField columnInput = robot.lookup("#columnInput").query();
+        TextField rangeInput = robot.lookup("#rangeInput").query();
+        TextField imageInput = robot.lookup("#imageInput").query();
+        CheckBox etatInpute = robot.lookup("#etatInput").query();
+
+        assertEquals("test", titleInput.getText());
+        assertEquals("auteur auteur", authorInput.getText());
+        assertEquals("presentation", presentationInput.getText());
+        assertEquals("2015", parutionInput.getText());
+        assertEquals("1", columnInput.getText());
+        assertEquals("1", rangeInput.getText());
+        assertEquals("url", imageInput.getText());
+
+        robot.clickOn("#delete");
+
+        TableView<?> tableView = robot.lookup("#tableXml").queryTableView();
+        Assertions.assertTrue(tableView.getItems().size() == 0);
+
+
+
+    }
     @Test
     void cas_1(FxRobot robot) throws TimeoutException, IOException {
         robot.clickOn("#menuAbout");
@@ -183,4 +256,5 @@ class HomeContrellerITest {
         FxAssert.verifyThat("#pgId", LabeledMatchers.hasText("Pierre Gogniat"));
 
     }
+
 }
