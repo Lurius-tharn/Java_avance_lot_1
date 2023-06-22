@@ -327,8 +327,8 @@ public class HomeController implements Initializable {
      */
     private void validateForm() {
         List<TextField> textFields = formPane.getChildren().stream()
-                .filter(TextArea.class::isInstance)
-                .map(TextField.class::cast)
+                .filter(node -> node instanceof TextField)
+                .map(node -> (TextField) node)
                 .toList();
 
         List<String> bookFieldValues = textFields.stream()
