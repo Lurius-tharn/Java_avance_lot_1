@@ -29,6 +29,13 @@ public class WordExport {
     private static boolean testEnabled = false;
     private static File testFile;
 
+    /**
+     * Genere un sommaire
+     *
+     * @param docxDocument
+     * @param strStyleId
+     * @param headingLevel
+     */
     private static void addCustomHeadingStyle(XWPFDocument docxDocument, String strStyleId, int headingLevel) {
 
         CTStyle ctStyle = CTStyle.Factory.newInstance();
@@ -61,22 +68,41 @@ public class WordExport {
 
     }
 
+    /**
+     * @return testEnabled la variable des tests
+     */
     public static boolean isTestEnabled() {
         return testEnabled;
     }
 
+    /**
+     * @param test
+     */
     public static void setTestEnabled(boolean test) {
         testEnabled = test;
     }
 
+    /**
+     * @return testFile un fichier de test
+     */
     public static File getTestFile() {
         return testFile;
     }
 
+    /**
+     * @param file
+     */
     public static void setTestFile(File file) {
         testFile = file;
     }
 
+
+    /**
+     * Genere un pdf
+     *
+     * @param livres
+     * @throws IOException
+     */
     public void createPdf(List<Bibliotheque.Livre> livres) throws IOException {
         XWPFDocument docWord = createWordContent(livres);
 
@@ -105,6 +131,12 @@ public class WordExport {
         }
     }
 
+    /**
+     * crée un word a partir d'une liste de livres
+     *
+     * @param livres
+     * @throws IOException
+     */
     public void createWord(List<Bibliotheque.Livre> livres) throws IOException {
         FileChooser fileChooser = new FileChooser();
         //Set extension filter for text files
@@ -123,6 +155,12 @@ public class WordExport {
         }
     }
 
+    /**
+     * crée le contenu du fichier word
+     *
+     * @param livres
+     * @return
+     */
     XWPFDocument createWordContent(List<Bibliotheque.Livre> livres) {
         XWPFDocument doc = new XWPFDocument();
         String recapEmp = "Récapitulatifs emprunts";
@@ -198,6 +236,12 @@ public class WordExport {
         return doc;
     }
 
+    /**
+     * cée le contenu d'un livre
+     *
+     * @param doc
+     * @param livre
+     */
     private void createBookContent(XWPFDocument doc, Bibliotheque.Livre livre) {
         XWPFParagraph livreParagraph = doc.createParagraph();
         XWPFRun livreRun = livreParagraph.createRun();

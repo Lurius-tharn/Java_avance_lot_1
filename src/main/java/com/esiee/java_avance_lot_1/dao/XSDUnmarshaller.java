@@ -18,6 +18,13 @@ public class XSDUnmarshaller {
 
     }
 
+    /**
+     * lire une bibiotheque
+     *
+     * @param selectedFile
+     * @return
+     * @throws JAXBException
+     */
     public static Bibliotheque lireBibliotheque(File selectedFile) throws JAXBException {
         File xsdFile = new File("src/main/resources/com/esiee/java_avance_lot_1/xml/Biblio.xsd");
 
@@ -38,6 +45,13 @@ public class XSDUnmarshaller {
         return null;
     }
 
+    /**
+     * enregistre une bibliothéque
+     *
+     * @param bibliotheque
+     * @param selectedFile
+     * @throws JAXBException
+     */
     public static void enregistrerBibliotheque(Bibliotheque bibliotheque, File selectedFile) throws JAXBException {
         JAXBContext contextObj = JAXBContext.newInstance(Bibliotheque.class);
 
