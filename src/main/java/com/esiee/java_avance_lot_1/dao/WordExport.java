@@ -26,8 +26,8 @@ import static org.apache.poi.xwpf.usermodel.Document.PICTURE_TYPE_PNG;
 
 public class WordExport {
 
-    private boolean testEnabled = false;
-    private File testFile;
+    private static boolean testEnabled = false;
+    private static File testFile;
 
     private static void addCustomHeadingStyle(XWPFDocument docxDocument, String strStyleId, int headingLevel) {
 
@@ -61,6 +61,21 @@ public class WordExport {
 
     }
 
+    public static boolean isTestEnabled() {
+        return testEnabled;
+    }
+
+    public static void setTestEnabled(boolean test) {
+        testEnabled = test;
+    }
+
+    public static File getTestFile() {
+        return testFile;
+    }
+
+    public static void setTestFile(File file) {
+        testFile = file;
+    }
 
     public void createPdf(List<Bibliotheque.Livre> livres) throws IOException {
         XWPFDocument docWord = createWordContent(livres);
@@ -78,7 +93,7 @@ public class WordExport {
         fileChooser.setTitle("Enregistrer le fichier PDF");
         fileChooser.getExtensionFilters().add(new FileChooser.ExtensionFilter("Fichiers PDF", "*.pdf"));
 
-        File pdfFile = fileChooser.showSaveDialog(null);
+        File pdfFile = testEnabled ? getTestFile() : fileChooser.showSaveDialog(null);
         if (pdfFile != null) {
             String pdfFilePath = pdfFile.getAbsolutePath();
 
@@ -89,7 +104,6 @@ public class WordExport {
             doc.saveToFile(pdfFilePath, FileFormat.PDF);
         }
     }
-
 
     public void createWord(List<Bibliotheque.Livre> livres) throws IOException {
         FileChooser fileChooser = new FileChooser();
@@ -271,22 +285,5 @@ public class WordExport {
         } catch (IOException | InvalidFormatException e) {
             e.printStackTrace();
         }
-    }
-
-
-    public boolean isTestEnabled() {
-        return testEnabled;
-    }
-
-    public void setTestEnabled(boolean testEnabled) {
-        this.testEnabled = testEnabled;
-    }
-
-    public File getTestFile() {
-        return testFile;
-    }
-
-    public void setTestFile(File testFile) {
-        this.testFile = testFile;
     }
 }

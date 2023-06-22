@@ -31,13 +31,13 @@ class WordExportTest {
         // Given
         List<Bibliotheque.Livre> livres = List.of(unLivre().build(), unLivre().avecTitre("Autre titre").build());
 
-        wordExport.setTestFile(new File("src/main/resources/com/esiee/java_avance_lot_1/xml/bib.docx"));
+        wordExport.setTestFile(new File("src/main/resources/com/esiee/java_avance_lot_1/xml/test.docx"));
 
         // When
         wordExport.createWord(livres);
 
         // Then
-        File expectedFile = new File("src/main/resources/com/esiee/java_avance_lot_1/xml/bib.docx");
+        File expectedFile = new File("src/main/resources/com/esiee/java_avance_lot_1/xml/test.docx");
         Assertions.assertTrue(expectedFile.exists());
     }
 
@@ -46,7 +46,7 @@ class WordExportTest {
     void createWordContent_cas_1() {
         // Given
         List<Bibliotheque.Livre> livres = List.of(unLivre().build(), unLivre().avecTitre("Autre titre").build());
-        wordExport.setTestFile(new File("src/main/resources/com/esiee/java_avance_lot_1/xml/bib.docx"));
+        wordExport.setTestFile(new File("src/main/resources/com/esiee/java_avance_lot_1/xml/test.docx"));
 
         // When
         XWPFDocument document = wordExport.createWordContent(livres);
@@ -65,7 +65,7 @@ class WordExportTest {
     @DisplayName("devrait creer un fichier word avec des livres empruntés")
     void createWordContent_cas_2() {
         List<Bibliotheque.Livre> livres = List.of(unLivre().avecEtat(true).build(), unLivre().avecTitre("Autre titre").avecEtat(true).build());
-        wordExport.setTestFile(new File("src/main/resources/com/esiee/java_avance_lot_1/xml/bib.docx"));
+        wordExport.setTestFile(new File("src/main/resources/com/esiee/java_avance_lot_1/xml/test.docx"));
 
         // When
         try (XWPFDocument document = wordExport.createWordContent(livres)) {

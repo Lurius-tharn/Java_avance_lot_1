@@ -1,6 +1,7 @@
 package com.esiee.java_avance_lot_1;
 
 import com.esiee.java_avance_lot_1.controller.HomeController;
+import com.esiee.java_avance_lot_1.dao.WordExport;
 import com.esiee.java_avance_lot_1.model.Bibliotheque;
 import com.esiee.java_avance_lot_1.vue.HomeApplication;
 import javafx.scene.Node;
@@ -13,6 +14,8 @@ import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Order;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.Mock;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.testfx.api.FxAssert;
 import org.testfx.api.FxRobot;
 import org.testfx.framework.junit5.ApplicationExtension;
@@ -29,10 +32,15 @@ import java.util.concurrent.TimeoutException;
 
 import static com.esiee.java_avance_lot_1.fixture.LivreTestBuilder.unLivre;
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertNotNull;
 
 @ExtendWith(ApplicationExtension.class)
+@ExtendWith(MockitoExtension.class)
 class HomeControllerITest {
 
+
+    @Mock
+    WordExport wordExport;
 
     Stage stage;
     //TODO: clean ca, merge ca, verifier coverage,
@@ -40,6 +48,7 @@ class HomeControllerITest {
     @Start
     public void start(Stage stage) throws Exception {
         HomeController.setTestEnabled(true);
+        WordExport.setTestEnabled(true);
         this.stage = stage;
         HomeApplication application = new HomeApplication();
         application.start(stage);
@@ -112,7 +121,6 @@ class HomeControllerITest {
     @Order(4)
     void name(FxRobot robot) throws TimeoutException {
 
-        // TODO A REFACTO
         robot.clickOn("#menuFile");
         // Simulez la sélection d'un fichier dans le FileChooser
         File fileToSelect = new File("src/main/resources/com/esiee/java_avance_lot_1/xml/test.xml");
@@ -328,7 +336,7 @@ class HomeControllerITest {
 
 
     @Test
-    @Order(6)
+    @Order(7)
     void should_open_infos_application(FxRobot robot) throws TimeoutException, IOException {
         robot.clickOn("#menuAbout");
         // Simulez la sélection d'un fichier dans le FileChooser
@@ -342,6 +350,71 @@ class HomeControllerITest {
 
         FxAssert.verifyThat("#pgId", LabeledMatchers.hasText("Pierre Gogniat"));
 
+    }
+
+    @Test
+    void should_export_as_pdf(FxRobot robot) throws IOException, TimeoutException {
+
+        robot.clickOn("#menuFile");
+        // Simulez la sélection d'un fichier dans le FileChooser
+        File fileToSelect = new File("src/main/resources/com/esiee/java_avance_lot_1/xml/test.xml");
+
+        // Appelez la méthode setSelectedFile de votre contrôleur avec le fichier sélectionné
+        HomeController.setSelectedFile(fileToSelect);
+        WaitForAsyncUtils.waitFor(2, TimeUnit.SECONDS, () -> {
+            return robot.lookup("#menuOpen").match(NodeQueryUtils.isVisible()).tryQuery().isPresent();
+        });
+        // Cliquez sur le menu "Open"
+        robot.clickOn("#menuOpen");
+
+        // Vérifiez que selectedFile est maintenant égal au fichier sélectionné
+        assertEquals(fileToSelect, HomeController.getSelectedFile());
+
+
+        robot.clickOn("#menuExport");
+
+        File pdfToExport = new File("src/main/resources/com/esiee/java_avance_lot_1/xml/test.pdf");
+
+        WordExport.setTestFile(pdfToExport);
+
+        WaitForAsyncUtils.waitFor(2, TimeUnit.SECONDS, () -> robot.lookup("#exportAsPdfButton").match(NodeQueryUtils.isVisible()).tryQuery().isPresent());
+        // Cliquez sur le menu "Open"
+        robot.clickOn("#exportAsPdfButton");
+
+        assertNotNull(pdfToExport);
+
+    }
+
+    @Test
+    void should_export_as_word(FxRobot robot) throws IOException, TimeoutException {
+
+        robot.clickOn("#menuFile");
+        // Simulez la sélection d'un fichier dans le FileChooser
+        File fileToSelect = new File("src/main/resources/com/esiee/java_avance_lot_1/xml/test.xml");
+
+        // Appelez la méthode setSelectedFile de votre contrôleur avec le fichier sélectionné
+        HomeController.setSelectedFile(fileToSelect);
+        WaitForAsyncUtils.waitFor(2, TimeUnit.SECONDS, () -> {
+            return robot.lookup("#menuOpen").match(NodeQueryUtils.isVisible()).tryQuery().isPresent();
+        });
+        // Cliquez sur le menu "Open"
+        robot.clickOn("#menuOpen");
+
+        // Vérifiez que selectedFile est maintenant égal au fichier sélectionné
+        assertEquals(fileToSelect, HomeController.getSelectedFile());
+
+
+        robot.clickOn("#menuExport");
+
+        File pdfToExport = new File("src/main/resources/com/esiee/java_avance_lot_1/xml/test.docx");
+
+        WordExport.setTestFile(pdfToExport);
+
+        WaitForAsyncUtils.waitFor(2, TimeUnit.SECONDS, () -> robot.lookup("#exportAsWordButton").match(NodeQueryUtils.isVisible()).tryQuery().isPresent());
+        // Cliquez sur le menu "Open"
+        robot.clickOn("#exportAsWordButton");
+
+        assertNotNull(pdfToExport);
     }
 
 }

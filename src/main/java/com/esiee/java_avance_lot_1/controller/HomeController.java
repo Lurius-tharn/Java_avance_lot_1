@@ -39,6 +39,7 @@ import java.util.ResourceBundle;
 public class HomeController implements Initializable {
 
 
+    public static final WordExport wordExport = new WordExport();
     private static boolean testEnabled = false;
     private static File selectedFile;
     @FXML
@@ -199,7 +200,6 @@ public class HomeController implements Initializable {
      * @throws FileNotFoundException Si le fichier de destination n'est pas trouvé.
      */
     private void exportAsPDF() {
-        WordExport wordExport = new WordExport();
         try {
             wordExport.createPdf(tableXml.getItems());
         } catch (IOException e) {
@@ -213,7 +213,6 @@ public class HomeController implements Initializable {
      * @throws FileNotFoundException Si le fichier de destination n'est pas trouvé.
      */
     private void exportAsWord() {
-        WordExport wordExport = new WordExport();
         try {
             wordExport.createWord(tableXml.getItems());
         } catch (IOException e) {
