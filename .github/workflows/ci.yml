@@ -103,7 +103,7 @@ jobs:
       - name: Build with Maven
         run: xvfb-run mvn -B package -DskipTests --file pom.xml
       - name: Génération SBOM
-        run: xvfb-run mvn verify
+        run: mvn verify
       - name: Generate Javadoc
         run: mvn javadoc:javadoc      #Build the application using Maven
       - name: Upload JAR
