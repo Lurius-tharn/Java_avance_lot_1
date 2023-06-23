@@ -38,10 +38,8 @@ import java.util.ResourceBundle;
  * @author pGogniat, tMerlay, dSajous
  */
 public class HomeController implements Initializable {
-    public static boolean testEnabled = false;
-
-
     public static final WordExport wordExport = new WordExport();
+    public static boolean testEnabled = false;
     private static File selectedFile;
     @FXML
     public MenuItem exportAsPdfButton;
@@ -179,7 +177,7 @@ public class HomeController implements Initializable {
 
         int userRole = UserSession.getInstance().getRole();
 
-        if(userRole == 0){
+        if (userRole == 0) {
             add.setDisable(true);
             delete.setDisable(true);
             saveDefault.setDisable(true);
@@ -220,40 +218,6 @@ public class HomeController implements Initializable {
         exportAsPdfButton.setOnAction(actionEvent -> exportAsPDF());
     }
 
-    /**
-     * Ouvre la fenêtre d'informations.
-     */
-    private static void openInfos() {
-        Stage stage = new Stage();
-        FXMLLoader fxmlLoader = new FXMLLoader(InfosApplication.class.getResource("infos.fxml"));
-        Scene scene;
-        try {
-            scene = new Scene(fxmlLoader.load());
-        } catch (IOException e) {
-            throw new RuntimeException(e);
-        }
-        stage.setTitle("Infos");
-        stage.setScene(scene);
-        stage.show();
-    }
-
-    /**
-     * Renvoie le fichier sélectionné.
-     *
-     * @return Le fichier sélectionné.
-     */
-    public static File getSelectedFile() {
-        return selectedFile;
-    }
-
-    /**
-     * Définit le fichier sélectionné.
-     *
-     * @param file Le fichier sélectionné.
-     */
-    public static void setSelectedFile(File file) {
-        selectedFile = file;
-    }
 
     private void disconnect() {
         UserSession.getInstance().cleanUserSession();
@@ -333,7 +297,7 @@ public class HomeController implements Initializable {
         Bibliotheque.Livre livre = tableXml.getSelectionModel().getSelectedItem();
         System.err.println(livre.getId());
         if (!Objects.isNull(livre)) {
-            if(UserSession.getInstance().getRole() == 1){
+            if (UserSession.getInstance().getRole() == 1) {
                 disableForm(false);
             }
             livreFormMapper(livre);
