@@ -9,6 +9,6 @@ create table livre
     colonne      varchar(45) null,
     rangee       varchar(45) null,
     image        MEDIUMTEXT null,
-    etat         varchar(10) default 'false',
+    etat         varchar(10) default 'false'
 );
 

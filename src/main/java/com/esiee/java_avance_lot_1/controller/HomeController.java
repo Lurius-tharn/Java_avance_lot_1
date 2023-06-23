@@ -4,6 +4,7 @@ import com.esiee.java_avance_lot_1.dao.BibliothequeDao;
 import com.esiee.java_avance_lot_1.dao.WordExport;
 import com.esiee.java_avance_lot_1.dao.XSDUnmarshaller;
 import com.esiee.java_avance_lot_1.model.Bibliotheque;
+import com.esiee.java_avance_lot_1.singleton.UserSession;
 import com.esiee.java_avance_lot_1.vue.InfosApplication;
 import jakarta.xml.bind.JAXBException;
 import javafx.application.Platform;
@@ -37,10 +38,8 @@ import java.util.ResourceBundle;
  * @author pGogniat, tMerlay, dSajous
  */
 public class HomeController implements Initializable {
-
-
     public static final WordExport wordExport = new WordExport();
-    private static boolean testEnabled = false;
+    public static boolean testEnabled = false;
     private static File selectedFile;
     @FXML
     public MenuItem exportAsPdfButton;
@@ -56,6 +55,8 @@ public class HomeController implements Initializable {
     private MenuItem menuClose;
     @FXML
     private MenuItem menuInfos;
+    @FXML
+    private MenuItem menuDisconnect;
     @FXML
     private TableView<Bibliotheque.Livre> tableXml;
     @FXML
@@ -92,6 +93,8 @@ public class HomeController implements Initializable {
     private TextField rangeInput;
     @FXML
     private TextField imageInput;
+    @FXML
+    private Label usernameField;
     @FXML
     private CheckBox etatInput;
     @FXML
@@ -163,11 +166,33 @@ public class HomeController implements Initializable {
      * @param url
      * @param resourceBundle
      */
+
     @Override
     public void initialize(URL url, ResourceBundle resourceBundle) {
         this.livreTableMapper();
         // Désactivation du formulaire d'ajout/modification a l'initialisation
         disableForm(true);
+
+        if (!testEnabled)
+            usernameField.setText(UserSession.getInstance().getUsername());
+
+        int userRole = UserSession.getInstance().getRole();
+
+        if (userRole == 0) {
+            add.setDisable(true);
+            delete.setDisable(true);
+            saveDefault.setDisable(true);
+            saveAs.setDisable(true);
+        }
+
+        if (userRole == 1) {
+            add.setDisable(false);
+            delete.setDisable(false);
+            saveDefault.setDisable(false);
+            saveAs.setDisable(false);
+        }
+
+        menuDisconnect.setOnAction(actionEvent -> disconnect());
 
         menuOpen.setOnAction(actionEvent -> openMenu());
 
@@ -192,6 +217,25 @@ public class HomeController implements Initializable {
         exportAsWordButton.setOnAction(actionEvent -> exportAsWord());
 
         exportAsPdfButton.setOnAction(actionEvent -> exportAsPDF());
+    }
+
+
+    private void disconnect() {
+        UserSession.getInstance().cleanUserSession();
+        Stage stage = new Stage();
+        FXMLLoader fxmlLoader = new FXMLLoader(InfosApplication.class.getResource("login.fxml"));
+        Scene scene;
+        try {
+            scene = new Scene(fxmlLoader.load());
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        stage.setTitle("Connexion");
+        stage.setScene(scene);
+        stage.show();
+        Stage currentStage = (Stage) add.getScene().getWindow();
+
+        currentStage.close();
     }
 
     /**
@@ -254,7 +298,9 @@ public class HomeController implements Initializable {
         Bibliotheque.Livre livre = tableXml.getSelectionModel().getSelectedItem();
         System.err.println(livre.getId());
         if (!Objects.isNull(livre)) {
-            disableForm(false);
+            if (UserSession.getInstance().getRole() == 1) {
+                disableForm(false);
+            }
             livreFormMapper(livre);
         } else {
             disableForm(true);
@@ -423,9 +469,9 @@ public class HomeController implements Initializable {
     }
 
     /**
-     * Désactive ou active un ensemble de champs pour le formulaire
+     * Permet de disable un ensemple de champs pour le formulaire
      *
-     * @param disable Indique si le formulaire doit être désactivé (true) ou activé (false).
+     * @param disable
      */
     private void disableForm(boolean disable) {
         formPane.getChildren().forEach(node -> node.setDisable(disable));

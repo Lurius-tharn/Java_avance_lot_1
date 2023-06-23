@@ -8,7 +8,6 @@ import java.net.URL;
 import java.util.ResourceBundle;
 
 public class InfosController implements Initializable {
-
     @FXML
     private Button infosClose;
 
