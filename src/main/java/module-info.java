@@ -1,6 +1,8 @@
 module com.esiee.java_avance_lot_1 {
     requires javafx.controls;
     requires javafx.fxml;
+    requires javafx.graphics;
+    requires javafx.base;
 
     requires org.controlsfx.controls;
     requires com.dlsc.formsfx;
@@ -24,4 +26,5 @@ module com.esiee.java_avance_lot_1 {
     opens com.esiee.java_avance_lot_1.controller to javafx.fxml;
     opens com.esiee.java_avance_lot_1.model to jakarta.xml.bind, javafx.base;
     opens com.esiee.java_avance_lot_1.dao to jakarta.xml.bind, javafx.base;
+
 }
