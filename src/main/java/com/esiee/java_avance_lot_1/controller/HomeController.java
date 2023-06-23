@@ -74,7 +74,8 @@ public class HomeController implements Initializable {
     private TableColumn<Bibliotheque.Livre, String> image;
     @FXML
     private TableColumn<Bibliotheque.Livre, Boolean> etat;
-
+    @FXML
+    private TableColumn<Bibliotheque.Livre, Integer> id;
     @FXML
     private TextField idInput;
     @FXML
@@ -107,6 +108,8 @@ public class HomeController implements Initializable {
     private MenuItem saveAs;
     @FXML
     private Label currentFileName;
+
+
     private Bibliotheque bibliotheque;
 
     /**
@@ -226,6 +229,7 @@ public class HomeController implements Initializable {
         exportAsPdfButton.setVisible(true);
         exportAsWordButton.setVisible(true);
         if (menuConnecte.isSelected()) {
+            id.setVisible(true);
             disableForm(true);
             BibliothequeDao bibliothequeDao = new BibliothequeDao();
             try {
@@ -236,6 +240,8 @@ public class HomeController implements Initializable {
             }
         } else {
             tableXml.setItems(null);
+            id.setVisible(false);
+
             disableForm(true);
             currentFileName.setText("");
         }
@@ -246,6 +252,7 @@ public class HomeController implements Initializable {
      */
     private void mapFormToSelectedBook() {
         Bibliotheque.Livre livre = tableXml.getSelectionModel().getSelectedItem();
+        System.err.println(livre.getId());
         if (!Objects.isNull(livre)) {
             disableForm(false);
             livreFormMapper(livre);
@@ -258,8 +265,14 @@ public class HomeController implements Initializable {
      * Supprime une ligne du tableau
      */
     private void deleteBook() {
-        if (!Objects.isNull(tableXml.getSelectionModel().getSelectedItem()))
+        if (!Objects.isNull(tableXml.getSelectionModel().getSelectedItem())) {
             tableXml.getItems().remove(tableXml.getSelectionModel().getSelectedIndex());
+            if (menuConnecte.isSelected()) {
+                BibliothequeDao bibliothequeDao = new BibliothequeDao();
+                bibliothequeDao.deleteBook(tableXml.getItems().get(tableXml.getSelectionModel().getSelectedIndex()));
+            }
+
+        }
     }
 
     /**
@@ -451,5 +464,6 @@ public class HomeController implements Initializable {
         column.setCellValueFactory(new PropertyValueFactory<>("colonne"));
         range.setCellValueFactory(new PropertyValueFactory<>("rangee"));
         image.setCellValueFactory(new PropertyValueFactory<>("image"));
+        id.setCellValueFactory(new PropertyValueFactory<>("id"));
     }
 }

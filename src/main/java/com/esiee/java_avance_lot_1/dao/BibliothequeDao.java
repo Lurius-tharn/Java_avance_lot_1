@@ -24,6 +24,8 @@ public class BibliothequeDao {
 
     private static final String LIVRE_CHECK_QUERY = "SELECT * FROM ja_library.livre WHERE idLivre = ?";
 
+    private static final String LIVRE_DELETE = "DELETE FROM ja_library.livre WHERE idLivre = ?";
+
     private static final String LIVRE_CREATE_SCHEMA = "CREATE schema ja_library";
 
 
@@ -199,6 +201,21 @@ public class BibliothequeDao {
                 printSQLException(e);
             }
         });
+    }
+
+    public void deleteBook(Bibliotheque.Livre livre) {
+
+        try (Connection connection = DriverManager
+                .getConnection(DATABASE_URL, DATABASE_USERNAME, DATABASE_PASSWORD)) {
+
+            PreparedStatement preparedStatement = connection.prepareStatement(LIVRE_DELETE);
+            preparedStatement.setInt(1, livre.getId());
+            preparedStatement.executeUpdate();
+            preparedStatement.close();
+        } catch (SQLException e) {
+            throw new RuntimeException(e);
+        }
+
     }
 
 
