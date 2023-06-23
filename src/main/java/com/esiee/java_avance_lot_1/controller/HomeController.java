@@ -173,7 +173,8 @@ public class HomeController implements Initializable {
         // Désactivation du formulaire d'ajout/modification a l'initialisation
         disableForm(true);
 
-        usernameField.setText(UserSession.getInstance().getUsername());
+        if (!testEnabled)
+            usernameField.setText(UserSession.getInstance().getUsername());
 
         int userRole = UserSession.getInstance().getRole();
 
